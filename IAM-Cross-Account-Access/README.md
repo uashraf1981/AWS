@@ -63,34 +63,9 @@ How Does Cross Account Access Work in AWS
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegated%20Identity.png)
 
+1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify the TYPE of access i.e. should it be administrative or power user. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
 
+2. Login as Admin, and modify the policy for relevant users and enable access to STS:AssumeRole. Specify the ARN of CrossAccountSignin as the resource for the action part of the policy. 
 
-
-Development 						 			          Production 
-You create a role here which the    
-developers from the 
-              Development account want to         
-              Assume. Create a role and name  
-              it CrossAccountSignin. When creating this role, chose the wizard option and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify the TYPE of access i.e. should it be administrative or power user. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN). 
-Although the CrossAccountSignin role has been 
-created in the production account to support 
-cross-account support, but ad admin user still
-needs in this account to link individual users
-access to that role. So basically you create a new
-policy specifying sts:AssumeRole. So you login as 
-an admin user and edit the permissions for a user or 
-a group of users and allow permission to 
-sts:AssumeRole. 
-IMPORTANT: in the resource for action of 
-this permission policy, link it with 
-the ARN generated in the Production Account.
-
-Another important step is that when you call
-The sts:AssumeRole API, it gets temporary
-Credentials for cross-account access, but 
-It is MUCH SUPERIOR to write a script
-to automatically convert this into a 
-console sign-in to the remote account.
-
-To do that, you can create a script that takes advantage of a feature in AWS known as the federation endpoint (https://signin.aws.amazon.com/federation). You can make a request to this endpoint and pass it temporary security credentials that you get from AssumeRole. The endpoint returns a sign-in token that you can then use to construct a console URL. This console URL lets a user sign in to the console without having to supply a username and password, because the URL contains a token that indicates that the user is already authenticated.
+3. Another important step is that when you call the STS:AssumeRole API, it gets temporary credentials for cross-account access, but it is MUCH SUPERIOR to write a script to automatically convert this into a console sign-in to the remote account. To do that, you can create a script that takes advantage of a feature in AWS known as the federation endpoint (https://signin.aws.amazon.com/federation). You can make a request to this endpoint and pass it temporary security credentials that you get from AssumeRole. The endpoint returns a sign-in token that you can then use to construct a console URL. This console URL lets a user sign in to the console without having to supply a username and password, because the URL contains a token that indicates that the user is already authenticated.
 
