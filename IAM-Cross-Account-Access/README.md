@@ -37,25 +37,18 @@ need to store access credentials (passwords or secret access key) on the EC2 ins
 situation is when you want to give cross-account access to some users, then in both these situations, you can use a "Role".
 The easiest way to understand a role is that it is basically like a "Hat" which you can wear i.e. it is some form of
 temporary credentials which allow temporary access. At the backend, the technology that makes this possible is the 
-Security Token Service (STS). 
-
-
-that makes this happen
-
-
-We sometimes need to provide 
-
-ROLES
-Security Token Service (STS)
-
-The STS service is used for the roles which are basically temporary credentials to access different services. The way this works is by making API calls to the endpoint sts.amazonaws.com which is the global end point for STS or you can configure locals as well. Roles are necessary because we cannot attach policies to EC2 instances e.g. to allow them access to S3. Also, from another perspective, we don’t want to store credentials permanently into EC2 instances, therefore we need roles. 
+Security Token Service (STS). The STS service is used for the roles which are basically temporary credentials to access different services. The way this works is by making API calls to the endpoint sts.amazonaws.com which is the global end point for STS or you can configure local ones as well. Roles are necessary because we cannot attach policies to EC2 instances e.g. to allow them access to S3. 
 
 Roles are used for:
 1.	Access to services by EC2
 2.	Delegation i.e. allowing user from another AWS account to access
-3.	Federation
+3.	Federation i.e. allow integration with existing accounts e.g. gmail
 
+
+Integrating on-premise IAM system (Windows Active Directory) with AWS IAM
+-------------------------------------------------------------------------
 Basically, if you want to integrate an existing on premise IAM system e.g. Microsoft Active Directory with AWS, then you have two options:	
+
 1.	Use SAML and build trust relationships
 2.	Use AWS Active Directory for Single-Sign On by building trust relationships
 
@@ -64,19 +57,11 @@ The security assertion markup language is used a lot in hybrid environments when
 
 AWS Directory Service is another way to integrate.
 
-POLICIES
-We can create policies I three ways:
-1.	Copy and existing AWS policy and then customize it
-2.	Use policy generator
-3.	Create your own from scratch
 
-There are two types of policies in AWS:
-1.	Identity based policies (policies that you attach to IAM roles, groups and users) e.g. John user is allowed to get data from a particular table in DynamoDB or is allowed to RunInstance for a particular EC2 instance….so you list the resources and specify the permissions that they have. 
-2.	Resource based policies are attached to AWS resources e.g. S3 buckets, SQS, AWS Key Management System (KMS). For resource-based policies, basically you specify who can ACCESS this resource e.g. if it is an S3 bucket, then you specify WHO can access this bucket etc. Used a lot of the time for cross-account access scenarios.
+How Does Cross Account Access Work in AWS
+-----------------------------------------
 
- 
 
-HOW DOES DELEGATE ACCESS WORK IN AWS
 
 Development 						 			          Production 
 You create a role here which the    
