@@ -61,6 +61,7 @@ AWS Directory Service is another way to integrate.
 How Does Cross Account Access Work in AWS
 -----------------------------------------
 
+![stack Overflow](https://github.com/uashraf1981/WiMesh-Controller/blob/master/WiMesh%20Controller%20Flow.png)
 
 
 Development 						 			          Production 
