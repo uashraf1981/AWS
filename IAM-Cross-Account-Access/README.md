@@ -63,9 +63,13 @@ How Does Cross Account Access Work in AWS
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegation.png)
 
-1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to attach a policy and two options are usually popular i.e. PowerUserAccess and AdministratorAccess. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
+1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify what type of access you want to fix with this role, and this is done by attaching a policy and many options are popular e.g. ReadOnlyAccess or PowerUserAccess (Access to everything except for the IAM module i.e. cannot create or modify users) and AdministratorAccess. When done, note the Amazon Resource Name (ARN).
 
-2. Login as Admin, and modify the permissions for relevant users and enable access to STS:AssumeRole. Specify the ARN of CrossAccountSignin as the resource for the action part of the policy. 
+2. Create a group called CrossAccountReadAccessGroup and attach an *inline* permission for STS access (since we want it just for this specific group) or create a complete separate policy and then attach to this group. So basically we select:
 
-3. Another important step is that when you call the STS:AssumeRole API, it gets temporary credentials for cross-account access, but it is MUCH SUPERIOR to write a script to automatically convert this into a console sign-in to the remote account. To do that, you can create a script that takes advantage of a feature in AWS known as the federation endpoint (https://signin.aws.amazon.com/federation). You can make a request to this endpoint and pass it temporary security credentials that you get from AssumeRole. The endpoint returns a sign-in token that you can then use to construct a console URL. This console URL lets a user sign in to the console without having to supply a username and password, because the URL contains a token that indicates that the user is already authenticated.
+ Effect - Allow
+ Service - AWS Security Token Service (STS)
+ ARN - ARN of the remote account 
+
+3. When the user in the development account wants to switch to the production account, he can click switch account and provide the account ID of the production account and the role name and he will be able to login.
 
