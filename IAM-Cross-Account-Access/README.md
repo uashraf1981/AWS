@@ -63,7 +63,7 @@ How Does Cross Account Access Work in AWS
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegation.png)
 
-1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify the TYPE of access i.e. should it be administrative or power user. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
+1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to attach a policy and two options are usually popular i.e. PowerUserAccess and AdministratorAccess. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
 
 2. Login as Admin, and modify the policy for relevant users and enable access to STS:AssumeRole. Specify the ARN of CrossAccountSignin as the resource for the action part of the policy. 
 
