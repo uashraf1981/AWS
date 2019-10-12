@@ -65,7 +65,7 @@ How Does Cross Account Access Work in AWS
 
 1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify what type of access you want to fix with this role, and this is done by attaching a policy and many options are popular e.g. ReadOnlyAccess or PowerUserAccess (Access to everything except for the IAM module i.e. cannot create or modify users) and AdministratorAccess. When done, note the Amazon Resource Name (ARN).
 
-2. Create a group called CrossAccountReadAccessGroup and attach an *inline* permission for STS access (since we want it just for this specific group) or create a complete separate policy and then attach to this group. So basically we select:
+2. In the development account, as admin user, create a group called CrossAccountReadAccessGroup and attach an *inline* permission for STS access (since we want it just for this specific group) or create a complete separate policy and then attach to this group. So basically we select:
 
  Effect - Allow
  Service - AWS Security Token Service (STS)
@@ -73,3 +73,4 @@ How Does Cross Account Access Work in AWS
 
 3. When the user in the development account wants to switch to the production account, he can click switch account and provide the account ID of the production account and the role name and he will be able to login.
 
+You can modify the CrossAccountRemoteAccessGroup to add/remove users and so on.
