@@ -61,7 +61,7 @@ AWS Directory Service is another way to integrate.
 How Does Cross Account Access Work in AWS
 -----------------------------------------
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegated%20Identity.png)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegation.png)
 
 1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to specify the TYPE of access i.e. should it be administrative or power user. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
 
