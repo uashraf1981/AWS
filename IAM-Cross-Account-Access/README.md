@@ -65,7 +65,7 @@ How Does Cross Account Access Work in AWS
 
 1. In the Development Account, create a role CrossAccountSignin and specify cross-account access and give the ID of the development acct. The same wizard allows you to attach a policy and two options are usually popular i.e. PowerUserAccess and AdministratorAccess. The power users has all access except for IAM. When done, note the Amazon Resource Name (ARN).
 
-2. Login as Admin, and modify the policy for relevant users and enable access to STS:AssumeRole. Specify the ARN of CrossAccountSignin as the resource for the action part of the policy. 
+2. Login as Admin, and modify the permissions for relevant users and enable access to STS:AssumeRole. Specify the ARN of CrossAccountSignin as the resource for the action part of the policy. 
 
 3. Another important step is that when you call the STS:AssumeRole API, it gets temporary credentials for cross-account access, but it is MUCH SUPERIOR to write a script to automatically convert this into a console sign-in to the remote account. To do that, you can create a script that takes advantage of a feature in AWS known as the federation endpoint (https://signin.aws.amazon.com/federation). You can make a request to this endpoint and pass it temporary security credentials that you get from AssumeRole. The endpoint returns a sign-in token that you can then use to construct a console URL. This console URL lets a user sign in to the console without having to supply a username and password, because the URL contains a token that indicates that the user is already authenticated.
 
