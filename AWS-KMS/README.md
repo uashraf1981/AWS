@@ -1,8 +1,8 @@
 # AWS Key Management Service (KMS)
 
-*If you HAVE compliance requirements and want to make sure that only you manage access to your keys, then use AWS CloudHSM*
+*If you HAVE compliance requirements and want to ensure that only you manage your keys, then use AWS CloudHSM*
 
-*If you DON'T have compliance requirements, and want an easier management solution for your keys, then use AWS KMS*
+*If you DON'T have compliance requirements, and want easier management for your keys, then use AWS KMS*
 
 The basic idea is that you encrypt your data with the *Data Key*, but then you need to encrypt the data key as well. So you use a *Master Key* to encrypt your data key and AWS KMS stores the Master Key.
 
