@@ -46,6 +46,6 @@ AWS KMS is integrated with CloudTrail for all cryptographic operations so you ca
 
 Programming the AWS KMS API
 ---------------------------
-You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more. You have to specify the ARN of the CMK that is to be used for encrypting the data key.
+You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more. You have to specify the ARN of the CMK that is to be used for encrypting the data key AND also specify the AES standard to be used.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Command.png)
