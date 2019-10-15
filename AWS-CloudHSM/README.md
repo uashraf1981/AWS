@@ -21,23 +21,3 @@ If you have a VPC spanning multiple Availability Zones (AZs), then you can host 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/HSM-Architecture.png)
 
 *Basically use HSM Clustering to make sure that your keys are ALWAYS available*
-
-
-
-
-
-
-
-
-
-The way this is done is that you
-
-what about the delay caused by the latency in the connection between your data on cloud and the HSM on premises since every request may need to access the keys from the on premise HSM for decryption and so so on, introducing unacceptable delays 3.	What if you have multi-cloud tenancy, then you will have a different set of HSM key management tools for the different vendors
-
-So, the next logical solution was to move to
-
-HSM (Hardware Security Module) If required for compliance
-
-The Hardware Security Module is a physical devices on premises. AWS offers AWS Cloud HSM in which AWS has no control, and you have full control. AWS just manages the box. Also, AWS allows placing the HSM inside VPC in multiple AZs and clustered and load balanced and key replication in place i.e. add keys to just one of the Cloud HSM and it gets replicated. This is the perfect solution if your organization requests that keys be placed in dedicated hardware and the clustering approach ensures that keys are always available. So HSM clustering is a nice way of ensuring that your keys are always available.
-
-Another important application of the cloud HSM is if your application is getting bogged down due to asymmetric handshakes then you can offload it to the HSM to handle it before talking to the application.
