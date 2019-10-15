@@ -8,9 +8,17 @@ The basic idea is that you encrypt your data with the *Data Key*, but then you n
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Master%20Key.png)
 
-AWS KMS Master Keys
+** Remember the scope of keys is always a region **
+
+KMS Master Keys
 -------------------
-AWS KMS Customer Master Keys (CMK) are *AES-256* *symmetric encoded* keys which never leave KMS. The client can create, view, delete and apply policies to who has access to Customer Master Keys (CMK).
+AWS KMS Customer Master Keys (CMK) are *AES-256* *symmetric encoded* keys which never leave KMS and while a client can manipulate the Master Keys, it can never see the actual contents of the key itself. The client can create, delete and apply policies to who has access to Customer Master Keys (CMK). Typically used to encrypt/decrypt data encryption keys. It can encrypt data chunks as well but maximum of 4KB chunks.
+
+Master keys are of two types:
+
+1. Customer Managed Customer Master Key (CMK): 
+
+2. AWS Managed Customer Master Key (CMK): 
 
 Data Encryption Keys
 --------------------
