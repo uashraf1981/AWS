@@ -29,12 +29,15 @@ You can specify the exact policies e.g.
 - can be used for encryption/decryption by these users in these accounts
 - can be used by applicatioin A to encrypt data only and application B to decrypt data only
 - can be managed by this administrator
+- you can even allow access from other accounts
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/KeyPolicy1.png)
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/KeyPolicy2.png)
 
 Data Encryption Keys
 --------------------
+When you generate the data key using the Master Key by calling the *GenerateDataKey* API of the KMS, then both a plaintext version and an encrypted version of the key are produced. Plaintext version used to encrypt data then deleted. The encrypted version is stored along with data for the next time that you may need to decrypt your EBS volume or data.
+
 The Data Encryption Keys are use to encrypt the actual data on EBS or EFS e.g. and then the data keys are also encrypted using the Master key and also stored with the data itself.
 
 Monitoring and Compliance
@@ -43,5 +46,6 @@ AWS KMS is integrated with CloudTrail for all cryptographic operations so you ca
 
 Programming the AWS KMS API
 ---------------------------
-You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more.
+You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more. You have to specify the ARN of the CMK that is to be used for encrypting the data key.
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Command.png)
