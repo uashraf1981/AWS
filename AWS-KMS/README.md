@@ -1,28 +1,13 @@
 # AWS Cloud Hardware Security Module (HSM) and Key Management Service (KMS)
 
-Cloud Hardware Security Module (HSM)
-------------------------------------
-For key management, traditionally organizations used an on-premise hardware based HSM which automates a lot of stuff including lifecycle management (key creation, export, rotation, destruction and auditing), centralized management, APIs etc. however, this traditional approach doesn’t work well when organizations want to to move to the cloud because:
+*If you HAVE compliance requirements and want to make sure that only you manage access to your keys, then user AWS CloudHSM*
+*If you DON'T have compliance requirements, and want an easier management solution for your keys, then use AWS KMS*
 
--	The cloud service may or may not have capability of integrating with on premise hardware based HSM
-- Since data has moved to cloud, there may be significant delays to access keys from the on premise HSM
-- Multi cloud tenancy can make things difficult
+The basic idea behind the *Master Key* is that you can have a data key, but you need to encrypt it, so you can use the KMS to store your Master Key which you use for encrypting your data day.
 
-AWS Cloud HSM is a nice solution in which you have a dedicated hardware based HSM in the AWS cloud. AWS just manages the security of that box while you manage the HSM. A nice feature is *AWS HSM Clustering* in which you have multiple CloudHSM instances in different AZs and they can offer load balancing and key replication
-
-https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/HSM-Architecture.png
-
-The way this is done is that you 
-
-what about the delay caused by the latency in the connection between your data on cloud and the HSM on premises since every request may need to access the keys from the on premise HSM for decryption and so so on, introducing unacceptable delays
-3.	What if you have multi-cloud tenancy, then you will have a different set of HSM key management tools for the different vendors
-
-So, the next logical solution was to move to 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/IAM-Cross-Account-Access/Delegation%20Cross%20Account.png)
 
 
-HSM (Hardware Security Module) If required for compliance
+AWS KMS uses *symmetric* keys encoded with AES-256.
 
-The Hardware Security Module is a physical devices on premises.
-AWS offers AWS Cloud HSM in which AWS has no control, and you have full control. AWS just manages the box. Also, AWS allows placing the HSM inside VPC in multiple AZs and clustered and load balanced and key replication in place i.e. add keys to just one of the Cloud HSM and it gets replicated. This is the perfect solution if your organization requests that keys be placed in dedicated hardware and the clustering approach ensures that keys are always available. So HSM clustering is a nice way of ensuring that your keys are always available.
-
-Another important application of the cloud HSM is if your application is getting bogged down due to asymmetric handshakes then you can offload it to the HSM to handle it before talking to the application.
+AWS KMS is integrated with CloudTrail for all cryptographic operations so that you can track and audit for compliance.
