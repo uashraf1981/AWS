@@ -8,7 +8,7 @@ The basic idea is that you encrypt your data with the *Data Key*, but then you n
 
 ** Remember the scope of keys is always a region **
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Master%20Key.png =250x250)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Master%20Key.png&s=200)
 
 KMS Master Keys
 ---------------
