@@ -8,7 +8,7 @@ For key management, traditionally organizations used an on-premise hardware base
 
 *AWS CloudHSM is often required to meet compliance requirements, where we don't want a 3rd party to manage our Keys*
 *You Access and Manage your Keys, AWS has NO Access to your keys*
-*CloudHSM supports asymmetric keys*
+*CloudHSM supports BOTH symmetric and asymmetric keys*
 AWS CloudHSM is a nice solution in which you have a dedicated hardware based HSM in the AWS cloud. AWS just manages the security of that box while you manage the HSM. A nice feature is AWS HSM Clustering in which you have multiple CloudHSM instances in different AZs and they can offer load balancing and key replication.
 
 Clustering CloudHSM
