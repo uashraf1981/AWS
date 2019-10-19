@@ -49,3 +49,7 @@ Programming the AWS KMS API
 You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more. You have to specify the ARN of the CMK that is to be used for encrypting the data key AND also specify the AES standard to be used.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Command.png)
+
+# KMS on S3
+
+You can use the KMS Master Keys to apply encryption to a bucket, folder or files. When creating a bucket, you get the choice of using an unencrypted bucket, or encryption using just data key stored in S3, or Master key in KMS with data key in S3. Also note that *Bucket encryption policy overrides the individual folder or file policy*
