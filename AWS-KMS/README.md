@@ -48,7 +48,23 @@ Programming the AWS KMS API
 ---------------------------
 You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt data (although data keys recommended for data encryption), to encrypt and decrypt data keys and many more. You have to specify the ARN of the CMK that is to be used for encrypting the data key AND also specify the AES standard to be used.
 
+1. Generating the data keys needs the following command plus ARN or alias of CMK with which to encrypt and length (128,256):
+
+          aws kms generate-data-key --keyid arn:kms:us-east1.......   --key-spec AES_256
+
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Command.png)
+
+
+2. The encrypt command always uses the CMK (master key) to encrypt, whereas you should use data key to encrypt normal data:
+
+          aws kms encrypt --plaintext file.txt --key-id arn:kms:us-east1.... 
+          
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/encrypt.png)      
+
+3. The decrypt command decrypts the data, DOES NOT REQUIRE the decyprtion key:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/decrypt.png)  
+         
 
 # KMS on S3
 
