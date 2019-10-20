@@ -59,7 +59,7 @@ You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt
 
           aws kms encrypt --plaintext file.txt --key-id arn:kms:us-east1.... 
           
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/encrypt.png)      
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/encrypt2.png)      
 
 3. The decrypt command decrypts the data, DOES NOT REQUIRE the decyprtion key:
 
