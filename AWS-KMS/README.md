@@ -64,7 +64,12 @@ You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt
 3. The decrypt command decrypts the data, DOES NOT REQUIRE the decyprtion key:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/decrypt.png)  
+
+* A catch in this process is that using AWS KMS outputs the encrypted data in base64 encoded format whereas you need binary data blob for decrypting, so you have to handle the conversion from decoding base64 to binary*
          
+AWS Encryption SDK
+------------------
+Programmatically, we use the AWS Encryption SDK to encrypt and decrypt the data (strings, variables, files).
 
 # KMS on S3
 
