@@ -55,13 +55,13 @@ You can use the AWS KMS API to generate, delete, rotate keys, to encrypt decrypt
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/Command.png)
 
 
-2. The encrypt command always uses the CMK (master key) to encrypt, whereas you should use data key to encrypt normal data:
+2. The encrypt command requires the reference to CMK to be used:
 
           aws kms encrypt --plaintext file.txt --key-id arn:kms:us-east1.... 
           
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/encrypt2.png)      
 
-3. The decrypt command decrypts the data, DOES NOT REQUIRE the decyprtion key:
+3. The decrypt command DOES NOT REQUIRE the decyprtion data key because it is stored within the cipertext:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/AWS-KMS/decrypt.png)  
 
