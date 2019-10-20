@@ -5,7 +5,7 @@
 *If you DON'T have compliance requirements, and want easier management for your keys, then use AWS KMS*
 
 Encryption Scenario 1: You use the AWS KMS API (CLI) to encrypt decrypt directly using CMK or generate data keys
-Encryption Scenario 2: You use have AWS services (S3) encrypt your data using your master keys in KMS
+Encryption Scenario 2: You use have AWS services (S3) encrypt your data using your master keys in KMS.                          
 Encryption Scenario 3: You can use the AWS Encryption SDK and integrate it within your code to encrypt/decrypt
 
 The basic idea is that you encrypt your data with the *Data Key*, but then you need to encrypt the data key as well. So you use a *Master Key* to encrypt your data key and AWS KMS stores the Master Key. The data key is given to the client, and stored at the client site. Whenever client application or AWS service at client end needs to, they use the data key to encrypt/decrypt. However, the process is as follows:
