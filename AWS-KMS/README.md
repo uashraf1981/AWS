@@ -38,7 +38,7 @@ Data Encryption Keys
 --------------------
 When you generate the data key using the Master Key by calling the *GenerateDataKey* API of the KMS, then both a plaintext version and an encrypted version of the key are produced. Plaintext version used to encrypt data then deleted. The encrypted version is stored along with data for the next time that you may need to decrypt your EBS volume or data.
 
-The Data Encryption Keys are use to encrypt the actual data on EBS or EFS e.g. and then the data keys are also encrypted using the Master key and also stored with the data itself.
+The Data Encryption Keys are use to encrypt the actual data on EBS or EFS e.g. and then the data keys are also encrypted using the Master key and also stored with the data itself i.e. they are included within the data itself.
 
 Monitoring and Compliance
 -------------------------
