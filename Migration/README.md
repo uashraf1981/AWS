@@ -42,3 +42,22 @@ VMWare Cloud on AWS
 In contrast to other compute services on AWS like EC2, VMWare on AWS runs on the bare metal hardware i.e. it is not multi-tenanted and there is not XEN hypervisor, so it is not shared.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/xen.png)![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/VMWare.png)
+
+Even if you use a dedicated EC2 instance, the difference would still be that even that dedicated EC2 instance would be using the Xen hypervisor but in case of VMWare, it would be doing that without any sort of hypervisor. VMWare also uses a hypervisor ESXi hypervisor, but it is different from the Xen hypervisor.
+
+Migration Strategies
+--------------------
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/migration.png)
+
+
+Roles and Persmissions (Authentication) for AWS Migration Hub
+---------------------------------------------------------
+AWS Migration Hub requires roles and persmnissions (Authentication) for performing migration tasks. You need to do two things:
+
+1. First you need to define a policy:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/policy.png)
+
+2. You need to define a trust policy for AWS Migration Hub to assume that role:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/trustpolicy.png)
