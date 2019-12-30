@@ -17,16 +17,22 @@ There are two main types of migration hub strategies:
 1. Discover and Migrate - Suits complex environments in which we have heterogeneous servers, different operating system, applications and several unknowns. The benefit of this approach is that you can normalize your environment BEFORE you actually migrate, thus making the whole process simpler and minimizing business interruptions later on.
 
 The Discovery phase has several sub-phases inside: 
+
     i) Choose and deploy AWS discovery tools 
+    
     ii) View discovered servers
+    
     iii) Group servers as applications
     
  The Migration phase has several sub-phases inside: 
+ 
     i) Connect migration tools to migration hub
+    
     ii) Migrate using the migration tools
     
  Tracking:
+ 
     i) Track status of migrations
     
     
- 2. Migration Directly - Suites environments which are homogeneous e.g. standard VMware images and hypervisors and in which we have already a good understanding of the environment.
+2. Migrate Directly - Suites environments which are homogeneous e.g. standard VMware images and hypervisors and in which we have already a good understanding of the environment.
