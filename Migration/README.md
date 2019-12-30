@@ -54,10 +54,52 @@ Roles and Persmissions (Authentication) for AWS Migration Hub
 ---------------------------------------------------------
 AWS Migration Hub requires roles and persmnissions (Authentication) for performing migration tasks. You need to do two things:
 
-1. First you need to define a policy:
+1. First you need to define a policy so that AWS Data Migration Service (DMS) can access any service as shown by wildcard:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/policy.png)
 
-2. You need to define a trust policy for AWS Migration Hub to assume that role:
+The wildcard shows that the 
+
+2. You need to define a trust policy for AWS Data Migration Service (DMS) to assume that role:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/trustpolicy.png)
+
+In summary we ALWAYS have [AWS Migration Hub Policy] --> [Trust Policy]
+
+The list of services required by AWS Migration Hub include:
+
+a) AWSMigrationHubDiscoveryAccess -> Access to call Application Discovery Service
+b) AWSMigrationHubFullAccess -> Full access to console/cli.
+c) AWSMigrationHubSMSAccess -> To allow hub to receive notifications from server migration tool.
+d) AWSMigrationHubDMSAccess -> To allow hub to receive notifications from Data Migration Service tool.
+
+Miscellaneous:
+-------------
+AWS Migration Hub supports services in several regions of the world. 
+
+AWS Migration Hub - Discovery Services:
+---------------------------------------
+It uses either Discovery Agents or Discovery Connector:
+i) Discovery Agent -> Allows agent installation (on both virtual and physical services), het env., slow but more detailed.  
+                      Remember, these agents require outbound access from on-premise to AWS, so firewall needs exceptions.
+ii) Discovery Connector -> Used for VMWare based machines, does NOT require agent installation, useful for known env, fast.
+
+Installing AWS Discovery Agent:
+-------------------------------
+
+For this, you need to first insall Microsoft VC++ runtime library on the server and then windows-based discovery agent. You need to login to the server as administrator and run from the command line the windows agent installer. Remember, you may want to disable the auto-update feature by using that flag in the command line to avoid updates during the migration process.
+
+AWS Migration Hub Tools:
+-----------------------
+The AWS Migration Hub has several tools from AWS (e.g. AWS Server Migration Service) and several from its partners. The biggest tool is perhaps AWS Server Migration Service (SMS) which allows you to migrate:
+
+VMWare-Sphere/Microsoft-Hyper-V   -->  AMI Images ready to be deployed onto EC2 instances.
+
+An amazing feature of the Server Migration Service is that it tracks incremental changes on your on-premise servers and only updates the AMI images in the AWS ecosystem based on only the changes actually tracked i.e. syncs both.
+
+Steps followed by SMS:
+i)    Schedule migration task
+ii)   Take snapshots and upload VMDK to S3
+iii)  Convert VMDK to EBS snapshot
+iv)   Create Amazon Machine Image (AMI)
+
