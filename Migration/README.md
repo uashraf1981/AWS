@@ -97,9 +97,10 @@ VMWare-Sphere/Microsoft-Hyper-V   -->  AMI Images ready to be deployed onto EC2 
 
 An amazing feature of the Server Migration Service is that it tracks incremental changes on your on-premise servers and only updates the AMI images in the AWS ecosystem based on only the changes actually tracked i.e. syncs both.
 
-Steps followed by SMS:
-i)    Schedule migration task
-ii)   Take snapshots and upload VMDK to S3
-iii)  Convert VMDK to EBS snapshot
-iv)   Create Amazon Machine Image (AMI)
+        Steps followed by SMS:
+        
+            i)    Schedule migration task
+            ii)   Take snapshots and upload VMDK to S3
+            iii)  Convert VMDK to EBS snapshot
+            iv)   Create Amazon Machine Image (AMI)
 
