@@ -333,4 +333,28 @@ Now explore the file listings to see if MySql is there:
                 
                 ps aux | grep sql
                 
-We see that MySql is indeed running on this box.
+We see that MySql is indeed running on this box. Check the contents of the MySQL configuration file:
+
+                cat /etc/mysql/mysql.conf.d/mysqld.cnf
+                
+Check to see if you can login using the credentials that you discovered in the json config file on the server:
+
+                mysql -u ghost -p
+                
+Then enter the password oranges and then use the following command to show the databases:
+       
+                show databases;
+                
+Start the Agent Data Collection Process
+---------------------------------------
+
+Step 4.1: Go to the AWS Migration Hub service.
+Step 4.2: Discover -> Data Collectors -> Agents
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/AWSMigrationHub.png)
+
+Step 4.3: Select agents and start data collection, then disable data collection for Athena.
+
+Step 4.4: Under Discover -> Servers, you should see the two servers that we have installed the agents on. 
+
+You should select each server separately and see the detailed statistics, in particular, the "performance information" which is going to give you a good idea about the current load on each machine which should help you in deciding the type of EC2 instance you want to use to migrate these machines to AWS.
