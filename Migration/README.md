@@ -219,3 +219,38 @@ On-premise network simulated as being in region Us-West-2 --> and goal is to shi
 Step-1 Install AWS Application Discovery Agent:
 -----------------------------------------------
 We will first poke around the two boxes (VMs) and go ahead and install AWS discovery agents on both machines. The AWS Applicaton Discovery Agent is supposed to capture several things including configuration settings, performance, processes running and network connections on the end points that it is installed.      
+
+They are using Cloud9 to allow us access to AWS console and SSH access into the two boxes. 
+
+Step 1.1: Create a new user using IAM called "migration-user".
+Step 1.2: Give him programmatic access using access key ID and secreat access key combination.
+Step 1.3: Choose to attach existing policies directly to this user.
+Step 1.4: Attach the pre-defined policy AWSApplicationDiscoveryAgentAccess to this user.
+Step 1.5: Download the Access Key ID and the Secret Access Key for this user.
+Step 1.6: Open Cloud9 service and then open the IDE.
+Step 1.7: Upload the labuser.pem file using the File menu.
+Step 1.8: Give read persmissions to root on the pem file using: chmod 400 labuser.pem
+Step 1.9: Get the IP address of application server using the aws ec2 describe-instances command and grep "PrivateIPAddress"
+Step 2.0: Got IP: 10.16.10.88
+Step 2.1: SSH into the instance using\: ssh -i labsuser.pem ubuntu@10.16.10.88
+Step 2.2: Run the following commands to ensure the agent is fine:
+
+                cd /home/ubuntu
+                curl -o ./aws-discovery-agent.tar.gz https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-        
+                2/linux/latest/aws-discovery-agent.tar.gz
+                curl -o ./agent.sig https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-2/linux/latest/aws-
+                discovery-agent.tar.gz.sig
+                curl -o ./discovery.gpg https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-
+                2/linux/latest/discovery.gpg
+                
+Step 2.3: Verify that the agent signature is also fine:
+
+                gpg --no-default-keyring --keyring ./discovery.gpg --verify agent.sig aws-discovery-agent.tar.gz
+                
+Step 2.4: Unzip the agent tar file using the following command:
+
+                tar -xzf aws-discovery-agent.tar.gz
+                
+Step 2.5: Install the agent using the following command:
+
+                sudo bash install -r us-west-2 -k <Seccret Key Id> -s <Secret Access Key> -p true -c true -b true
