@@ -104,3 +104,17 @@ An amazing feature of the Server Migration Service is that it tracks incremental
             iii)  Convert VMDK to EBS snapshot
             iv)   Create Amazon Machine Image (AMI)
 
+
+
+# Coursera Course on Cloud Migration Using AWS
+
+Always remember Why a company is moving to the cloud comes before
+            Phases:
+                1. Migration Preparation and Business Planning
+                2. Portfolio Discovery
+                3. Design, migrate and validate applications
+                4. Operate
+                
+Remember, its a walk in the park to migrate isolated, stand-alone systems, but for the systems which are interconnected, migrating these interconnections is the real challenge.
+
+AWS Application Discovery Service --> Helps analyze our current environment by gathering statistics so that we can make coherent decision about whether which set of applications can bs migrated directlty, which need to be retired, etc.
