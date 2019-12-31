@@ -358,3 +358,14 @@ Step 4.3: Select agents and start data collection, then disable data collection 
 Step 4.4: Under Discover -> Servers, you should see the two servers that we have installed the agents on. 
 
 You should select each server separately and see the detailed statistics, in particular, the "performance information" which is going to give you a good idea about the current load on each machine which should help you in deciding the type of EC2 instance you want to use to migrate these machines to AWS.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/Servers.png)
+
+Examples of Decisions Based on Info Collected from Agents
+---------------------------------------------------------
+
+Some decisions could be e.g.
+
+1. Too much CPU usage on the database server -> use C2 instance
+2. Too much RAM usage on application server  -> use R2 instance
+3. Too many disk reads, writes               -> IO provisioned EBS volume.
