@@ -254,3 +254,55 @@ Step 2.4: Unzip the agent tar file using the following command:
 Step 2.5: Install the agent using the following command:
 
                 sudo bash install -r us-west-2 -k <Seccret Key Id> -s <Secret Access Key> -p true -c true -b true
+
+Note the Configuration Settings in the Ghost Application Instance
+-----------------------------------------------------------------
+Run the following command to see all processes currenty running for all users then pipe and grep for ghost word:
+
+                ps aux | grep ghost
+                
+You will see ghost being run by ghost user. Go to the root directory and explore.
+You can browse to 
+                
+                root -> ghost-app -> ghost -> config.production.json
+                
+These are what I found the contents of the config.production.json file:
+
+                {
+                    "url": "http://54.244.207.145:2368",
+                    "server": {
+                    "port": 2368,
+                    "host": "0.0.0.0"
+                },
+                "database": {
+                    "connection": {
+                    "host": "10.16.11.80",
+                    "user": "ghost",
+                    "password": "oranges",
+                    "database": "ghost_prod"
+                }
+            },
+                "mail": {
+                    "transport": "Direct"
+                },
+                "logging": {
+                       "transports": [
+                       "file",
+                       "stdout"
+                    ]
+                },
+                "process": "systemd",
+                "paths": {
+                    "contentPath": "/ghost-app/ghost/content"
+                 }
+                }
+                
+Step 3.1: Get the public IP address of your web server: got it: 54.244.207.145
+Step 3.2: Open a browser and visit the webpage: http://54.244.207.145:2368
+Step 3.3: You can play around the environment by going to the /admin page.
+
+Connect to the Database Instance and Install AWS Application Discovery Agent
+----------------------------------------------------------------------------
+
+
+
