@@ -141,4 +141,22 @@ AWS Cloud Adoption Framework (CAF)
              5. Retire     -> Legacy systems or assets that can be retired that are no longer in use
              6. Retain.    -> Retain things as is... sometimes you are not ready, or business feels more comfortable
 
+Week 2
+-------
+One of the major benefits of cloud migration is scalability.
 
+Scaling Constraints
+-------------------
+Not everything can be easily scaled. For example, if scaling requires additional licenses, then you may need to purchase them and thus this can make scaling a little challenging e.g. if you need to purchase licenses, wait for approvals or other business processes. So the following could be some interesting work-arounds to solve these problems:
+               
+               1. Use managed caches and queues
+               2. Offloading unncessary work from unscalable servers
+               3. Life-cyle stale data off the overloaded server to make space/capacity
+               
+               * What to do about session data e.g. our applications want to scale but if we do horizontal scaling, then we  
+               may loose the session data, so the solution for that is to off-load the session data from the instances i.e.     
+               store the session data somewhere else and this would enable sort of loose coulping.
+
+
+            
+         
