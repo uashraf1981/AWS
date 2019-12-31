@@ -203,6 +203,8 @@ This service allows two modes of operation:
 
 2. Agent based Discovery: We install AWS Application Discovery agent on each of the virtual machines and physical servers. Will provide detailed process info, inbound and outbound network connections and other detailed statistics.
 
+# LAB 1
+
 Lab Basics
 ----------
 Scenario, migrate an on-premise ghost application to AWS. There are 2 boxes:
@@ -212,5 +214,8 @@ Scenario, migrate an on-premise ghost application to AWS. There are 2 boxes:
 
 You are told that both are running Ubuntu (probably).
 
-            
-         
+On-premise network simulated as being in region Us-West-2 --> and goal is to shift it to --> AWS US-East-1).
+
+Step-1 Install AWS Application Discovery Agent:
+-----------------------------------------------
+We will first poke around the two boxes (VMs) and go ahead and install AWS discovery agents on both machines. The AWS Applicaton Discovery Agent is supposed to capture several things including configuration settings, performance, processes running and network connections on the end points that it is installed.      
