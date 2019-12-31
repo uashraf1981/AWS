@@ -233,7 +233,7 @@ Step 1.8: Give read persmissions to root on the pem file using: chmod 400 labuse
 Step 1.9: Get the IP address of application server using the aws ec2 describe-instances command and grep "PrivateIPAddress"
 Step 2.0: Got IP: 10.16.10.88
 Step 2.1: SSH into the instance using\: ssh -i labsuser.pem ubuntu@10.16.10.88
-Step 2.2: Run the following commands to ensure the agent is fine:
+Step 2.2: Run the following commands to download the relevant files:
 
                 cd /home/ubuntu
                 curl -o ./aws-discovery-agent.tar.gz https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-        
@@ -303,6 +303,34 @@ Step 3.3: You can play around the environment by going to the /admin page.
 
 Connect to the Database Instance and Install AWS Application Discovery Agent
 ----------------------------------------------------------------------------
+Remember, we got the private IP address of the EC2 instance hosting the database server from the json cconfig file. So now we SSH into this instance:
 
+                ssh -i labsuser.pem ubuntu@10.16.11.80
+                
+Step 2.2: Run the following commands to download the relevant files:
 
+                cd /home/ubuntu
+                curl -o ./aws-discovery-agent.tar.gz https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-        
+                2/linux/latest/aws-discovery-agent.tar.gz
+                curl -o ./agent.sig https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-2/linux/latest/aws-
+                discovery-agent.tar.gz.sig
+                curl -o ./discovery.gpg https://s3-us-west-2.amazonaws.com/aws-discovery-agent.us-west-
+                2/linux/latest/discovery.gpg
 
+Check that we have a good signature for the discovery agent:
+
+                gpg --no-default-keyring --keyring ./discovery.gpg --verify agent.sig aws-discovery-agent.tar.gz
+                
+Untar the downloaded file as follows:
+
+                tar -xzf aws-discovery-agent.tar.gz
+
+Install using the following command:
+
+                sudo bash install -r us-west-2 -k <Access Key ID> -s <Secret Access Key> -p true -c true -b true
+                
+Now explore the file listings to see if MySql is there:
+                
+                ps aux | grep sql
+                
+We see that MySql is indeed running on this box.
