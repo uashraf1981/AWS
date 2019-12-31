@@ -157,6 +157,60 @@ Not everything can be easily scaled. For example, if scaling requires additional
                may loose the session data, so the solution for that is to off-load the session data from the instances i.e.     
                store the session data somewhere else and this would enable sort of loose coulping.
 
+Horizontal Scaling: Add similar instances or resources, can scale up and down dynamically.
+Vertical Scaling: Make the original resource more powerful, but the downside is there is some downtime and you can't scale down back again.
+
+Considerations with Migrating DBs vs. Applications
+--------------------------------------------------
+Always a good idea to de-couple your databases from your applications and other components. The major difference being that with applications, the switch happens almost instantly i.e. its binary, either its on premise or on the cloud. However, with data, there are tansition periods when it is being accessed from on-premise and then from cloud.
+
+               Checklist before staring migration:
+               
+               - Find out things like database tables, schema, other limitations. 
+               - Find out if your applications can addord downtime, and if so, how much. 
+               - Find out how much of your data you need access to now or in the immediate future. 
+               - Find out about your network e.g. how much bandwidth can it support.
+               - Since you may be placing additional load on your DB during migration, find out how much can you put on it
+               - Personnel aspects, tranining and knowledge required e.g. network requirements, firewalls, database etc.
+               - Time planning is also important. Since refactoring is also usually involved for apps, dbs etc. so a lot of 
+               effort is required so be realistic when estimating the timelines.
+
+AWS Server Migration Service (SMS)
+----------------------------------
+Allows you to easily migrate thousands of servers. Makes it easy to schedule, track migrations. Also allows for tracking incremental changes to live server volumes and applying to the migrated servers. 
+
+Currently it ONLY supports migrations for the following:
+
+1. VMWare vSphere
+2. Miscrosoft Hyper-V
+3. Azure virtual machines
+
+Server VMs ------replicated as----> Amazon Machine Images (AMIs) on the cloud-----launch----> as EC2 instances
+
+You need to use the AWS connector which is basically a BSD VM virtual machine which you need to install on your premises and which will facilitate in migration. Allows up to 50 concurrent machines.
+
+Monitoring of your migrations is made possible by using Amazon CloudWatch.
+
+VM Import/Export Service
+------------------------
+An amazing service which allows you to easily import your vmware machines from your premises to the AWS environment.
+
+AWS Application Discovery Service
+---------------------------------
+This service allows two modes of operation:
+
+1. Agent less Discovery: works only with VMWare VMs with AWS agent-less discovery virtual appliance, called discovery connector and provides general info. What type and size of EC2 instances to use, peak and average CPU, RAM usage. But you cannot peek into the VMs for process info or network connections
+
+2. Agent based Discovery: We install AWS Application Discovery agent on each of the virtual machines and physical servers. Will provide detailed process info, inbound and outbound network connections and other detailed statistics.
+
+Lab Basics
+----------
+Scenario, migrate an on-premise ghost application to AWS. There are 2 boxes:
+
+ - Application Server running Ghost
+ - Database server running MySQL
+
+You are told that both are running Ubuntu (probably).
 
             
          
