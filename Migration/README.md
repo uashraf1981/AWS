@@ -118,3 +118,27 @@ Always remember Why a company is moving to the cloud comes before
 Remember, its a walk in the park to migrate isolated, stand-alone systems, but for the systems which are interconnected, migrating these interconnections is the real challenge.
 
 AWS Application Discovery Service --> Helps analyze our current environment by gathering statistics so that we can make coherent decision about whether which set of applications can bs migrated directlty, which need to be retired, etc.
+
+* Each application must be designed, migrated and validated based on its specific components and requirements i.e. especially in heterogeneous environments, you cannot treat the whole system as one and individual applications must be catered to.
+
+            The major services are:
+
+            1. AWS Server Migration Service (SMS)
+            2. AWS Database Migration Service (DMS)
+            3. CloudEndure Migration
+            
+In the operate phase, we look at the ongoing operations and we look at when can we turn off the old systems.
+
+AWS Cloud Adoption Framework (CAF)
+----------------------------------
+
+             Strategies for Cloud Migration include 6 R's:
+             
+             1. Rehost     -> Migrate quickly (Lift and shift)
+             2. Replatform -> Migrate but optimize in the process (Lift, tinker and shift) tinker=e.g. move to RDS
+             3. Repurchase -> Upgrade to a different license model or product while in migration e.g comm to enterp. license
+             4. Refactor   -> Rearchitect the system to add new features, scale or performance, expeneive but best results
+             5. Retire     -> Legacy systems or assets that can be retired that are no longer in use
+             6. Retain.    -> Retain things as is... sometimes you are not ready, or business feels more comfortable
+
+
