@@ -41,4 +41,19 @@ Ssalability
 The redundancy approach that we discussed also helps in scalability. Eventually we want to be able to scale out horizontally as well as scale in when load becomes less. This is supported by the auto-scaling features of AWS.
 
 
+# Data Persistance on EC2 Instances
 
+The data on the instance local hard drive is lost across stopping, reboots or terminations, whereas the data on EBS remains intact across start/stops or reboots and is only destroyed if we terminate the instance. However, it is far safe to host the data on the EBS instance as at least it is there across reboots and terminations and also, we can take snapshots of the EBS volume, or even detach the EBS volume and reattach it to another EC2 instance.
+
+# Backups
+
+Basically we need three different types of backups:
+
+1. Backup of the server machine -> web server -> AMI image backup
+2. Backup of the EBS volume attached -> source code files -> EBS snapshot
+3. Backup of the datavase -> Database snapshot
+
+AMI snapshots -> encompass the entire EC2 instance including OS, application server, apps, and EBS volumes
+EBS snapshots -> snapshot only the EBS volumes (useful if EC2 has multiple EBS volumes only some change)
+
+Most logical is to take AMI snapshots especially if you want a complete image which you can launch immediately in case your primary server shuts down.
