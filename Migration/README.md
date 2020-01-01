@@ -369,3 +369,38 @@ Some decisions could be e.g.
 1. Too much CPU usage on the database server -> use C2 instance
 2. Too much RAM usage on application server  -> use R2 instance
 3. Too many disk reads, writes               -> IO provisioned EBS volume.
+
+Multi-Environment Security and Communications
+---------------------------------------------
+1. Always use authenticated communicaiton protocols e.g. IPSec and TLS to ensure data is encrypted in transit.
+2. Setting up automated tools to identify attempts to move data outside defined boundaries is very helpful.
+3. For data at rest, encryption is the best strategy to ensure appropriate methods are in place. In addition, Key management solutions are also important. For AWS, usually you can just turn on the encryption option.
+4. Ensure least privilege, users and apps should have access only to the necessary data required and only for a time period.
+
+Data Considerations when Migrating
+----------------------------------
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/dataconsiderations.png)
+
+There are a ton of options depending on whether you have time and or the bandwidth to move your data to AWS.
+
+# Lab 2 
+
+Steps for Migration
+-------------------
+1. Create a mysqldump.
+2. Use AWS CloudFormation to launch a MySQL database and a Ghost application in the target Region.
+3. Restore the target database from the mysqldump.
+4. Create a snapshot of the Ghost application's Amazon Elatic Block Store (EBS) drive.
+5. Mount a new EBS drive that you create from the snapshot.
+
+MySqlDump - is a backup program which is used to dump a database or a colleciton of databases in order for it to be transferred or copied to another location. It usually uses SQL statements to create tables etc. but can also tansfer the database into CSV or XML formats. Remember that stored procedures and events and views are not backed up using it. The three ways to invoke mysqldump for various settings are as follows:
+
+                    shell> mysqldump [options] db_name [tbl_name ...]
+                    shell> mysqldump [options] --databases db_name ...
+                    shell> mysqldump [options] --all-databases
+                    
+Step 5.1 - Create an S3 bucket.
+Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql configuration file to enable bin_logging by enabling the 
+Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql configuration file to enable bin_logging by enabling the "#server-id = 1" and "#log_bin = /var/log/mysql/mysql-bin.log" lines as otherwise mysql dump will complain.
+
+
