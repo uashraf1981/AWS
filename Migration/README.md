@@ -401,6 +401,37 @@ MySqlDump - is a backup program which is used to dump a database or a colleciton
                     
 Step 5.1 - Create an S3 bucket.
 Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql configuration file to enable bin_logging by enabling the 
-Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql configuration file to enable bin_logging by enabling the "#server-id = 1" and "#log_bin = /var/log/mysql/mysql-bin.log" lines as otherwise mysql dump will complain.
+Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql configuration file to enable bin_logging by enabling the "#server-id = 1" and "#log_bin = /var/log/mysql/mysql-bin.log" lines as otherwise mysql dump will complain. Unfortunately, we cannot directly edit this file, so we will issue the following commands:
+        
+                    sudo sed -i '/server-id/s/^#//g' /etc/mysql/mysql.conf.d/mysqld.cnf
+                    sudo sed -i '/log_bin/s/^#//g' /etc/mysql/mysql.conf.d/mysqld.cnf
+                    
+Restart mysql service using the following:
+    
+                    sudo service mysql restart
+                    
+Step 5.3 - Go to the root directory and issue the following command:
 
+                    sudo mysqldump --databases ghost_prod --master-data=2 --single-transaction --order-by-primary -r 
+                    backup.sql -u ghost -p
+
+So now backup.sql contains the backup database.
+
+Step 5.4 - Copy this backup sql file to the S3 buket using the following command:
+
+                    aws s3 cp backup.sql s3://myBucketName
+                    
+Preparing a Target Environment for the SQL Server and Ghost Server Using CloudFormation Templates
+-------------------------------------------------------------------------------------------------
+Step 6.1 - Go to the dashboard and change your region to US-East (North Virginia)
+Step 6.2 - Go to EC2 -> Network & Security -> Key Pairs -> Generate Key pairs
+Step 6.3 - Go to CloudFormation then create a new stack and select the following given URL as the source template:
+
+                    https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/DEV-AWS-MO-Migration/lab-2-conventional/us-east-
+                    1.template
+
+Step - 6.4 Name the stack as clone-stack and proceed with defaults.
+
+Restore your Database
+---------------------
 
