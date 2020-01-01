@@ -433,5 +433,6 @@ Step 6.3 - Go to CloudFormation then create a new stack and select the following
 Step - 6.4 Name the stack as clone-stack and proceed with defaults.
 
 Restore your Database
----------------------
-
+--------------------
+Step - 6.5 Login to the east machine.
+Step - 6.6 
