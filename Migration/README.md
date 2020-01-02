@@ -552,4 +552,15 @@ Options to Connect On-premise network to AWS VPC and Services
                     3. VPN over Direct Connect -> Makes it even more secure as its over private network and also secured
                     
                     
+# LAB 3
+We are tasked with migrating a database from on-premise to AWS and while doing this, we will replatform the MySQL database to Aurora using the Amazone Database Migration Service (DMS).
+
+Step 7.1 - Create an Aurora database in the target region.
+Step 7.2 - Open DMS and create replication instance called ghost-db-replication.
+Step 7.3 - Basically in this step, we create an endpoint with mysql on prem server as the source. Then create an end-point then choose source end-point, give source RDS instance IP as source IP and mysql as the source database and set username and passwords as we know already i.e. ghost and oranges.
+Step 7.4 - Basically now we create a destination end point which is the RDS instance that we created in the last step. So we select the RDS instance as the destination endpoint.
+
+
+Step 7.4 - 
+
 
