@@ -563,4 +563,12 @@ Step 7.4 - Basically now we create a destination end point which is the RDS inst
 
 Step 7.4 - 
 
+Deployment Strategies
+---------------------
+Red-Black - Means our system is running both on premises and on the cloud as well simultaneously. You have setup DNS entries for both and data is being replicated. Then you finally switch to the AWS setup but keep the on-prem running as well. If everything is well then great, otherwise you change the DNS entry to move back to on-prem.
+
+Blue-Gree: Same as above, but the cut-over is gradual not instantneous i.e. you gradually move. Wih red-black if there is anhy problem you may experience downtime but with blue-green you do it gradually, so you can gradually test it out. One limitation is that your DNS should support little by little shifting of load between on-prem and on AWS. Second, it is more complex.
+
+
+
 
