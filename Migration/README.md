@@ -406,6 +406,7 @@ Step 5.2 - We need to modify the "/etc/mysql/mysql.conf.d/mysqld.cnf" mysql conf
                     sudo sed -i '/server-id/s/^#//g' /etc/mysql/mysql.conf.d/mysqld.cnf
                     sudo sed -i '/log_bin/s/^#//g' /etc/mysql/mysql.conf.d/mysqld.cnf
                     
+The "sed" command in Linux is typically used to replace strings from within a file.                
 Restart mysql service using the following:
     
                     sudo service mysql restart
@@ -421,6 +422,8 @@ Step 5.4 - Copy this backup sql file to the S3 buket using the following command
 
                     aws s3 cp backup.sql s3://myBucketName
                     
+Noticed an interesting property of S3 that if you upload the same name file from CLI, it directly overwrites the old file.
+                    
 Preparing a Target Environment for the SQL Server and Ghost Server Using CloudFormation Templates
 -------------------------------------------------------------------------------------------------
 Step 6.1 - Go to the dashboard and change your region to US-East (North Virginia)
@@ -435,4 +438,23 @@ Step - 6.4 Name the stack as clone-stack and proceed with defaults.
 Restore your Database
 --------------------
 Step - 6.5 Login to the east machine.
-Step - 6.6 
+Step - 6.6 Download the backup.sql file (which is the database dump) to this machine using the following:
+
+                    aws s3 cp s3://2010-usman-sqlbackup/backup.sql /home/ubuntu/backup.sql
+                    
+Step - 6.7 Start mysql using the following command:
+
+                    mysql -u ghost -p
+                    
+Step - 6.8 Show the current databases and the tables within ghost_prod db and it will be a blank database with no tables:
+
+                    show databases;
+                    use ghost_prod;
+                    show tables;
+                    
+Step - 6.9 Now give backup.sql as the source of the database i.e. "Seed the database".
+
+                    source backup.sql;
+                    
+
+                    
