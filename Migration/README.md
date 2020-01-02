@@ -456,5 +456,9 @@ Step - 6.9 Now give backup.sql as the source of the database i.e. "Seed the data
 
                     source backup.sql;
                     
+Now issuing a show tables command will show all the tables within the database. The important point to note is that you must first go inside the relevant database BEFORE seeding it using "use db_name;" command.
 
-                    
+Backup and Restore the Ghost Application
+----------------------------------------
+Basically, all that you have to do is to create an EBS snapshot, then move it to the correct region, and then populate the ghost application instance with the data that it contains.
+
