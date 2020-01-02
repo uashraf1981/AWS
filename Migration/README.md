@@ -462,3 +462,39 @@ Backup and Restore the Ghost Application
 ----------------------------------------
 Basically, all that you have to do is to create an EBS snapshot, then move it to the correct region, and then populate the ghost application instance with the data that it contains.
 
+# Week 3
+
+Amazon EBS is a block-level volume system which you can attach to EC2 instances. You can create a file system on top of these block level volumes. 
+
+Elastic Block Sotrage (EBS)
+---------------------------
+EBS offers two types of volumes:
+
+                    EBS Volume Types:
+                    
+                    1. SSD:
+                        1.1 General Purpose
+                        1.2 Provisioned IOPS (Highest performance levels, real-time performance)
+                        
+                    2. HDD (Hard Disk Drive) -> Cost effective
+                        2.1 Throughput-Optimized (Lots of accessed) -> when you need low cost but higher throughput
+                        2.2 Cold HDD has lower throughput
+
+Elastic File System (EFS)
+-------------------------
+It is a file sytem that allows you to create file systems which you can for creating files etc and which you can mount onto EC2 instances. 
+                     Differences between EBS and EFS  
+                     
+                      EFS allows you to have shared file system among multiple servers.
+                      AWS housed EFS can be mounted to on-premise servers, which can be immensely useful in migrations.
+                      
+S3
+--
+Object based storage for storing objects and also contains meta-data. 
+S3 allows you to access or works with objects through web console and programmatic access.
+S3 can also help store images, backups and other dumps.
+
+AWS Smowball
+------------
+AWS Snowball allows for moving 80TB of data directly to AWS and also has KMS based encryption capabilities.
+There is another option called snowmobile which is huge and provides for moving huge amounts of data.
