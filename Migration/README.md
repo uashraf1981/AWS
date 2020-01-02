@@ -498,3 +498,57 @@ AWS Smowball
 ------------
 AWS Snowball allows for moving 80TB of data directly to AWS and also has KMS based encryption capabilities.
 There is another option called snowmobile which is huge and provides for moving huge amounts of data.
+
+AWS Storage Gateway
+-------------------
+AWS Storage Gateway utilizes a VM image in your on-prem environment that SECURELY connects to a gateway endpoint in your AWS allowing for connecting your local storage resources to AWS.
+
+                    Storage Gateway Offers the following options:
+                    
+                    1. File based.   -> Allows a file based interface into S3 allows to store/retrieve files
+                    2. Volume based  -> As iScsi devices 
+                          2.1. Cached Volumes: Store your data in S3 and cache frequently accessed data
+                          2.2 Stored Volumes: Data stored locally and backup to AWS
+                    3. Storage based -> Tape gateway provides a virtual tape interface.
+                    
+AWS Data Sync
+-------------
+Simplifies and automates the task of moving data during migrations. It uses an agent based approach and you can use the data sync console to manage the data migration.
+
+AWS DMS (Database Migration Service)
+------------------------------------
+You can use DMS to migrate to and from most modern databases, allows every combination e.g. Oracle to Oracle, MySQL or MySQL. 
+
+DMS allows for "ongoing replication" with zero downtime.
+
+DMS even allows for converting stored procedures etc. into the appropriate target platform.
+
+DMS has an interesting tool for schema conversion from one database to another. 
+
+AWS Schema Conversion Tool
+-------------------------
+Allows for converting schemas from one database to schemas for another database.
+
+Amazon Aurora Database
+----------------------
+Is a MySQL and PostGres compatible database within Amazon Relational Database Service. Provides multitudes of speed in throughput and meets the highest levels of performance. 
+
+                    Aurora Properties:
+                    1. Several times higher throughput then traditonal databases
+                    2. Fault tolerant and self healing bad disk blocks in the background
+                    
+Amazon Aurora Serverless
+------------------------
+Is a configuration of Aurora is an auto-scaling solution in which the db will automatically start, shut and scale out and in according to the situation. This can be very helpful in migrations in which you want to optimize db performance in the cloud.
+
+                    Aurora traditional -> Well known data workloads
+                    Aurora Serverless  -> Unknown workloads which scales dynamically
+                    
+Options to Connect On-premise network to AWS VPC and Services
+-------------------------------------------------------------------------------
+                    
+                    1. VPN over the Internet -> Makes a secure VPN tunnel between on-prem network and AWS
+                    2. Direct Connect -> Direct connection to AWS without going to the Internet
+                    3. VPN over Direct Connect -> Makes it even more secure as its over private network and also secured
+                    
+                    
