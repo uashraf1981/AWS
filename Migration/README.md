@@ -608,3 +608,48 @@ Step 1.2 - Create a new policy -> JSON, then paste the following:
            https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/DEV-AWS-MO-Migration/lab-4-cloud-endure/iampolicy.json
            
 Step 1.3 - Create an IAM user and attach the policy. Copy the Access Key ID and the Secret Access Key (AKIAWK5BBEXGFVL7TYU6 , a67dtwN8Yo0wBA3E5NeCqSiw4tbbD80dzuOxVITP)
+
+Step 1.4 - Create a new migration project in CloudEndure and provide the Access Key ID and Secret Access key of IAM user.
+Step 1.5 - Now you need to specify migration source, so that will be US-west-Oregon.
+Step 1.6 - Now you need to spcify the migration target, so select EU (Frankfurt).
+Step 1.7 - Install CloudEndure agents on the machines.
+Step 1.8 - Open Cloud9 IDE for US-West (Oregon) region.
+Step 1.9 - find the private IP address of your application machine using the following command:
+
+            aws ec2 describe-instances --filters "Name=tag:Name,Values=ApplicationInstance" | grep -i -m 1 
+            "PrivateIpAddress"
+
+Step 2.0 Shell into the IP address using the key.
+Step 2.1 Find out the public IP of your ghost machine:
+
+            curl http://169.254.169.254/latest/meta-data/public-ipv4
+            
+Step 2.2 - Open the IP:2368 in a browser to see the ghost web application.
+Step 2.3 - You want to make some changes in the web application as well as the database so that when you migrate, you are sure that these changes are also migrated. Go to the admin portal:
+
+            44.226.134.99:2368/admin
+            
+Install CloudEndure agent on the application instance
+-----------------------------------------------------
+
+Step 3.1 For some reason, before migration, you need to remove the userdata associated with the instance:
+
+            sudo rm /var/lib/cloud/instances/<yourinstanceID>/user-data.txt*
+            
+
+
+Step 3.2 - Download the CloudEndure agent:
+
+            wget -O ./installer_linux.py https://console.cloudendure.com/installer_linux.py
+            
+Step 3.3 - Remember to have selected "Show me How" in the cloudendure console when creating project. You will get the actual instructions to launch this installer on that page:
+
+            sudo python ./installer_linux.py -t D694-1190-123B-C401-120A-45BA-FE41-8736-A5B1-1823-9FAB-6E2A-5DB9-76DA-6CF5-
+            9A8E --no-prompt
+            
+Install CloudEndure Agent on the Database instance
+--------------------------------------------------
+Step 4.1 - SSH into the database instance.
+Step 4.2 - Remoe userdata from the instance using the instance ID and the following command:
+           
+           sudo rm /var/lib/cloud/instances/<yourinstanceID>/user-data.txt*
