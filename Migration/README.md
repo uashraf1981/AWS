@@ -569,6 +569,24 @@ Red-Black - Means our system is running both on premises and on the cloud as wel
 
 Blue-Gree: Same as above, but the cut-over is gradual not instantneous i.e. you gradually move. Wih red-black if there is anhy problem you may experience downtime but with blue-green you do it gradually, so you can gradually test it out. One limitation is that your DNS should support little by little shifting of load between on-prem and on AWS. Second, it is more complex.
 
+Automating Migration
+--------------------
+Most of the tools that we have seen so far need manual work from the console which will make migration difficult, error prone and difficult to predict in terms of time requirements. Luckily, AWS provides API centric approach and the key idea is that if we could somehow automate the task of migration, we can scale the migration exponentially and reap tremendous benefits.
 
+Accessing AWS APIs
+------------------
+
+                    1. Use various Software Development Kits (SDKs)
+                    2. Use AWS Command Line Interface (CLI)
+
+These APIs allow to use scripts and applications to automate a lot of the migration tasks. It is absolutely necessary to become second nature with these APIs if you want to be able to use AWS for anything serious.
+
+AWS Cloud Formation
+-------------------
+Infrastructure automation tool that allows code -> infrastructure. It offers templates which you can use to create, modify and update your infrastructure. This capability is very important during migrations as it allows you to quickly environments which are exactly like your production environment. You can quickly spin up complete environments, modify it and tear it down when required.
+
+AWS System Manager
+------------------
+Manages servers e.g. running a single command across a fleet of servers. Interestingly it allows not only control over servers in AWS but also control over servers running on on-premise servers by installing agents. Thus, you have a single window of view into all your servers running whether on prem or on the cloud.
 
 
