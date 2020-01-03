@@ -650,6 +650,21 @@ Step 3.3 - Remember to have selected "Show me How" in the cloudendure console wh
 Install CloudEndure Agent on the Database instance
 --------------------------------------------------
 Step 4.1 - SSH into the database instance.
-Step 4.2 - Remoe userdata from the instance using the instance ID and the following command:
+Step 4.2 - Remove userdata from the instance using the instance ID and the following command:
            
            sudo rm /var/lib/cloud/instances/<yourinstanceID>/user-data.txt*
+
+Step 4.3 - Download the cloudendure agent:
+
+           wget -O ./installer_linux.py https://console.cloudendure.com/installer_linux.py
+           
+Step 4.4 - The data replication process progresses automatically on both the app machine and the database machine as soon as the agents are installed. You can check the process in the CloudEndure console.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Migration/cloudendure.png)
+
+Step 4.5 - Once the replication is done, you can then proceed with the testing phase.
+Step 4.6 - Select both the machines, you have two options: "Test" or the "Cut Over" then wait for the rockets to turn purple
+Step 4.7 - Head over to the EC2 instance then select application instance (note down VPC and subnet IDs)
+            VPC: vpc-0561a1954a75c85cc
+            Subnet: subnet-0c2a40a8e493d398b
+Step 4.8 - Go back to Cloud9 -> Create Environment , name it Test
