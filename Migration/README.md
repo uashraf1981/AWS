@@ -598,3 +598,13 @@ Cloud Endure
 One of the most powerful tool at our disposal to manage migrations at large scale. A fine-tuned machine which makes end-to-end migration into AWS. Godo for large scale migrations, automatically converts a full running application from on prem to AWS. Has machine conversion and orchestration services.
 
 
+# LAB 4
+
+In this lab, we will use Cloud Endure for migration.
+
+Step 1.1 - Create an account on Cloud Endure, note this is an AWS sibsidiary company,
+Step 1.2 - Create a new policy -> JSON, then paste the following:
+
+           https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/DEV-AWS-MO-Migration/lab-4-cloud-endure/iampolicy.json
+           
+Step 1.3 - Create an IAM user and attach the policy. Copy the Access Key ID and the Secret Access Key (AKIAWK5BBEXGFVL7TYU6 , a67dtwN8Yo0wBA3E5NeCqSiw4tbbD80dzuOxVITP)
