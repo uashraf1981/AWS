@@ -668,3 +668,7 @@ Step 4.7 - Head over to the EC2 instance then select application instance (note 
             VPC: vpc-0561a1954a75c85cc
             Subnet: subnet-0c2a40a8e493d398b
 Step 4.8 - Go back to Cloud9 -> Create Environment , name it Test
+
+
+# Wrap Up
+Keep in mind that don't try to force one single migration solution (6Rs) for all your applications on all servers and instead, study each application individually.
