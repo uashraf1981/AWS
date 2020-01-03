@@ -589,4 +589,12 @@ AWS System Manager
 ------------------
 Manages servers e.g. running a single command across a fleet of servers. Interestingly it allows not only control over servers in AWS but also control over servers running on on-premise servers by installing agents. Thus, you have a single window of view into all your servers running whether on prem or on the cloud.
 
+TSO Logic Solution
+-------------------
+We have looked at a lot of tools which help us in migration. Now we focus on a single solution called TSO logic which allows us to manage ALL of these services from a single point and provides insights into what you have and what is happening on the destination. Best tool to use. Allows visibility into what you are running in your computer, database, storage and other aspects. Also tells the total cost of ownership to make informed decisions as it also includes predictive analytics.
+
+Cloud Endure
+------------
+One of the most powerful tool at our disposal to manage migrations at large scale. A fine-tuned machine which makes end-to-end migration into AWS. Godo for large scale migrations, automatically converts a full running application from on prem to AWS. Has machine conversion and orchestration services.
+
 
