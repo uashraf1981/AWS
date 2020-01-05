@@ -81,8 +81,18 @@ AWS Abuse Notice:
                    
                    6. Contact AWS support.
                    
+                   
+                   Pro tips:
+                   
                    Smart idea is to run dynamic resources and users that are active.
                    Smart idea is to use the root account just to generate IAM admin user.
+                   Smart idea to use pwd policy to insist on using strong password.
+                   Smart idea is to always use IAM roles.
+                   Smart idea is to always rotate credentials.
+
+Git Secrets
+-----------
+Since bots are always scanning public git repositories for stuff like EC2 credentials or access keys, therefore GitHub has released a tool called Git-Scret which if you install with the git uploading tool, will not allow you to accidentally publish passwords and secret keys for EC2 instances. There are also tools available which you can use to scan your own public repositories to show your leaked public access keys.
                   
 It is pretty common for instances to get compromised through leaked passwords or keys. Often this is due to committing keys to a public repository like github. There are bots that are always scanning public github repositories.
                   
