@@ -38,7 +38,15 @@ AWS allows penetration testing, load simulation etc but you need to get authoriz
                   Lightsail, DNS zone walking. Even within these, there are further restrictions e.g. not allowed to 
                   pentesting against EC2 and RDS not allowed to test for small instance types e.g. t instance as these are 
                   always over subscribed and thus your testing can affect other customers.
-                  
+
+Four reasons why you may get abuse notice:
+
+                  1) Compromised instance - EC2 may have been compronised and become part of botnet.
+                  2) Secondary Abuse - a malware got installed and is calling back home
+                  3) Application Function - a genuine app function may get alerted , it may be your genuine app reaching 
+                  out to the Internet, but for the automated monitoring tool this may appear as an attack.
+                  4) False complaints - You just get false complaints and other AWS users may report. You may have a web 
+                  server and it is talking to another server in someone else's resources in their VPC by accident
 
 2. Incident Response Plan
 -------------------------
