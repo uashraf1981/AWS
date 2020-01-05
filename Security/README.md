@@ -1,7 +1,6 @@
-# AWS Security Speciality
+# Domain 1 - Incident Response
 
-Domain 1 - Incident Response
-----------------------------
+
 Incident has three sub-domains:
 
 1. AWS Abuse Notice
@@ -92,10 +91,54 @@ AWS Abuse Notice:
 
 Git Secrets
 -----------
-Since bots are always scanning public git repositories for stuff like EC2 credentials or access keys, therefore GitHub has released a tool called Git-Scret which if you install with the git uploading tool, will not allow you to accidentally publish passwords and secret keys for EC2 instances. There are also tools available which you can use to scan your own public repositories to show your leaked public access keys.
+Since bots are always scanning public git repositories for stuff like EC2 credentials or access keys, therefore Github has released a tool called Git-Secret which if you install with the git uploading tool, will not allow you to accidentally publish passwords and secret keys for EC2 instances. There are also tools available which you can use to scan your own public repositories to show your leaked public access keys.
                   
 It is pretty common for instances to get compromised through leaked passwords or keys. Often this is due to committing keys to a public repository like github. There are bots that are always scanning public github repositories.
                   
+
+# LAB: Audit a Source Code Security Scan Using Git-Secrets in AWS
+Our task is to audit a Github source code repository to scan for vulnerabilities. We will use AWS lab's "git-secrets" to perform this scan. 
+
+The steps that we will follow include:s
+
+Create-EC2 -> Clone git repository -> Install git-secrets -> Install Git Hook -> Scan Repository -> Identify Code for Fix
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Securit/gitsecrets.png)
+
+Step 1 - EC2 has already been created by the platform.
+Step 2 - SSH into our instance using the given credentials.
+Step 3 - Install git using the yum manager.
+
+            sudo yum install git
+            You can use the -y flag to simulate automatic yes to all queries raised during installation.
+            
+Step 4 - Clone the git repository using the following command:
+
+            git clone https://github.com/linuxacademy/la-aws-security_specialty
+            
+Step 5 - Clone the git-secrets repository using the following command:
+
+            git clone https://github.com/awslabs/git-secrets
+            
+Step 6 - Install the git-secrets using the following command:
+
+            cd git-secrets
+            sudo make install
+            
+Step 7 - Go to the repository that we want to scan.
+
+Step 8 - Install git hooks which are basically a number of rules that can be applied to a git repository. In our case, we want to apply a series of AWS best practice rules. These are AWS patterns and will scan for AWS Access Key IDs, Secret Access Keys, Account IDs, or other patterns defined by AWS. These will catch most credentials leaks but no guarantee we should go due diligence.
+
+            sudo git-secrets --register-aws
+            
+Step 9 - Now scan the repository using the following command:
+
+            git-secrets --scan
+            
+ ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Securit/vulncode.png)    
+ 
+ Step 10 - Git-secrets also proposes some mitigation strategies, but this information is passed onto the developer team.
+ 
 
 2. Incident Response Plan
 -------------------------
