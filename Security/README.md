@@ -80,6 +80,9 @@ AWS Abuse Notice:
                    - IAM users
                    
                    6. Contact AWS support.
+                   
+                   Smart idea is to run dynamic resources and users that are active.
+                   Smart idea is to use the root account just to generate IAM admin user.
                   
 It is pretty common for instances to get compromised through leaked passwords or keys. Often this is due to committing keys to a public repository like github. There are bots that are always scanning public github repositories.
                   
