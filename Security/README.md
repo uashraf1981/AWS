@@ -139,6 +139,7 @@ Step 9 - Now scan the repository using the following command:
  
  Step 10 - Git-secrets also proposes some mitigation strategies, but this information is passed onto the developer team.
  
+ 
 
 2. Incident Response Plan
 -------------------------
