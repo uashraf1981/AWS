@@ -160,6 +160,8 @@ The only limitation of using VPCs in different regions is that you are only prot
 
 The following are the products that assist in logging in AWS:
 
+        AWS Services Used for Logging:
+        
         CloudTrail    -> API Calls
         VPC Flow Logs -> Log traffic meta data coming into and going out of VPC
         EC2 instances -> By installing a cloudwatch agent and centrally collect app and OS logs
@@ -168,7 +170,38 @@ The following are the products that assist in logging in AWS:
         AWS CSonfig   -> Perform configuration and compliance checks to see if any config or compliance changed
         
         * Lamda helps in automating response.
+        
+        
+Remember there are two types of encryption: client-side encrpytion and server-side encryption.
 
-3. Automated alerting and remediation
--------------------------------------
+We need to ensure that data is encrypted both in transit and at rest:
+
+        AWS Services Used for Encryption:
+        
+        KMS -> Key Management Service Separation encryption/decryption away from storage
+        S3 ->  Its own encryption/decryption technologies
+        Certificate Manager -> Used for encryption/decryption for data in transit used for web client, load balancers
+        Route 53  -> Also plays a part in encryption/decryption
+
+Detection Phase
+---------------------------------
+We detect incidents, the most important and hardest of the incident response lifecycle:
+
+        AWS services used in the detection phase:
+        
+        AWS CloudWatch -> Loggin and monitoring of metrics of CPU usage, disk throughput, application and system logs
+        S3 events + lambda -> To detect upload and download of files
+        
+Containment Phase
+-----------------
+Containment is heavily dependent on the detection phase as you can't contain what you don't detect.
+
+        Actions that you could take for containment:
+        
+        i) Take snapshots for offline investigastion
+        ii) Stopping instances
+        iii) Disabling KMS encryption keys
+        iv) Change Route53 record sets
+        
+
 
