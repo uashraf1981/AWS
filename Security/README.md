@@ -141,15 +141,33 @@ Step 9 - Now scan the repository using the following command:
  
  
 
-2. AWS and the End-to-End EnIncident Response Framework
--------------------------------------------------------
+# 2. AWS and the End-to-End EnIncident Response Framework
+
+Preparation Phase
+-----------------
 Preparation -> Identification -> Containment -> Investigation -> Eradication -> Recovery -> Follow-up
 
 * In the preparation phase, we can limit the blast radius by creating accounts within our main AWS account with different permissions in order to architect a system with segregated security.
 
-                We use a "Service Control Policy" to limit what the child accounts within the root account can do.
-                We can also use different VPCs to separate the services (e.g. EC2s) at the infrastructure level.
+        We use a "Service Control Policy" to limit what the child accounts within the root account can do.
+        We can also use different VPCs to separate the services (e.g. EC2s) at the infrastructure level.
 
+The only limitation of using VPCs in different regions is that you are only protected against network attacks. If an account exploit occurs such that, that account has access to multiple VPCs, then the infrastructure level protection means nothing  even if they are in different regions.
+
+        We need to log everything to a central repository and encrypt it to protect as it may contain sensitive info.
+        
+        In AWS: Logs -> Events -> Alerts -> Response
+
+The following are the products that assist in logging in AWS:
+
+        CloudTrail    -> API Calls
+        VPC Flow Logs -> Log traffic meta data coming into and going out of VPC
+        EC2 instances -> By installing a cloudwatch agent and centrally collect app and OS logs
+        S3            -> Can host data and has its own logging system
+        CloudWatch    -> Allows to manage everything centrally
+        AWS CSonfig   -> Perform configuration and compliance checks to see if any config or compliance changed
+        
+        * Lamda helps in automating response.
 
 3. Automated alerting and remediation
 -------------------------------------
