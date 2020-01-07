@@ -103,7 +103,7 @@ The steps that we will follow include:s
 
 Create-EC2 -> Clone git repository -> Install git-secrets -> Install Git Hook -> Scan Repository -> Identify Code for Fix
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Securit/gitsecrets.png)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/gitsecrets.png)
 
 Step 1 - EC2 has already been created by the platform.
 Step 2 - SSH into our instance using the given credentials.
