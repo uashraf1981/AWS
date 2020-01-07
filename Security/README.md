@@ -135,7 +135,7 @@ Step 9 - Now scan the repository using the following command:
 
             git-secrets --scan
             
- ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Securit/vulncode.png)    
+ ![stack Overflow](https://github.com/uashraf1981/AWS/Security/vulncode.png)    
  
  Step 10 - Git-secrets also proposes some mitigation strategies, but this information is passed onto the developer team.
  
