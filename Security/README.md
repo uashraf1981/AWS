@@ -141,7 +141,7 @@ Step 9 - Now scan the repository using the following command:
  
  
 
-2. Incident Response Plan
+2. AWS and the d-to-End EnIncident Response Framework
 -------------------------
 
 
