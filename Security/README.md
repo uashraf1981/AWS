@@ -141,8 +141,14 @@ Step 9 - Now scan the repository using the following command:
  
  
 
-2. AWS and the d-to-End EnIncident Response Framework
--------------------------
+2. AWS and the End-to-End EnIncident Response Framework
+-------------------------------------------------------
+Preparation -> Identification -> Containment -> Investigation -> Eradication -> Recovery -> Follow-up
+
+* In the preparation phase, we can limit the blast radius by creating accounts within our main AWS account with different permissions in order to architect a system with segregated security.
+
+                We use a "Service Control Policy" to limit what the child accounts within the root account can do.
+                We can also use different VPCs to separate the services (e.g. EC2s) at the infrastructure level.
 
 
 3. Automated alerting and remediation
