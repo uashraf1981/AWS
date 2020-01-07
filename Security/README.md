@@ -146,3 +146,4 @@ Step 9 - Now scan the repository using the following command:
 
 3. Automated alerting and remediation
 -------------------------------------
+
