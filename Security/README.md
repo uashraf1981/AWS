@@ -203,5 +203,14 @@ Containment is heavily dependent on the detection phase as you can't contain wha
         iii) Disabling KMS encryption keys
         iv) Change Route53 record sets
         
+Investigation Phase
+-------------------
+In this investigation phase, you will be doing two main things:
+
+1) Establish a timeline as to what happened exactly when
+2) Inveswtigate the event and correlate things to establish what exactly happened
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/timeline.png)
+
 
 
