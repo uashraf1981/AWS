@@ -208,9 +208,38 @@ Investigation Phase
 In this investigation phase, you will be doing two main things:
 
 1) Establish a timeline as to what happened exactly when
-2) Inveswtigate the event and correlate things to establish what exactly happened
+2) Inveswtigate the event and correlate things to establish what exactly happened and the chain of events
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/timeline.png)
 
+You can do two types of firensics:
 
+1) Live box forensics -> investigate the EC2 which was actually exploited
+2) Dead box forensics -> investigate offline using snapshots in a safe sandbox environment
 
+Questions to answer:
+
+a) What happened and where
+b) Where did the attack come from
+c) What was the ingress - what was exploited e.g. which service was exploited
+
+Eradication Phase
+-----------------
+Single objective to remove all the infections and resources from our environment.
+
+        Major steps to do in the eradication phase:
+        
+        1. Delete and disable any KMS keys
+        2. For EBS volumes, delete any infected files, create a new volume and copy the good files
+        3. For S3 with S3 encryption-> delete the objects
+        4. For S3 with Customer Managed Keys (CMKs), delete the object and the associated CMKs
+        5. Secure wipe any affected files
+        6. If the EBS volume was not encrypted then better to generate a new voume and avoid just sanitizing it
+        
+Recovery Phase
+--------------
+Recover resources one by one and monitor, monitor and monitor.
+
+Follow-up Phase
+---------------
+For this phase, you can use testing and simulations and improving team efficiency is improvement.
