@@ -244,3 +244,18 @@ Follow-up Phase
 ---------------
 For this phase, you can use testing and simulations and improving team efficiency is improvement.
 
+# Configuration of Automated Alerting
+
+CloudWatch-Logs accepts data from all the different services in AWS. However, remember that the CloudWatch-Logs is a small product within the bigger product of CloudWatch which can accept many traditional metrics such as CPU usage, network throughput and many others.
+
+        CloudWatch-Logs -> CloudWatch Event Rules -> (Lambda Function, Systems Manager, SNS Topic, SQS)
+        
+        A very interesting alternate is:
+        
+        CloudWatch-Logs -> Metric Filters and Alarms on set of Logs to identify patterns -> Alarm generated
+        
+ Difference between the above two approaches are there in terms of how real-time they are.
+ 
+        Demo is based on:
+        IAM user creation -> CloudWatch-Logs -> CloudWatch-Event-Rules-> SNS Topic
+
