@@ -257,5 +257,6 @@ CloudWatch-Logs accepts data from all the different services in AWS. However, re
  Difference between the above two approaches are there in terms of how real-time they are.
  
         Demo is based on:
-        IAM user creation -> CloudWatch-Logs -> CloudWatch-Event-Rules-> SNS Topic
+        IAM user creation -> CloudWatch-Logs -> CloudWatch Event Rules-> SNS Topic
+                                             -> Metric Filters        ->
 
