@@ -382,7 +382,12 @@ The following diagram is what is requied in the lab:
 
 Basically, we can have this API call from three different sources i.e. console, cli or sdk. What we want to do is that we want to create a CloudWatch Event rule which gets populated from the API call captured by CloudTrail. The event rule then triggers a lambda function which then enables VPC flow logging.
 
-Step 1 - We start by creating the CloudWatch Event rule. We go to CloudWatch -> rules -> create rule and then create the rule. We select "Event Pattern", then in service name we select "CloudTrail, and in event types "AWS API call via CloudTrail", then  
+Step 1 - Remember, we usually go backwards i.e. we create an SNS topic and lambda function first and then create CloudWatch Event rule since that rule will need targets i.e. SNS or Lambda. So here we start with SNS. We go to the console and create a new SNS topic. Then create subscription in the screen once the SNS topic has been created and select email as notification mechanism and give your email address and confirm subscription from your inbox.
+
+Step 2 - Next, we create the Lambda rule 
+
+
+We start by creating the CloudWatch Event rule. We go to CloudWatch -> rules -> create rule and then create the rule. We select "Event Pattern", then in service name we select "CloudTrail, and in event types "AWS API call via CloudTrail", then we select specific operation i.e. CreateVPC
 
 
 
