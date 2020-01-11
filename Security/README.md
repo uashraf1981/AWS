@@ -352,3 +352,5 @@ So the amazing idea is that if we have some advance knowledge of some security i
 Now the cool thing is that, we now have the power to automate the detection, alerting and response to a LOT of different security incidents. Two examples are quoted below:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/examplesofautomation.png)
+
+
