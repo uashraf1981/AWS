@@ -260,7 +260,7 @@ CloudWatch-Logs accepts data from all the different services in AWS. However, re
         
 IAM user creation -> CloudWatch-Logs -> CloudWatch Event Rules-> SNS Topic
         
-                                             ->    Metric Filters  ->
+                                        ->    Metric Filters  ->
 
 # LAB: Automate the alerting and remediation of an IAM user creation event
 
@@ -323,4 +323,12 @@ The only problem here is that if you go ahead and create a user, you will not ge
 Method - II
 -----------
 
-Step - 8B 
+Step - 8B Go to CloudWatch and select Rules in the left menu.
+
+Step - 9B Select "Event Pattern" within the CloudWatch rules.
+
+Step - 10B Now we create a CloudWach rule. We select "Service Name" as IAM, then "Event Type" as AWS API call via CloudTrail then we select that we want this rule to be triggered on a specific operation i.e. "CreateUser" and review that the event pattern preview has been correspondingly updated. Finally, select the SNS topic that we created last time.
+
+Now if we go ahead and create an IAM user, we will get the notification almost instantly, and ite email contains a lot of detailed information in JSON format. A pro tip is to copy this JSON and paste it into an JSON editor for better reading.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/createrule.png)
