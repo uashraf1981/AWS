@@ -353,4 +353,36 @@ Now the cool thing is that, we now have the power to automate the detection, ale
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/examplesofautomation.png)
 
+# LAB: Automate the detection, alerting and turning back on of CloudWatch logging if someone turns it off
+
+Step 1 - The first thing corresponds to the back-arrow going from lamda to cloudwatch. We need to do, is to give Lambda the persmission to check the CloudWatch if it is still logging and restart logging if required. So we create a "Lamda Role" from within IAM. So IAM -> Lambda Role -> Create Policy -> Service (CloudWatch Logs) -> Write Permissions (Create log groups, Create log streams and then put log events into those log streams). Modify the resource section to give it acces to specific log groups or log streams or allow to write to all log streams (so all resources). We selet all resources for now. Now name the policy which is cloudwatchlogsforlambda.
+
+Step 2 - Now we create a role and load the policy we just created i.e. we select that. In addition, we also select the managed policy AWSCloudTrailFUllAccess policy also, since we want this process to be able to respond to any cloudtrail in any region of our accounts. We name the role LambdaToCloudTrail.
+
+Step 3 - Now we create the actual lamda function while making sure we are in the correction region. We name the function as CloudTrailLoggingEnable, we select Python 2.7 as runtime environment, then select existing role LambdaToCloudTrail.
+
+The following is the lambda code that we will be using:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/lamdacode.png)
+
+It imports the JSON library so that it can understand JSON files. It imports boto3 which is a library that enables it to interact with AWS and sys library is just a collection of system functions.
+
+Step 4 - Now we glue the CloudTrail with Lamda function. We go to CloudWatch -> rules then we create a rule in the pattern, we use CloudTrail, then select AWS CloudTrail API call, and then look for API calls called stoppedlogging, then we select two targets:
+
+1. Lambda function
+2. SNS topic
+
+We name it CloudTrailRule and then create it.
+
+# LAB: Domain 1 Main Lab
+
+The following diagram is what is requied in the lab:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/domain1lab.png)
+
+Basically, we can have this API call from three different sources i.e. console, cli or sdk. What we want to do is that we want to create a CloudWatch Event rule which gets populated from the API call captured by CloudTrail. The event rule then triggers a lambda function which then enables VPC flow logging.
+
+Step 1 - We start by creating the CloudWatch Event rule. We go to CloudWatch -> rules -> create rule and then create the rule. We select "Event Pattern", then in service name we select "CloudTrail, and in event types "AWS API call via CloudTrail", then  
+
+
 
