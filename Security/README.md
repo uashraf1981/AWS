@@ -256,7 +256,63 @@ CloudWatch-Logs accepts data from all the different services in AWS. However, re
         
  Difference between the above two approaches are there in terms of how real-time they are.
  
-        Demo is based on:
-        IAM user creation -> CloudWatch-Logs -> CloudWatch Event Rules-> SNS Topic
-                                             -> Metric Filters        ->
+        Two different architectures are possible:
+        
+IAM user creation -> CloudWatch-Logs -> CloudWatch Event Rules-> SNS Topic
+        
+                                             ->    Metric Filters  ->
 
+# LAB: Automate the alerting and remediation of an IAM user creation event
+
+IAM User Creation -> CloudTrail -> CloudWatch-Logs -> Metric Filters -> SNS Topic
+
+Step - 1 Create an SNS topic and register an email address for that topic.
+
+Step - 2 Create a CloudTrail trail for the IAM user creation API call and then connect to CloudWatch-Logs so we can receive a periodic stream of API events.
+
+Step - 3 Create an S3 bucket within the CloudTrail interface where the logs will be stored.
+
+Step - 4 Now we must integrate the CloudTrail into the CloudWatch-Logs. Go to the CloudTrail interface, then select configure CloudWatch. Create a new or select an existing log group.
+
+Step - 5 Again within the CloudTrail interface, we move to the next screen which create an IAM role which will allow CloudTrail to develiver events to CloudWatch-Logs.
+
+Step - 6 If everything goes well, after a few seconds you will see a condfigured CloudWatch log group and a corresponding IAM role again within the same CloudTrail interface.
+
+Step - 7 Verify the linking of CloudTrail to CloudWatch Logs by doing CloudWatch -> Logs and you will see the corresponding log group that you configured. If you open that log group, you will find at least one stream which we configured for each region. If you open that stream, you will start seeing the events.
+
+Method - I
+----------
+
+Step - 8A The first method that we will use will comprise of metrics. So we go the log group and then select filters within that entry as shown below:
+
+ ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/selectmetric.png) 
+ 
+Step - 9A Create the filter pattern that needs to be detected:
+
+            { $.eventName = "CreateUser" }
+
+then select assign filter.
+
+Step - 10A Now we must name the filter i.e. we name our filter as shown below:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/namefilter.png) 
+ 
+Step 11A Now we create an alarm from that metric filter. So we select the alarm option and then select the SNS topic that we had previously created.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/alarm created.png)
+
+So now we go ahead and create an IAM user and the following is the chain of events:
+
+a) An IAM user is created so IAM calls the create user API
+b) This API call is logged by CloudTrail
+c) CloudTrail sends this API log to the log group that we configured in CloudWatch-Logs
+d) That particular log group within CloudWatch-Logs has a metric filter configured
+e) The metric filter on that log group then does a pattern search for the create user API 
+f) When the metric filter finds the call, it generates an alarm which is linked to the SNS topic that we created
+g) That alarm has our user email registered
+
+
+Method - II
+-----------
+
+Step - 8B 
