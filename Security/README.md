@@ -332,3 +332,23 @@ Step - 10B Now we create a CloudWach rule. We select "Service Name" as IAM, then
 Now if we go ahead and create an IAM user, we will get the notification almost instantly, and ite email contains a lot of detailed information in JSON format. A pro tip is to copy this JSON and paste it into an JSON editor for better reading.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/createrule.png)
+
+# Automating the Response Side (In addition to the Detection and Alerting Side that we did before)
+
+The core of response is ths delivered by the CloudWatch Events which is at the heart of this automation. It is the HUB of automating alerting.
+
+        The "Event Pattern" of CloudWatch Events is the heart of automating alerting as it can trigger a lot of stuff e.g. 
+        it can trigger a lambda function.
+        
+        CloudWatch Events (Event Pattern) -> Lambda
+                                             System Manager (patching)
+                                      * Imp: SNS (Email, ticket generation or integration with 3rd party softwares)
+                                             SQS
+                                             
+So the amazing idea is that if we have some advance knowledge of some security incident that can occur, then we can create a CloudWatch Event rule which monitors an occurrence of that incident and triggers an automated response to remediate or mitigate the security repercussions.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchevent.png)
+
+Now the cool thing is that, we now have the power to automate the detection, alerting and response to a LOT of different security incidents. Two examples are quoted below:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/examplesofautomation.png)
