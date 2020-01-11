@@ -299,7 +299,7 @@ Step - 10A Now we must name the filter i.e. we name our filter as shown below:
  
 Step 11A Now we create an alarm from that metric filter. So we select the alarm option and then select the SNS topic that we had previously created.
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/alarm created.png)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/alarmcreated.png)
 
 So now we go ahead and create an IAM user and the following is the chain of events:
 
@@ -311,6 +311,14 @@ e) The metric filter on that log group then does a pattern search for the create
 f) When the metric filter finds the call, it generates an alarm which is linked to the SNS topic that we created
 g) That alarm has our user email registered
 
+The only problem here is that if you go ahead and create a user, you will not get an email immediately and that is because the API call and its visibility is not real-time if you use the architecture just described i.e. using metric filters and alarms. Moreover, even the information that you received is not very detailed, just very basic info. So now we go ahead and use an alternate architecture.
+
+                CloudWatch Metric Filters               vs.                 CloudWatch Events
+            
+            i) Not real-time, slow e.g. in minutes                            Real-time
+            
+            ii) Information in email very basic                             More detailed information
+            
 
 Method - II
 -----------
