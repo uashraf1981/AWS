@@ -384,10 +384,15 @@ Basically, we can have this API call from three different sources i.e. console, 
 
 Step 1 - Remember, we usually go backwards i.e. we create an SNS topic and lambda function first and then create CloudWatch Event rule since that rule will need targets i.e. SNS or Lambda. So here we start with SNS. We go to the console and create a new SNS topic. Then create subscription in the screen once the SNS topic has been created and select email as notification mechanism and give your email address and confirm subscription from your inbox.
 
-Step 2 - Next, we create the Lambda rule 
+Step 2 - Next, we create the Lambda rule and the code for this is in the file. 
 
+Step 3 - Next, we create the CloudWatch Event rule and select a specific pattern based rule. Interestingly, in my opinion service should be CloudTrail and then AWS API Call by CloudTrail, but apparently, we have to select EC2 in the service type. Need to double check. Anyways, then add the "CreateVpc" pattern and then assign the two targets i.e. lamda rule and the SNS.
 
-We start by creating the CloudWatch Event rule. We go to CloudWatch -> rules -> create rule and then create the rule. We select "Event Pattern", then in service name we select "CloudTrail, and in event types "AWS API call via CloudTrail", then we select specific operation i.e. CreateVPC
+        lambda_function.py creates VPC Flow Logs for the VPC ID in the event
+
+        event-pattern.json is the CloudWatch Rule event pattern for monitoring the CreateVpc API call.
+
+        test-event.json is a sample CloudTrail event that can be used with the Lambda function, as it contains the VPC ID
 
 
 
