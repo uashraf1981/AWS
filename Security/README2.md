@@ -46,6 +46,11 @@ AWS contains some pre-defined custom metrics, but you can also create custom met
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/customfilter.png)
 
 
+Then we can create a custom alarm based on this metric filter. Then we can check the alarm in CloudWatch has gone to an alarm state or not.
+
+            Alarms can be used to trigger many things e.g. alarms and metrics and metric filters can be used to lots of 
+            stuff in security e.g. trigger auto-scaling.
+
 
 
 
