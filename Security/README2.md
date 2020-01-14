@@ -50,7 +50,55 @@ Then we can create a custom alarm based on this metric filter. Then we can check
 
             Alarms can be used to trigger many things e.g. alarms and metrics and metric filters can be used to lots of 
             stuff in security e.g. trigger auto-scaling.
+            
+CloudWatch Events
+-----------------
 
+CloudWatch is the hub of events in AWS. It allows event-driven security. CloudWatch events are just like alarms but instead of thresholds, they perform pattern matching based on metric filters. They are like the central hub of events.
+
+            CloudWatch Events -> Provide event-driven security within the cloud ecosystem
+            CloudWatch Events -> Sits as a hub within the AWS ecosystem i.e. between the products
+            
+The input to CloudWatch events are different sources such as EC2 instance being started, an IAM user being created etc. Every event is described by a JSON document.
+
+So basically in AWS, the flow of events is as follows:
+
+            *** IMPORTANT GLOBAL PERSPECTIVE ON EVENTS ***
+            
+            Event (from EC2, IAM etc) -> CloudTrail -> CloudWatch Events -> Outputs (SNS, SQS)
+
+# LAB: CloudWatch Events
+
+Step - 1 Go to CloudWatch -> Events -> Create Rule -> (Pattern or Schedule)
+                                               Schedule -> periodic/cron expression & means CloudWatch generating new events
+                                               Pattern -> means cloudwatch events is listening for events from other sources
+                                                      
+                              Remember that when creating CloudWatch events, you must select the:
+                              
+                              service    -> The originating service e.g. EC2, or IAM
+                              Event type -> the specific event, usually it is CloudTrail API call related to that source
+                              
+Step - 2 For instance, we select EC2 instances and then select All Events then anything that happens will be captured. So for instance, we want to make sure that our servers are always up and running.
+
+Step - 3 Now this requirement of lambda needs a role, so we will create a lambda role as follows:
+         IAM -> create role -> AWS services -> Lambda -> services -> select the policy -> Create new policy -> Visual Editor -> service EC2 -> Access Level -> Write Actions -> Start Instances -> done -> resources -> all resources -> name policy -> create policy -> 2 permissions (AWSLambdaExecutionRule and start instances permission) -> then we go back to the role and attach this policy to that lamda role
+         
+Step - 4 Now create the actual lamda function itself. 
+                             
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/lamda2.png)
+
+Step - 5 Now we go back to CloudWatch Events -> Create a rule -> Service Type (EC2) -> EC2 instance state change notification -> specific state (stopped) -> then map to 2 targets (lambda function and SNS topic)
+
+                  ** Important **
+                  If you want to create a Cloudwatch rule that relates to data or API calls such as object level changes in 
+                  S3, then AWS requires that you must have a CloudTrail with "data events turned on".
+                  
+
+                  ** Important **
+                  Remember that to call AWS CloudWatch your system needs to have access to the public Internet since 
+                  CloudWatch has public endpoints.
+                  
+                  Exam tip: There is an exception, you can use VPC end point to access CloudWatch even from private network.
 
 
 
