@@ -100,8 +100,25 @@ Step - 5 Now we go back to CloudWatch Events -> Create a rule -> Service Type (E
                   
                   Exam tip: There is an exception, you can use VPC end point to access CloudWatch even from private network.
 
+# Multiple Accounts: CloudWatch Event Buses
 
+CloudWatch event buses can accept events from other AWS accounts. 
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchbuses.png)
+
+Source account event rule -> receiving account event rule -> SNS
+
+Step 1 - We will create an SNS topic and subscribe an email address.
+
+Step 2 - The procedure is fairly simple, we create one account as the receiving acccount, add permissions to other accounts and receive all notifications in this account. So just simply collect account IDs for all the account that you want to add, then go to Cloudwatch in the receiving account, then go to event buses and then add permissions i.e. give IDs of the trusted accounts i.e. account which will send events to this account.
+
+Step 3 - Now get the account ID of this account and then go to the trusted account, then create an event rule in that account e.g. IAM -> Add User
+
+Step 4 - Select target as event bus and select the receiving account i.e. provide ID of that account.
+
+Step 5 - Next we go back to the receiving account and create an event rule which sends SNS. Remember to create the rule same as in the source account i.e. service: IAM and event API call and CreateUser event.
+
+Step 6 - Go to the source account and create a new user to see if it works.
 
 
 
