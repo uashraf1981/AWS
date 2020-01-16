@@ -120,5 +120,12 @@ Step 5 - Next we go back to the receiving account and create an event rule which
 
 Step 6 - Go to the source account and create a new user to see if it works.
 
+            ** Important **
+            1. We need to add explicit permissions in the receiving account for the account IDs that are permitted to send.
+            2. Not a good idea to allow everyone otherwise, we need to go to the JSON rule and add rule by rule persmission
+            3. Remember, the source rules and receiving account should be in the same account.
+            4. You can send ALL events from the source accounts into a single account and then only define rules in that 
+            account i.e. instead of creating rules in every child account, you filter only at the central account.
+
 
 
