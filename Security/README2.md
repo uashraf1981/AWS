@@ -128,4 +128,42 @@ Step 6 - Go to the source account and create a new user to see if it works.
             account i.e. instead of creating rules in every child account, you filter only at the central account.
 
 
+# AWS Config
+
+Tracks configuration of all AWS resources. It helps with compliance standards and allows us help in audit. It allows monitoring of all AWS resources and allows for continuous monitoring of changes. It records what changed and who chanhged it. So continuous compliance. What security standards your organization has and it helps manage a consistent record of changes. Also highlights unauthorized changes.p
+
+Also helps in unauthorized changes.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsconfig.png)
+
+            AWS Config has two essential components:
+            
+            1. Configuration recorder -> constantly records the configuration of all resources i.e. tracks every change in          
+            every resource in every region. AWS config is enabled on a per-region basis, it can operate in any region, but 
+            it is not global, so you need to enable it. It needs a role to get appropriate permissions to record the 
+            configurations of all resources. 
+            
+Setting up AWS Config
+---------------------
+The starting configuration is pretty simple. 
+1. Inform the config tool as to what resources you want to monitor. The default is to record all resources in all regions
+2. You need to provide an S3 bucket where it will store all this information
+3. You can optionally link it to an SNS topic on this same screen and it will stream any configuraiton changhes in the monitored resources to that SNS topic
+4. AWS Config Role: You can select the option "Create a role"
+5. As soon as the role is created, it starts tracking all the resources
+
+            Configuration Record -> State of a particular resource at a particular instance of time e.g. it can be a          
+            security group, then what rules are in that security group, what ports those rules allow, what's the group name 
+            and so on. If it is an EC2 instance, what is the size, what disks are attached, which security groups are 
+            attached. 
+
+            Configuration History -> a record of every single change of that resource.
+            
+            Configuration Stream -> SNS topic to which we can send the changhes.
+            
+            
+            2. Config Rule (works as a Compliance Checker) -> Ensures organization wide compliance to something. For 
+            instance, you can define that what ports should a security allow to be open, then you can apply that rule to all 
+            the security groups in the organization.
+            
 
