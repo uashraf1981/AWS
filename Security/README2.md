@@ -164,6 +164,49 @@ The starting configuration is pretty simple.
             
             2. Config Rule (works as a Compliance Checker) -> Ensures organization wide compliance to something. For 
             instance, you can define that what ports should a security allow to be open, then you can apply that rule to all 
-            the security groups in the organization.
+            the security groups in the organization. So if a security group only had good rules, it would be marked as 
+            compliant whereas if it only had bad rules, then it would be marked as non-compliant AND more interestingly, you
+            can define actions that you can take if a resource has been marked as being non-compliant and that action can
+            remediate the non-compliance. AWS helps us by providing a lot of pre-defined rules such as CloudTrail is 
+            enabled, database backups are enabled, detailed monitoring is enabled on EC2 instances.
             
+            Remember that some rules in AWS config should only be triggered based on change, while in some situations  some
+            rules should be triggered periodically. 
+            
+            * Normally these rules are triggered automatically after every change either in real-time or we can manually 
+            trigger this rule as well.
+            
+            ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsconfigrulechange.png)
+            
+            * Another interesting thing about AWS Config is that it is storing relationships as well e.g. if a new rule for 
+            opening port was added to a security group, it will show all the EC2 instances and VPCs that this new security 
+            group belongs to.
+            
+            * Another interesting thing about AWS Config is that it stores the history of the resource for all the changes.
+            
+            ** I think that main difference between AWS Config and AWS CloudTrail is that AWS config stores information 
+            about any configuration changes in the AWS ecosystem (including creation, deletions and modifications) whereas 
+            AWS Config stores information about any API calls made between resources. Generally speaking, AWS Config is an 
+            account-level resource monitoring thing, it does not look inside resources e.g. not what happened inside an EC2 
+            instance.
+            
+            ** AWS Config is basically limited to the region that it is defined for, but you can create aggregate AWS config 
+            in all regions to get a unified information.
+            
+# AWS Inspector
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsinspector.png)
+
+Is an important AWS security tool and monitors any suspicious activity within Windows or Linux EC2 instances. It looks INSIDE Windows and Linux instances. It leverages an agent installed inside EC2 instances which monitors processes, network and other stuff.
+
+            AWS Inspector agent on EC2 --> AWS Inspector --> SNS
+                 (Target)
+                 
+            Target: You can define either a specific EC2 instance, or you can point it to all EC2 instances. 
+            Packages:
+               - Common vulnerabilities and exposures
+               - Center for Internet Security (CIS) benchmarks
+               - 
+            
+            
+           
