@@ -206,7 +206,80 @@ Is an important AWS security tool and monitors any suspicious activity within Wi
             Packages:
                - Common vulnerabilities and exposures
                - Center for Internet Security (CIS) benchmarks
-               - 
+               - Security Best Practices (Disable root login on SSH, Configure Password Max Age, Password Complexity)
+               - Runtime Behavior Analysis (Insecure login, unsecured TCP listening ports, insecure root process permission)
+ 
+ Following steps guide us on how to configure AWS Inspector:
+ 
+ 1. Go to AWS Inspector
+ 2. Configure it to run weekly
+ 3. It will create a i) default target ii) default 
+ 4. Now we want to install AWS inspector agent on EC2 instance, but for that we first need to attach a new role to the EC2 instance, which is the Amazon EC2 role for SSM (Systems Manager) since we need SSM being able to push AWS Inspector agent to EC2. 
+ 5. There is a special run command which we need to use to be able to install AWS Inspector on EC2 using SSM.
+ 6. Now go to AWS Inspector and select targets which can be a specific EC2 instance or a collection of EC2 instances.
+ 7. 
+ 
+ # Now Going to Do a Short Cut Training
+ 
+ 1. AWS Inspector
+ 2. Web Application Firewall and AWS Shield (lab: Blocking Web Traffic with WAF in AWS)
+ 3. Security Groups
+ 4. Host Based IDS/IPS
+ 5. IAM Policies
+ 6. Identity Federation
+ 7. Key Management System
+ 8. Cloud HSM
+ 
+ DevSecOps Essentials
+               
             
-            
+ # AWS Web Application Firewall (WAF) and AWS Shield
+ 
+Remember that WAS sits in front of a CloudFront distribution or Application Load Balancer. It is a layer 7 product and can watch traffic both globally as well as look for patterns INSIDE the traffic such as SQL injections.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/waf.png)
+
+It is a relatively simple product and its base entity is Web ACLs which are Web Access Control Lists i.e. made up of rules and each rules can have multiple conditions. There are two things that you need to understand i.e. conditions and rules.
+
+Web ACL:
+Conditions --> Traffic matching a geo-tag e.g. traffic coming from Australian IP addresses
+Rule --> Is triggered on one or multiple conditions
+ 
            
+            There are two types of rules:
+            
+            1. Regular rules that apply to cloud traffic
+            2. Rate based rules that apply to conditions e.g. a condition violated a number of times e.g. strange traffic 
+            coming from a certain IP range.
+            
+So conditions match things, e.g. coming from certain IP addresses, or SQL injection signatures.
+
+Conditions         ---bind to--->               Rules              ---bind to --->   Web ACL 
+(suspicious IPs)                   (Match suspicious IP and SQL)                  (Matches Rule 1 or Rule 2)
+(SQL)
+
+
+
+Conditions     ->.  Rule contain muiltiple conditions combined in one rule  -> Web ACL contain multiple rules combined.
+
+            ** Remember you can default allow or default deny Web ACL.
+            
+# Security Groups
+
+Security groups are always created inside a VPC. So you cannot associate a security group that is in one VPC to a resource that is in another VPC.
+
+            ** Important technical point: Security groups are not technially associated directly with EC2 instances, instead 
+            technically speaking, they are associated with the network interface card of the EC2 instance.
+            
+            Think of security groups like an interface or barrier in front of the network interface card.
+            
+            * Security groups are stateful.
+            
+            * Security groups are default deny i.e. you can only add rules to ALLOW traffic, DENIAL is otherwise understood, 
+            there is actually a default security group that gets hit that denies everything. So you cannot explicitly deny 
+            traffic in security groups.
+            
+            ** Security groups can also reference other security groups i.e. allow traffic from other security groups.
+            Security group can also reference itself e.g. atatch security group to multiple EC2 instances and allow traffic 
+            between them i.e. cvool feature that you can create grouping of EC2 instances which can talk to each other on a 
+            specific port.
