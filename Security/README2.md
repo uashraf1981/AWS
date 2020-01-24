@@ -197,7 +197,7 @@ The starting configuration is pretty simple.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsinspector.png)
 
-Is an important AWS security tool and monitors any suspicious activity within Windows or Linux EC2 instances. It looks INSIDE Windows and Linux instances. It leverages an agent installed inside EC2 instances which monitors processes, network and other stuff.
+Is an important AWS security tool and monitors any suspicious activity within Windows or Linux EC2 instances. Opposed to AWS Config, which only looks at resources, AWS Inspector looks INSIDE Windows and Linux instances. It leverages an agent installed inside EC2 instances which monitors processes, network and other stuff using some pretty advanced analytics.
 
             AWS Inspector agent on EC2 --> AWS Inspector --> SNS
                  (Target)
@@ -208,16 +208,34 @@ Is an important AWS security tool and monitors any suspicious activity within Wi
                - Center for Internet Security (CIS) benchmarks
                - Security Best Practices (Disable root login on SSH, Configure Password Max Age, Password Complexity)
                - Runtime Behavior Analysis (Insecure login, unsecured TCP listening ports, insecure root process permission)
+               
+               * RULE: A rule is a fundamental unit which checks for something specific in AWS Inspector. For instance, a 
+               rule can check for a specific vulnerability or a particular OS for example. 
+               
+               * RULES PACKAGES: Rules packages contain a collection of similar rules which are grouped together.
+               
+               * ASSESSMENT TEMPLATE: Brings together all the elements i.e. specifies the targets (which EC2 instances are
+               the targets and which rules packages will be applied). 
  
  Following steps guide us on how to configure AWS Inspector:
+ 
+ The first step is to create an IAM role to attach the EC2 instance which would allow the System Manager (SSM) to install  
+ the AWS Inspector agent onto the EC2 instances.
  
  1. Go to AWS Inspector
  2. Configure it to run weekly
  3. It will create a i) default target ii) default 
- 4. Now we want to install AWS inspector agent on EC2 instance, but for that we first need to attach a new role to the EC2 instance, which is the Amazon EC2 role for SSM (Systems Manager) since we need SSM being able to push AWS Inspector agent to EC2. 
- 5. There is a special run command which we need to use to be able to install AWS Inspector on EC2 using SSM.
- 6. Now go to AWS Inspector and select targets which can be a specific EC2 instance or a collection of EC2 instances.
- 7. 
+ 4. Now we want to install AWS inspector agent on EC2 instance, but for that we first need to attach a new role to the EC2 
+ instance, which is the Amazon EC2 role for SSM (Systems Manager) since we need SSM being able to push AWS Inspector agent 
+ to EC2. So after we attach the IAM role SSMManagerEC2Access, we then go to Inspector->run->create run command -> configure 
+ AWS package -> we should see the EC2 instance on this screen.
+ There is a special run command which we need to use to be able to install AWS Inspector on EC2 using SSM.
+ 6. Now go to AWS Inspector and select targets which can be a specific EC2 instance or a collection of EC2 instances. We configure it for all EC2 instances and selecting "preview targets" and it will show all EC2 instances it has picked up.
+ 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/assessmenttemplate.png)
+ 
+ 
+ 
  
  # Now Going to Do a Short Cut Training
  
@@ -264,6 +282,23 @@ Conditions     ->.  Rule contain muiltiple conditions combined in one rule  -> W
 
             ** Remember you can default allow or default deny Web ACL.
             
+TO RUN THE ASSESSMENT PROCESS
+-----------------------------
+Go to assessment template and select run and it will start running.
+            
+TO CHECK STATUS OF TARGETS AFTER RULES HAVE RUN
+-----------------------------------------------
+The results will be a list of vulnerabilities which have been ranked as high medium and low. You can also view the vulnerability result in JSON format.
+
+You can automate the remediation process by providing AWS Inspector as the CloudWatch event source.
+
+Difference between AWS Config and AWS Inspector
+
+AWS Config looks at config changes at different AWS products   VS. Inspector matches internal workings based on rules (vulnerability report generation, looks for behavior it is a scanning engine and it can assess for a period of time e.g. any process or CPU behaving strangely)
+
+AWS Systems Manager allows you to apply patches, update software, run commands.
+
+            
 # Security Groups
 
 Security groups are always created inside a VPC. So you cannot associate a security group that is in one VPC to a resource that is in another VPC.
@@ -283,3 +318,22 @@ Security groups are always created inside a VPC. So you cannot associate a secur
             Security group can also reference itself e.g. atatch security group to multiple EC2 instances and allow traffic 
             between them i.e. cvool feature that you can create grouping of EC2 instances which can talk to each other on a 
             specific port.
+            
+ # LAB: AUTOMATIC RESOURCE REMEDIATION WITH AWS CONFIG
+ 
+ Boto3 = AWS SDK for Python.
+ 
+ ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsconfiglab.png)
+ 
+ In this lab, we will create an AWS Config rule that will inspect security groups for unrestricted SSH access. We will also create a lambda rule to remediate the resource. In the figure shown, we want to make sure that only on-premise IPs can SSH into the EC2 instance which is on the public subnet, but we don't want anyone from a public IP SSH into the EC2 instance.
+ 
+ As the figure shows, the security group allows SSH from public i.e. o.o.o.o/0 and our job is to create an AWS config rule that detects this, and a lambda rule that changes this non-compliance by modifying the security group to only allow traffic from the on-premise IPs i.e. 10.10.0.0/16.
+ 
+Step 1 - In AWS Config, we want all resources to be recorded in this region.
+Step 2 - We want all resource configurations to be stored in an S3 bucket.
+Step 3 - Select an appropriate role, create one with read-only access for AWS config for your resources and this will also need to include permission to send notifications to S3 and SNS.
+Step 4 - Next go to the rule, AWS has a list of pre-configured rules, wo we will select SSHRestrictedAccess.
+Step 5 - When you do next and confirm the rule, AWS will search all of your resources for violation of this rule and discover the group with the violating rule. You can double check the group to be sure.
+Step 6 - First we creaate an SNS topic that will send us notifications of violations.
+Step 7 - Now we will create a lambda function, so head over to lambda and create a lambda function. We will create a function form scratch, name it remediateSG, choose Python 3.6 and choose an existing role if you've already defined it. You need to use the code from the github repository lambdafunction.py
+Step 8 - 
