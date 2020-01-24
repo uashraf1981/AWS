@@ -336,4 +336,38 @@ Step 4 - Next go to the rule, AWS has a list of pre-configured rules, wo we will
 Step 5 - When you do next and confirm the rule, AWS will search all of your resources for violation of this rule and discover the group with the violating rule. You can double check the group to be sure.
 Step 6 - First we creaate an SNS topic that will send us notifications of violations.
 Step 7 - Now we will create a lambda function, so head over to lambda and create a lambda function. We will create a function form scratch, name it remediateSG, choose Python 3.6 and choose an existing role if you've already defined it. You need to use the code from the github repository lambdafunction.py
-Step 8 - 
+Step 8 - Next we create the CloudWatch Event Rule which triggers the lambda function and SNS topic though I am not sure how that is connected to the AWS Config.
+
+** Got it! basically you specify in the lambda rule the AWS Config rule that should be used to detect policy violation.
+
+Step 9 - You will keep getting SNS notifications until the lambda corrects the violating rule automatically which it should immediately after detecting for the first time.
+
+Next Lab in which we create an AWS Config rule that will detect problems in S3 bucket, we create a violating one.
+next we will create the lamda which will remediate the public read access from the S3 bucket ACL.
+Finally, we will create a scheudled rule in the CloudWatch to invoke that lambda rule.
+Go to AWS Config, and create a rule and select S3 bucket public read access rule so that we can detect any public buckets.
+Now create the lambda function and in the code of that, specify that use this particular AWS config rule.
+
+# LAB: AUTOMATIC REMEDIATION OF AWS INSPECTOR FINDINGS IN AWS
+
+ ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsinspectorlab.png)
+ 
+ In this lab, we use the System Manager to remotely execute run commands on the EC2 instance which we would otherwise require SSHing into the instance.
+ 
+ The inspector agent is running on the EC2 instance, which will scan for vulnerabilities. The inspector has a predefined set of rules which it uses to inspect your environment for vulnerabilities. 
+ 
+ Interesting flow of events totally different from AWS Config or CloudWatch
+ 
+            AWs Inspector -> SNS Topic -> Lambda Function -> Systems Manager -> Action to fix vulnerability e.g. yum update
+            
+ AWS labs has shared the code for this lambda function.
+ 
+ The Lambda function contains the following:
+ 
+ 1. Findings for CVE vulnerability for AWS inspector
+ 2. Grab EC2 instance ID where issue was find
+ 3. Get meta data from SSM
+ 4. Upgrde the system 
+ 5. SSM runs command to upgrage the instance
+ 
+ Most new EC2 instances has SSM agent installed by default.
