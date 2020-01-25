@@ -414,3 +414,11 @@ For lambda you need to create a role which uses the policy AWSLambdaBasicExecuti
             active that is logging data level 
             
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchnew.png)
+
+# CloudTrail
+
+Any action that you take in an AWS Account, through console, CLI or SDK is logged by CloudTrail i.e. any kind of API call. These events are stored in something called Event History and these are stored by default for 90 days. It is pretty much static list of events that you can filter, search and download in CSV and JSON format, but that's it, you cannot interact with any of the AWS services.
+
+            CloudTrail provides two advantages:
+            
+            1) IT allows you to 
