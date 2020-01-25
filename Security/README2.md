@@ -421,4 +421,103 @@ Any action that you take in an AWS Account, through console, CLI or SDK is logge
 
             CloudTrail provides two advantages:
             
-            1) IT allows you to 
+            1) IT allows you to select the way CloudTrail records API calls e.g. read-only write-only
+            2) Allows you to specify the destination for those logs e.g. a destination S3 buckets
+            
+            You can specify region based event logging or global events e.g. IAM events. 
+            
+            ** Exam: If you have selected to apply to all regions and a new region launches then it will apply to that also.
+            
+            * By default, CloudTrail only logs management style events i.e. events on the control plane e.g. new user 
+            created. BUT you could also log data events and this is particularly important if you want things like e.g. 
+            object events in S3 buckets. If data events are not enabled here then you could configuring whatever events
+            you want in CloudWatch but they would not be triggered.
+            
+            * Remember to enable data API calls for both S3 and lambda it's just a good idea.
+            
+            * Encryption: By default, all CloudTrail API logs are delivered into the S3 bucket encrypted using S3 server-
+            side encryption, although you could probably change it.
+            
+            * you could also configure an SNS topic to deliver notification emails against events. This warrants the 
+            question that why do we need CloudWatch triggers, well the answer is that event delivery to bucket in CloudTrail
+            is not real-time, so any triggers would not be real-time.
+            
+            ** EXAM: All CloudTrail events are actually recorded as JSON structures.
+            
+            The name of the folder is always AWSLogs -> CloudTrail, and there is a second folder CloudTrail-Digest which 
+            ensures the integrity of the files. The folder contains sub-folders according to different regions.
+            
+            CloudTrail Log in S3 = JSON file with multiple CloudTrail Events = JSON structures within that JSON file.
+            
+            ** EXAM: CloudTrail log files sanctity is gone if you even move or rename or do anything with them.
+            
+                        CloudTrail offers two types of integrity checks:
+                        
+                        1. It delivers a SHA-256 hash for every file it delivers, making it impossible to modify
+                        2. Dlivers a file every hour which references logs that have been delivered in the same hour i.e.
+                        CloudTrail log deletions are automatically detected by CloudTrail
+            
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudtrail.png)
+
+The validation of logs is always done using the command line:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/validatelogs.png)
+            
+# CloudWatch Logs
+
+Central hub for all types of logs in the AWS ecosystem.
+
+1. We will connect CloudTrail to CloudWatch logs, so we will use an existing trail or create one then in the options, apart from delivery to S3, we can also configure to setup with CloudWatch logs, you just need to specify the name of the log group within which CloudTrail will be delivering the events.
+
+2. We will need permissions for CloudTrail to able to ingest logs into CloudWatch logs, you can do this from within this section and a default role is created which allow CloudTrail to create log stream and ingest data into CloudWatch logs.
+
+3. Now head over to CloudWatch logs and in the log groups, you will see the log stream that is coming from CloudTrail. You will see events within this screen. You can filter these CloudTrail events. These events can be unstructured, but generally, they are again JSON structures.
+
+            Log Streams: Collection of events from a same or similar servers
+            
+            Log Groups: Collection of log streams
+            
+            Log Group contains -> multiple log streams, which in turn contain --> multiple events
+            
+            ** Metric Filters: Metric filters in CloudWatch logs, allow searches to be done on log groups. It is very 
+            flexible and allows for searching for anything particular e.g. failed logins etc.
+            
+            ** EXAM: You can configure expiry for log groups, but you cannot set expiry for individual streams within group.
+            
+            Subscription: Is a system that allows you to stream logs from CloudWatch Logs to Kinesis or Lambda.
+            
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatch2.png)
+
+            ** REMEMBER, this chain of API call -> CloudTrail -> CloudWatch Logs -> Notifications is not real-time, if you
+            want that, then use CloudWatch Events.
+            
+# CloudWatch Logs: VPC Flow Logs
+
+            ** EXAM: VPC Flow Logs only capture meta-data about network traffic e.g packet src/dest ips ports etc, not the 
+            payloads.
+            
+* VPC flow logs are automatically ingested into CloudWatch flow logs.
+
+CAPTURE POINTS: The important concept here is that you can define capture points which are basically points on which you define to capture VPC traffic meta-data. So, if you define a capture point on the level of the VPC, then you can capture all the traffic coming to or from VPC in all the subnets for all the machines. Interestingly, any traffic between subnets will also be captured by this capture point.
+
+VPC Level Capture point: Capture all the traffic at VOC level i.e. to/from all subnets and all machines.
+Subnet Level Capture Points: Capture traffic going to/from subnet and within subnet
+EC2 Level Capture Point: Onlyh traffic to/from that machine.
+
+Step 1 - Go to VPC dashboard
+Step 2 - Create a flow log, within that, you need to select a filter (all, accepted or rejected traffic)
+Step 3 - Within that screen, select an appropriate role to give permissions
+Step 4 - Go to CloudWatch and create a log group
+Step 5 - Select that created log group as the destination log group here in VPC Flow logs.
+
+            * Exam: Remember, VPC Flow Logs are not real-time. If you need real-time traffic, you need to use packet traffic 
+            analysis tools on the instances.
+            Exam: Traffic to/from Amazon DNS servers is not logged as a policy matter.
+            Exam: Windows activation traffic is also no logged as a policy matter.
+            Exam: Traffic to/from meta-data ip address 169.254.254.254 is not logged as a policy matter.
+            Exam: Traffic to/from DHCP is not logged as a policy.
+            Exam: Traffic to/from VPC router is no logged as a policy.
+            Exam: Traffic from the DNS service i.e. Route53 is not logged.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/capturepoints.png)
+
