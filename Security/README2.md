@@ -371,3 +371,46 @@ Now create the lambda function and in the code of that, specify that use this pa
  5. SSM runs command to upgrage the instance
  
  Most new EC2 instances has SSM agent installed by default.
+
+# Troubleshooting CloudWatch Events
+
+CloudWatch events is a workflow type of service where on one side you have the sources and on the other side, the targets.
+
+CloudWatch Event Rules:
+
+1. Scheduled rules:
+      1.1. Scheduled rules
+            1.1.1 Time interval based schdeuled rules e.g. every 5 minutes (usually straightforward)
+            1.1.2 Cron expression based scheduled rules, lots of mistakes possible here so make use of docs and examples
+      1.2 Event Pattern rules
+            They are all about JSON. You can configure any service e.g. EC2 then select StateChangeNotification. You can 
+            even specify a specific state e.g. when it starts and you get the JSON expression. Most people makle mistakes in 
+            the JSON code. Better to click the graphs against this rule to see what is being captured.
+            
+            ** An important thing is that if you configure IAM calls in CloudWatch events, then they always come from us-
+            east-1 regardless of what you have configured, so if those calls are not coming us-east-1, they will not be
+            picked.
+            
+There are two main types of permissions in AWS:
+
+1. You need to be given correct permission as a user to be able to access CloudWatch events (e.g. create rules, adjust them)
+2. CloudWatch events need to be given permission to invoke the targets e.g. lambda or SNS. For each of these targets, these targets have attached policies which need to specify which resources are allowed to access it e.g. the SNS topic that we select, if we go to its policy, then we can see that every SNS topic has a policy attached to it which swpecifies which services e.g. CloudWatch are allowed to call upon it.
+
+For lambda you need to create a role which uses the policy AWSLambdaBasicExecutionRole.
+
+            ** Interestingly, lambda function role is automatically attached i.e. allows CloudWatch events to run lambda. If 
+            you have edited this policy, then that maybe this is causing problems.
+            
+            ** similarly, putting encrypted messages into SQS will involve KMS which will again need permissions.
+            
+            ******* CLOUDWWATACH events will delivery you at least one copy of the event, but it can also send duplicates
+            somtimes i.e. at least once delivery model which ensures message is delivered, but not exactly once so keep that 
+            in mind in the real-world.
+            
+            EXAM QUESTION: For certain type of events e.g. S3 object events in CloudWatch events, there needs to a 
+            CloudTrail that is actively logging data events since CloudTrail has two options, either log management level 
+            events or data level events. This question comes in exams sometimes. So if you are using any data level events 
+            in CloudWatch events then data events MUST be enabled in CloudTrail otherwise the events will not be triggered.
+            active that is logging data level 
+            
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchnew.png)
