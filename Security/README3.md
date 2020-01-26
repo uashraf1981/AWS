@@ -119,5 +119,34 @@ Its a group that applies to a group of EC2 resources by allowing or blocking tra
             * Exam: You can reference another security group as the source or destination of traffic which essentially means
             that any network interfaces that have this other security group attached are allowed inbound/outbound traffic.
             
+            * A powerful feature is "SELF-REFERENCE" i.e. in the edit rules, you can reference the security group itself
+            which would allow us to create a security group between multiple network interfaces and define traffic within
+            that group of network interfaces. It allows you for grouping of EC2 instances which can talk to each other.
+            
+            * Exam: Security groups can reference each other in other VPC as long as they are within the same region. They
+            CANNOT reference other security groups in other regions.
+            
+            * Important: Security groups filter traffic just before it hits network interfaces, but theoretically the 
+            traffic is already inside the AWS and VPC.
+            
+            Inbound traffic: Internet -> IGW -> NACLs -> Security Groups -> Network Interfaces -> EC2
+            
+            Outbound traffic: EC2 -> NACLs -> Security Groups -> IGW -> Internet
+            
+# Network ACLs
 
+Network Access Control Lists are slightly different from security groups.
 
+NACLs are always associated with subnets and are always processed at subnet boundaries.
+
+            *Exam: One NACL can be associated with multiple subnets, but one subnet is only associated with single NACL.
+            *Exam: NACLs are stateless.
+            *Exam: Rules are processed in priority order.
+            *Exam: NACLs are always processed before security groups when leaving or entering subnets.
+            *Exam: Any traffic within the subnet is not affected by NACLs since traffic is not exiting or entering subnets
+            *Exam: We CANNOT attach NACLs directly to logical names of resources, but can attach them to subnets, or you can 
+            attach them to resources using their IP addresses or CIDR ranges
+
+NACLs are stateless, so for example in the diagram below i.e. communication between two instances in different subnets, then NACLs will be triggered 4 times actually:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/nacl.png)
