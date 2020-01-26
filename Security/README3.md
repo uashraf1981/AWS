@@ -41,3 +41,4 @@ In this example, we will use WAF to block traffic from a particular IP address (
       Step 3 - create a new ACL abd add rules to it.
  
  
+ 
