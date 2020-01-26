@@ -39,3 +39,5 @@ In this example, we will use WAF to block traffic from a particular IP address (
       Step 1 - create some conditions e.g ip is coming from australia
       Step 2 - create rule and add this condition plus other conditions if you want
       Step 3 - create a new ACL abd add rules to it.
+ 
+ 
