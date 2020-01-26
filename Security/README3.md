@@ -39,6 +39,85 @@ In this example, we will use WAF to block traffic from a particular IP address (
       Step 1 - create some conditions e.g ip is coming from australia
       Step 2 - create rule and add this condition plus other conditions if you want
       Step 3 - create a new ACL abd add rules to it.
+      Step 4 - Very important, you can set the rule to allow, block or simply count.
+      
+      ** EXAM: We have the options of allow, block or count and count is amazing as it allows us to test a rule 
+      in live environment without actually blocking anything to better study the potential impact.
+      
+      Conditions applied to -> Rules  applied to -> ACL applied to -> cloudFront Distribution.
+      
+      ** EXAM TIP: WAF CANNOT block Denial of Service or Distributed Denial of Service attacks since WAF is looking at 
+      suspicious stuff inside the traffic not the traffic as a whole i.e. DDoS. For that, we need to use AWS Shield.
+      
+      
+AWS Shield comes in two flovors:
+
+1. AWS Shield Basic, free included with WAF, provides basic DDoS protection.
+2. AWS Shield Advanced, paid, provides more comprehensive protection, 24/7 response team, protects additional resources such as ELB, protects against more attacks e.g. SYN flooding, HTTP flooding, monetary protection, $3000/month/oerganization.
  
- 
- 
+
+# VPC Design and Security
+
+Probably, one of the most important parts of AWS. Basic unit of construction.
+
+            * VPCs can be connected to private on-premise networks using VPNs and direct connect.
+            
+    Customer (public Internet) -> public zone (S3, dynamoDB, IGW, Lambda) -> VPC -(VPNs, Direct C.)--> On-premise networks 
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/vpc.png)
+
+Step - 1: Create a VPC (CIDR: 10.0.1.0/24) with no inbound/outbound stuff, nothing, just empty private region inside AWS.
+Step - 2: To give public access to this VPC, we need to create and attach an IGW to the VPC router.
+Step - 3: What this does is attach it to the VPC router which is a logical entity that you do not get exposure to, but you can control this virtual object using route tables.
+
+Private subnets: No security exposure because it is entirely private and not accessible fronm the Internet.
+
+Step - 4: Create subnets, called db1: 10.0.1.0/28 and this allows for 16 hosts in this one based on the VPC CIDR 10.0.1.0/24
+Step - 5: Create another db subnet db2: 10.0.1.16/28 to make sure it has non-overlapping ip range with the first db subnet
+Step - 6: Create an app subnet: 10.0.1.32/28 
+Step - 7: Create an app subnet: 10.0.1.48/28
+
+Step 8 - Now create web subnets: 10.0.1.64/28
+Step 9 - Now create 2nd subne:   10.0.1.80/28
+
+            2 web subnets: public
+            2 app subnets: private
+            2 db subnets:  private
+            
+            ** Exam: Technically, being a public subnet just means that you have a subnet which has a route attached to it 
+            as 0.0.0.0/0 Route and the destination of that route is the IGW. To achieve that,  you need to create a public 
+            route table for this VPC, associate this route table with the two public web subnets and create a route 
+            0.0.0.0/0 and the last step required is to attach a public or elastic IP to your resources.
+            
+Step 10 - Create a new rotue table and associate it with the public subnets (web subnets)
+Step 11 - Add a default route 0.0.0.0/0 to this route table
+Step 12 - Last step to provide public access to web subnets is to attach a public or elastic IP to the EC2s in web subnets.
+
+            ** Architecture point: According to this guy, by correctly using AWS Security Groups and ACLs, you can still
+            have a secure network even without a multi-tiered architecture. BUT, if you need different routing decisions for 
+            different subnets, then you DO need the different tiers. But overall, its still a good idea to create multiple
+            tiers.
+            
+# Security Groups
+
+Its a group that applies to a group of EC2 resources by allowing or blocking traffic.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/securitygroups.png)
+         
+            * Security groups are created inside a VPC, so a security group inside a VPC cannot be assigned resources to 
+            another resource in another VPC. However, a security group in one VPC CAN refer to another security group in 
+            another VPC.
+            
+            Exam: Security groups are not associated with EC2 instances, basically they are attached or associated with 
+            network interfaces on that EC2 instance. So a fun thing could be that you could be super-granular and allow 
+            traffic to one particular interface and not allow traffic to another interface. Interestingly, the same is the 
+            case with RDS instances, they put netwotk interfaces in the VPC, and it is to those NICs that security groups
+            attach to.
+            
+            ** Exam: Security groups are stateful.
+            
+            * Exam: You can reference another security group as the source or destination of traffic which essentially means
+            that any network interfaces that have this other security group attached are allowed inbound/outbound traffic.
+            
+
+
