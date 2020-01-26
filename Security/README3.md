@@ -146,6 +146,7 @@ NACLs are always associated with subnets and are always processed at subnet boun
             *Exam: Any traffic within the subnet is not affected by NACLs since traffic is not exiting or entering subnets
             *Exam: We CANNOT attach NACLs directly to logical names of resources, but can attach them to subnets, or you can 
             attach them to resources using their IP addresses or CIDR ranges
+            *Exam: By default NACLs default allow, delegating to Security groups or unless you define rules
 
 NACLs are stateless, so for example in the diagram below i.e. communication between two instances in different subnets, then NACLs will be triggered 4 times actually:
 
