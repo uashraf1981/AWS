@@ -127,7 +127,7 @@ Step 6 - Install the git-secrets using the following command:
             
 Step 7 - Go to the repository that we want to scan.
 
-Step 8 - Install git hooks which are basically a number of rules that can be applied to a git repository. In our case, we want to apply a series of AWS best practice rules. These are AWS patterns and will scan for AWS Access Key IDs, Secret Access Keys, Account IDs, or other patterns defined by AWS. These will catch most credentials leaks but no guarantee we should go due diligence.
+Step 8 - Install git hooks (e.g. aws) which are basically a number of rules that can be applied to a git repository. In our case, we want to apply a series of AWS best practice rules. These are AWS patterns and will scan for AWS Access Key IDs, Secret Access Keys, Account IDs, or other patterns defined by AWS. These will catch most credentials leaks but no guarantee we should go due diligence.
 
             sudo git-secrets --register-aws
             
