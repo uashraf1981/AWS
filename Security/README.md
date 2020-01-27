@@ -91,6 +91,10 @@ AWS Abuse Notice:
 
 Git Secrets
 -----------
+Simple video showing it all: 
+
+https://www.youtube.com/watch?v=4fZKJ90GVHg
+
 Since bots are always scanning public git repositories for stuff like EC2 credentials or access keys, therefore Github has released a tool called Git-Secret which if you install with the git uploading tool, will not allow you to accidentally publish passwords and secret keys for EC2 instances. There are also tools available which you can use to scan your own public repositories to show your leaked public access keys.
                   
 It is pretty common for instances to get compromised through leaked passwords or keys. Often this is due to committing keys to a public repository like github. There are bots that are always scanning public github repositories.
@@ -131,11 +135,19 @@ Step 8 - Install git hooks (e.g. aws) which are basically a number of rules that
 
             sudo git-secrets --register-aws
             
+            Note, the above command will only install this git-hook (aws) in this repository, but you can also do:
+            
+            sudo git-secrets --register-aws --global
+            
+            and this will make this git hook global in nature, i.e. it will apply to all repos.
+            
 Step 9 - Now scan the repository using the following command:
 
             git-secrets --scan
             
  ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/vulncode.png)    
+ 
+ Note that from now on, before every commit also, git-hooks will scan the code checking for aws secrets.
  
  Step 10 - Git-secrets also proposes some mitigation strategies, but this information is passed onto the developer team.
  
