@@ -57,3 +57,9 @@ Customer Manager Customer Master Keys: Customer can specify its own policies in 
       
       * Exam: Re-encrypt operation is when we ask KMS to decrypt some data, encrypt with a new key and send us that key
       this allows for re-encrypting data without actually seeing the decrypted data.
+      
+      * Grant: Allows temporary acces to a key.
+      
+      * Exam: You cannot delete key instantly, you will delete the key between 7-30 days.
+      
+      * KMS does work with VPC end-points.
