@@ -134,6 +134,9 @@ Tracks configuration of all AWS resources. It helps with compliance standards an
 
 Also helps in unauthorized changes.
 
+            ** Remember: You need to first create a role for SSM to run commands on EC2 instance and turn recording is on in 
+            iunventory.
+
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/awsconfig.png)
 
             AWS Config has two essential components:
