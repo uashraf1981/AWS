@@ -527,8 +527,82 @@ Step 5 - Select that created log group as the destination log group here in VPC 
 # CloudWatch Agent for EC2
 
 The CloudWatch Agent can run on EC2 instances and even on the on-prem servers.
-* They can store application and system logs from Windows and Linux instances
+* They feed metrics that are normally never available to CloudWatch such as system level metrics such as CPU and memory usage and application logs. Now these become available to the CloudWatch.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchagent.png)
 
+Step - 1: First thing you need to do is to create an IAM role, select that EC2 instance will assume this role, then attach two policies 1st: CloudWatchAgentServerPolicy (to interact with CloudWatch) and 2nd: AMazonEC2RoleForSSM (to interact with SystemManager which we will use to automatically install agent on EC2 instances). 
 
+Step - 2: Go to the EC2 instance and attach the IAM role.
+
+Step - 3: Now we will install the CloudWatch agent manually on EC2. Download using wget then use config-wizard which will ask which OS and which metrics to be collected etc. Any OS config files that you want yes we want two log files:
+
+   1. var/log/messages then select log group name.
+   2. var/log/secure
+
+Step - 4: You need to attach an additional policy SSMFullAccess to EC2 for Step - 3.
+
+Step - 5: Now if you go to CloudWatch, you will start seeing two new log groups "mesages" and "secure". Inside these message groups, we will see the logstream.
+
+The process so far was manual, now we do it automatically, we will use parameter store.
+
+Step - 6: Download using wget, then unzip like before, install with sudo permissions,
+
+Step - 7: We will issue a command which is the config that we stored in the paremeter store previously.
+
+The third way is that instead of running anything from the instances, we will go to instance manager.
+
+We will go to System Manager and run:
+
+            Document name prefix: Equal : AWS-ConfigAWSPackage
+            
+then select target: EC2 instance
+Interestingly, it also allows you to selec the target -> CloudWatch Log group
+
+You can use system manager to deploy on hundreds of instances.
+
+We are not done, we also need to run AWS-CloudWatchManage-Agent command on System Manager, target agai EC2 then again target to CloudWatch. This is going to retrieve from the parameter store.
+
+            Parameter Store is where to store configurations securely in AWS.
+            
+# CloudWatch DNS Logs
+DNS is a very important service.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/DNS.png)
+
+We can have Route53 as the registrar for this domain.
+            
+            * In order to log wuery logging for the domain, you only need AWS to be the name resolver, but it does not 
+            have to be hosted by AWS.
+           
+We now create a sub-domain and 
+
+Set Query Logging:
+
+You need to select the hosted domain name -> Configure Query Logging -> Specify the CloudWatch log group. Select where the query logs will go e.g. new log group. Create Log group. 
+
+We also need permissions, so we will create a new resource policy, so we do this within this same window.
+
+            * Remember, since DNS is a global service so it will take some time to propagate the query logging to all the 
+            global edge locations.
+            * In the log groups -> log streams of the CloudWatch will show separate edge location based streams containing
+            the pings etc. done and the name will be based on the nearest airport where that edge location is located e.g.
+            AMS will be for Amsterdam.
+            * It is not real-time. just a basic logging service and gives just a general state.
+            * Exam: These logs are NOT available for provaye domains i.e. the resolver MUST be Route53, if you are using
+            a third party as resolver then it will not work.... hosting the domain does not matter.
+
+# S3 Access Logs
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/s3logs.png)
+
+Basic idea is that the logs hosted by CloudWatch i.e. CloudWatch logs can also be stored in S3. We want to offload this load onto S3 which offers both short term and long-term storage. It is a much more durable place for storing the logs and by sending it to another account (restricted to a small number of selected users), we can move it away from the blast radius of our account. The logic is that if the account gets compromised then the CloudWatch logs can also get compromised,
+
+            CloudWatch -> Logs -> LogGroups -> VPC Flow Logs -> Export to S3 then select the bucket in this or other acct.
+
+Now S3 comes with its own logging since it offers a variety of services such as hosting a static websites, or storing contents in buckets, so it makes sense that it has its own logs.
+
+            S3 logs track:
+             - Object accesses (requester, bucket name, time, request action, response status)
+             
+             S3 -> bucket -> Create additional bucket (to store logs) ->
