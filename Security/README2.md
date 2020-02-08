@@ -524,3 +524,11 @@ Step 5 - Select that created log group as the destination log group here in VPC 
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/capturepoints.png)
 
+# CloudWatch Agent for EC2
+
+The CloudWatch Agent can run on EC2 instances and even on the on-prem servers.
+* They can store application and system logs from Windows and Linux instances
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudwatchagent.png)
+
+
