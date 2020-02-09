@@ -462,6 +462,7 @@ Any action that you take in an AWS Account, through console, CLI or SDK is logge
             
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudtrail.png)
 
+
 The validation of logs is always done using the command line:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/validatelogs.png)
