@@ -606,4 +606,14 @@ Now S3 comes with its own logging since it offers a variety of services such as 
             S3 logs track:
              - Object accesses (requester, bucket name, time, request action, response status)
              
-             S3 -> bucket -> Create additional bucket (to store logs) ->
+             S3 -> bucket -> Create additional bucket (to store logs) -> Enable Server Access Logging -> Go to the target
+             bucket -> Permissions -> Enable log delivery to this bucket
+             
+             Exam tip: You have to make sure that log delivery group has write permissions to the destination bucket
+             Exam tip: S3 access logs delivered to this bucket are not real-time, delivery is "best-effort" up to an hour
+             Exam tip: If you had an apache web server running on EC2 intance, then we could have easily installed the Cloud
+             Watch log agent on it and stream the logs to a CloudWatch log group which would give us near real-time delivery
+             
+# Multi-Account Logging: Troubleshooting
+
+
