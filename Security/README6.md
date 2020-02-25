@@ -29,3 +29,23 @@ Step 6 - Go to the bucket permissions, we need to modify the second block of cod
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/bucketrpermissionpolicy.png)
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/policyupdated.png)
+
+Step 7 - Go the production account and create a new trail (sectrailprod), apply for all regions, for all events, all S3 and lambda data events. We won't be creating a new S3 bucket. Important, now HERE you mention the multiaccount bucket as dest.
+
+Step 8 - Repeat the process for the staging account.
+
+Now if you go to the multiaccount bucket, you will see folders for each account.
+
+* If you see the logs delivered by these accounts to the master account, you will see that they are only utilizing AES-256 encryption i.e. server side encryption because we did not specify KMS encryption to be used. Part of the reason that even though have a KMS key in the master account, but these sub-account do not have access to the KMS key.
+
+Mofidying Persmission on the KMS key
+
+Step 9 - Go to IAM -> Encryption Keys -> Select the KMS key that we configured. Grab the ARN of this key.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/updatedkeypolicy.png)
+
+Step 10 - Now we are going to update the key policy as shown above and add the two other accounts in permissions.
+
+Step 11 - Now we login to each of the other accounts and update the CloudTrail to tell it to utilize KMS and the specific key that was condfigured in the master account by specifying the ARN of the master KMS key as shown below.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/updating.png)
