@@ -49,3 +49,13 @@ Step 10 - Now we are going to update the key policy as shown above and add the t
 Step 11 - Now we login to each of the other accounts and update the CloudTrail to tell it to utilize KMS and the specific key that was condfigured in the master account by specifying the ARN of the master KMS key as shown below.
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/updating.png)
+
+* What the last steps mean is that the other accounts are securely delivering logs to the mmultiaccount bucket using KMS encryption and you can check this by going to the multi-account bucket and checking the server-side encryption of the patticular logs delivered by those account trails. It means that only those people who have access to the KMS key in the master account have the ability to decrypt these logs so basically
+
+  Set of people who can encrypt the log files != Set of people who can decrypt those log files
+  
+* Addtionally, you can also disable deletes and only allow writes to ensure integrity of data.
+
+** This strategy of logging into an audit account which accumulates logs from a fleet of AWS accounts across the organization and is useful for stringent auditing purposes.
+
+** Exam: Using KMS encryption is great to ensure separation of permission to allow only a certain set of people to encrypt and only a small set of people to decrypt.
