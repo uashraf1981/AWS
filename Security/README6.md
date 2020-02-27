@@ -59,3 +59,78 @@ Step 11 - Now we login to each of the other accounts and update the CloudTrail t
 ** This strategy of logging into an audit account which accumulates logs from a fleet of AWS accounts across the organization and is useful for stringent auditing purposes.
 
 ** Exam: Using KMS encryption is great to ensure separation of permission to allow only a certain set of people to encrypt and only a small set of people to decrypt.
+
+# Troubleshooting Logging
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshooting.png)
+
+* CloudTrail logging is enabled by default and there will always be some logs available for you to see in the recent events of CloudTrail. However, you cannot customize these logs and moreover, they are only available for 90 days.
+
+* Keep in mind that for CloudTrail, any kind of serious trouble will likely be because you don't have a trail configured or configured incorrectly. It would never be from the Event History tabs, but always in the Trail tab of CloudTrail.
+
+* Limit = 5 trails per region. If you have one trail for all regions, then that will count towards that 5 limit.
+
+* Global Service Events: Are evens that have a global end-point and two of them are IAM And STS (Secure Token Service). These events are only delivered to the trail if the trail is configured to accept them.
+
+* Exam question: When you create a trail from the GUI (not from the command line), then they WILL INCLUDE global service events and if you have multiple trails created from the GUI, then you may get duplicate events as all will include their respective copies of global service events.
+SOLUTION: Have a single trail which caters to these global service events and do not include global service events in your other tails and for this you will need to use the CLI as it is a little difficult to do from the GUI.
+
+* EXAM TIP: If you are not receiving S3 or lambda events in your trail, then remember this is an easy fix. You just need to enable them in the trail settings since by default trails only include management events and not data events (object level activities in S3 or lambda)
+
+* A lot of the times, the reason why logs are not being delivered is because the bucket policy is not properly configured.
+
+* Every trail in CloudTrail is set to be delivered to a particular Log Group in CloudWatch. A cool trick to detect of any loggin problem is by within this screen, check the last log delivered time and if is greater than an hour, then there is a problem which you need to investigate.
+
+* First place to check is the IAM role that CloudTrail is assuming to push logs to CloudWatch, so you need to make sure that the IAM role and attached policy is correct. Generally, you need the policy to create logstream and put events.
+
+* Last step is to go to CloudWatch and check that the logs are being properly delivered,
+
+FLOW LOGS
+---------
+* Flow logs are also delivered to CloudWatch.
+* You can go to VPC -> Flow Logs to see the VPC level flow logs that are configured to be delivered to CloudWatch and also lists the IAM role used (also includes the ARN of that role).
+
+      * Remember the concept of "Capture Points" for VPC flow logs i.e. you can set for flow logs to be captured at the   
+      following levels:
+      
+      1. Capture point for flow logs at VPC level or
+      2. Capture point for flow logs at subnet level or
+      3. Capture point for flow logs at network interface level
+      
+      * Remember, these level get inherited e.g. if you apply at VPC level (#1), then they ALSO get applied to #2 and #3
+      * Exam TIP: A lot of the times you will get a question that these flow logs are applied at the wrong level e.g. at the 
+      network interface level or the subnet level when you really want to log traffic between different subnets.
+      
+      * EXAM TIP: You may not be using the correct filter e.g. you can apply flow log to capture:
+      
+      1. ALL traffic
+      2. Accept traffic or
+      3. Reject traffic
+      
+      although no plausible reason why we wouldn't just simply use the all traffic option.
+
+* PING from outside -> Security Group (stateful) -> NACL -> EC2
+            EC2     -> NACL -> Security Group (stateful) -> outside
+            
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/permissions.png)
+
+In the above example, the second ping is not being allowed outbound because of a NACL which is denying since it is stateless, the security group is not blocking it.
+
+Route 53 DNS Logs
+-----------------
+* Just like others, it has its own role and policies attached and if you open the log group for Route 53 DNS Logs, you will see logstreams for each individual edge location (named after the closest international airport).
+
+* Remember, you can point the nameservers to an external provider, but in that case, you will NOT be able to use Route 53 query logging, so they need to be Route 53 name servers in order to be logged. 
+
+* EXAM tip: Query logging only works with "public hosted zones" they don't work with private hosted zones i.e. within VPC.
+
+EC2 Logs
+--------
+* CloudWatch agent must be installed onto EC2
+* Appropriate permissions must be provided
+* Configuration is also sometimes a problem. USe System manager and a parameter store to automatically push the configs to the agent. You can use the run command to perform actions on scale.
+
+S3 Access Logs
+--------------
+* S3 access logs are a bit of an outlier in the sense that they don't integrate with CloudWatch logs. You do configuration on a per bucket basis and get the logs delivered to a bucket. Remember that you need to assign permission to the LogDelivery/Group from within the bucket interface. Any changes may take up to an hour, it is NOT real-time. 
+* Exam tip: Log delivery related questions but the main idea is that log delivery in S3 is NOT real-time.
+
