@@ -134,3 +134,30 @@ S3 Access Logs
 * S3 access logs are a bit of an outlier in the sense that they don't integrate with CloudWatch logs. You do configuration on a per bucket basis and get the logs delivered to a bucket. Remember that you need to assign permission to the LogDelivery/Group from within the bucket interface. Any changes may take up to an hour, it is NOT real-time. 
 * Exam tip: Log delivery related questions but the main idea is that log delivery in S3 is NOT real-time.
 
+# Multi-Account: Troubleshoot Logging
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootmultiaccount.png)
+
+One of the challenges for multi-account logging and logging in general is that there are no error messages just lack of logs. For example, if cloudtrail from multiple accounts is pushing logs into a bucket in an audit account and if it doesn't have appropriate permissions, you will not get an error message, but there simply won't be any logs when you open the bucket.
+
+* The way permissions work is that you add permissions to the bucket to allow CloudTrails from other accounts to be able to write into specific folders within the bucket and you do that by modifying the policy. The folder name added is usually the account id.
+
+        Step - 1: Check resource permissions i.e. bucket policy that CloudTrails have appropriate permissions.
+        Step - 2: Check the KMS key that you defined to be used by all the reporting accounts, so go to the key in the 
+        master account, check the key policy to check what operations are allowed and by whom.
+        
+The way that you setup CloudWatch in an account to push data to S3 in another account is by going to CloudWatch in the sub-account, go to the logs group, and then right click to export the data to S3 into a separate account, but you DO sitll need the ability to write to the destination bucket.
+
+* Never assume that the destination bucket name being given to you is accurate, always double check since bucket permissions get changed sometimes, sometimes when people make that bucket again, they may make a typo or there may be a malicious activity which changed the bucket name etc.
+
+      * Exam: The only way to get real-time logging in multi-account setting is by streaming the log group to lambda which 
+      can then push the log data in real-time into the appropriate bucket. Kinesis can also get the same job done !
+      
+      * EXAM tip: Provide least privilege access e.g. CloudTrail writing to a bucket in a master account should only have 
+      write access, not read access and similarly, only a select group of people need to have read access to that bucket 
+      in the master account and should not have write access i.e. try to minimize privilege.
+      
+      * You should always use log file protection.
+      
+* Worth exploring: What is the difference between exporting from CloudTrail to master account vs. CloudWatch to master acct.
+
