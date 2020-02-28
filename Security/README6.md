@@ -9,7 +9,7 @@ From a blast radius perspective, each account has separate users, groups and rol
 Solution: Use centralized logging by configuring your cloud trails aggregated in a central bucket for easier and better visibility. We will also ensure that these logs are encrypted using KMS.
 
 Demo Steps:
-
+ 
 Step 1 - Go to CloudTrail and create SecurityTrailMaster trail in the master account. Select apply trail to all regions. Enable data events for S3 and Lambda functions in this account.
 
 Step 2 - From within the CloudTrail screen, create a bucket called secprod-multiaccount-logs.
