@@ -41,3 +41,17 @@ This is very useful cpability to intercept requests in CloudFront and perform co
 
 * Exam tip: The domain name must match the certificate name if you are using SSL certificates.
 * Exam trip: You definitely need certifictes trusted by 3rd parties, you cannot use self-signed certificates on your origin.
+* Exam tip: creating custom SSL certificate for comms between user and cloudfront (edge location) is allowed. you can use ACM (amazon certificate manager) to generate certs.
+* Important and Confusing: In the old days, and if you are using old browsers, then every SSL certificate needed a dedicated IP address and this feature can still be used by ticking a checkbox, but it costs around $600/month in AWS. Newer browsers have a feature called SNI. So the client tells the browser which particular DNS name it is looking for and then the browser tells the CloudFront which DNS name it is looking for and then CloudFront can send that particular certificate and also encrypt the session using that particular certificate.
+
+* Remember the above applies only to custom origins, if you use S3 as the origin then these are configured automatically.
+
+Field Level Encryption: IS a nice feature which allows you to encrypt user supplied sensitive info such as usernames and passwords and credit cards at the edge closest to the user so that the communication remains encrypted end to end to the origin server. You can use public and private encryption so that not even CloudFront has access to the information transmitted.
+
+* After creating the distribution you will notice an interesting thing that you can not only access the contents from the distirbution, but YOU CAN ALSO STILL acces the bucket directly and access the contents directly albeit a little slower. You need to secure that by only accepting requesting requests from the cloudfront on that S3 bucket.
+
+        * CloudFront also serves as a validator in the sense that the requests received at the origin are only valid HTTP or 
+        HTTPs requests. It is like an edge-based defence against DoS attacks. It can also be configured to use AWS WAF i.e. 
+        you put your firewall at the edge, instead of at the CloudFront distribution.
+
+* CloudFront offers several advanced security features such as signed cookies, geo restrictions. It can also integrate with 3rd party components using signed URls and signed cookies.
