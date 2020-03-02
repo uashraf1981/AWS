@@ -55,3 +55,33 @@ Field Level Encryption: IS a nice feature which allows you to encrypt user suppl
         you put your firewall at the edge, instead of at the CloudFront distribution.
 
 * CloudFront offers several advanced security features such as signed cookies, geo restrictions. It can also integrate with 3rd party components using signed URls and signed cookies.
+
+
+# Resticting S3 to CloudFront
+
+* We often don't want S3 to serve content directly to customers and instead want only the CloudFront distribution to be able to access the content. 
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/restrictings3tocloudfront.png)
+
+Origin Access Identity (OAI): We can restrict access to S3 to be limited to only the CloudFront distribution by using the Origin Access Identity. It is a virtual identity used by all of CloudFront edge locations for a given distribution.
+
+users (origin id)--- denied-->    S3    <--- allowed -- CloudFront Edge (origin id)
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/contrastbucketpolicy.png)
+
+The figure above contrasts our existing bucket policy with that one that we should use for limiting access. Note the difference in the principal '*' vs only CloudFront.
+
+        * Interestingly, you can restrict access to S3 directly from the CloudFont 
+        console, don't have to do it from S3. You will also need to create an 
+        origin id as shown below. Also select update bucket policy automatically. 
+        As a last step, you need to remove the * entry for principals from S3 
+        bucket policy. As a finishing touch, you may want to upload error.html 
+        to the bucket and define the error page to be error.html and also change
+        permissions of error.html to be publicly accessible.
+        
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/creatingoriginid.png)
+
+        * Exam Tip: Restricting access directly to S3 may not seem like a big deal
+        now since the CloudFront also allows public access, but as we add 
+        additional restrictions and security layers to CloudFront distribution, 
+        this access becomes important to be blocked.
