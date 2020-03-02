@@ -67,6 +67,8 @@ Origin Access Identity (OAI): We can restrict access to S3 to be limited to only
 
 users (origin id)--- denied-->    S3    <--- allowed -- CloudFront Edge (origin id)
 
+So it should be:   user --> CloudFront (Origin id)--> S3
+
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/contrastbucketpolicy.png)
 
 The figure above contrasts our existing bucket policy with that one that we should use for limiting access. Note the difference in the principal '*' vs only CloudFront.
