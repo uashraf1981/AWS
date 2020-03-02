@@ -88,3 +88,6 @@ The figure above contrasts our existing bucket policy with that one that we shou
         additional restrictions and security layers to CloudFront distribution, 
         this access becomes important to be blocked.
 
+# Signed URLs and Cookies
+
+
