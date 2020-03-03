@@ -90,4 +90,15 @@ The figure above contrasts our existing bucket policy with that one that we shou
 
 # Signed URLs and Cookies
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/signedurlsandcookies.png)
+
+Signed URL = Accessing S3 bucket via authenticating using access keys belonging to an IAM user.
+
+        Motivation for using Pre-signed URLs is that in S3 either you can give access to a pcaticular user or more wide 
+        ranging access. Similarly, another cumbersome solution would be to define IAM users and give them keys so that they 
+        can have access to S3 buckets. To solve these problems, it is just easier to restrict access to certain 
+        buckets/objects via pre-signed urls. This is particularly handy for remote workers since we don't have a good and 
+        secure channel to transmit the keys securely to those remote users.
+        
+        Note: Generally pre-signed URLs are used for applications, but they can also be used for people.
 
