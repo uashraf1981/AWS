@@ -101,4 +101,69 @@ Signed URL = Accessing S3 bucket via authenticating using access keys belonging 
         secure channel to transmit the keys securely to those remote users.
         
         Note: Generally pre-signed URLs are used for applications, but they can also be used for people.
+        
+        * A neat trick is that even if a remote user has no IAM account or anything, you can still generate a pre-signed URL 
+        using your own credentials and share that with the remote user who will be able to access the objects in the bucket.
+        The nice thing is that you can STILL define how long will that access be and what type of access they have, but 
+        essentially, you are still giving them access.
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/newsignedurls.png)
+
+We are going to demonstrate that.
+
+Step - 1 Create an EC2 role with policy for S3FullAccess.
+Step - 2 Launch an instance, (Amazon linux 2), will configure it to use the above role
+Step - 3 Log into the instance and check connectivity by -> aws s3 ls   (should list all buckets)
+Step - 4 We will create a bucket using -> aws s3 mb s3://mytestbucket
+Step - 5 We will upload a pic -> aws s3 cp ./pictures/mypic.jpg s3://mytestbucket
+Step - 6 Enable static web hosting for this bucket. Get the URL For this bucket and suffix that with the pic name, we won't
+         be able to access from the browser.
+Step - 7 Imagine you have hundreds of objects in this bucket but you only want to prevent access to this particular file. 
+         One option is to create IAM user for all those who want access to this object, but in addition to the added 
+         complexity, you will also have the problem of how to share the IAM credentials securely with these remote users.
+Step - 8 So we generate pre-signed URLs: aws s3 presign s3://mybucket/mypic.jpg --expires-in 60 (this will be seconds) You 
+         will get the pre-signed URL which you can copy and share with the remote users. 
+         
+                The pre-signed URL contains a temporary access key ID and temporary access key included within it
+                
+                *Exam tip: The URL is signed, so its integrity is guaranteed i.e. no one can edit it without being noticed.
+                *Exam: default expiry time for url if not specified is 3600 seconds i.e. one hour.
+                
+                *Exam Tip: The signed url generated is dependent on the credentials of the entity generating it e.g. in this
+                case, the EC2 instance with a role attached to it did that. If we go ahead and remove the policy of S3 full 
+                access attacched to this role, then the presigned url will NOT work !! Basically, the role/policy should 
+                be there before generating the signed url since it will still need those permissions to access S3 and even 
+                you cannot do -> aws s3 ls as you no longer have the necessary credentials, signed-url will also not work.
+                
+                ** Very important: You can STILL generate a presigned url for object to which you don't have any permissions
+                i.e. you can still generate the pre-signed url, but it will just not work and you may be asked in exam that
+                how can a pre-signed url generate an access denied message so answer is that pre-signed url is valid if:
+                
+                1. It is not expired
+                
+                2. The entity that generated that pre-signed URL has appropriate role and permissions attached for S3
+                
+                Note: Re-attaching appropriate policy will enable access again including the pre-signed URL
+                
+                *Exam tip: Since roles typically themselves have temporary credentials therefore it is not a good idea to 
+                use them to generate pre-signed URLs and instead proper IAM user accounts should be used to generate the
+                pre-signed urls. Otherwise you may be generating urls with very long expiry times but the role that was 
+                used to generate the urls has its own credentials refreshed automatically, rendering the url invalid.
+                
+  With CloudFront distributions, you can use pre-signed URLs and signed cookies. However, before that, you need to define 
+  "TrustedSigners" i.e. a list of IAM accounts that can sign the URLs. As soon you define that, the distribution becomes
+  private. 
+  
+        Exam tip: From the moment that you define trustedsigners, the distribution immediately becomes private and now user
+        definitely need a signed URL or cookie ito access any object providede by that distribution.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudfrontsignedurls.png)
+
+CloudFront has two distribution types:
+
+1. Web based:  Can use both pre-signed URLs and cookies
+2. RTMP based: Can use pre-signed URLs only, not cookies
+
+                Exam: Main difference between pre-signed urls and pres-signed cookies is that with pre-signed URLs, you give
+                access to a specific object only, whereas with cookies, you can give access to a "type" e.g. jpg so cookies
+                are somewhat more flexible. Their downside is that they cannot be used with RTMP distributions.
