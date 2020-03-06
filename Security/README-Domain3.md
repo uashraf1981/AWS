@@ -167,3 +167,30 @@ CloudFront has two distribution types:
                 Exam: Main difference between pre-signed urls and pres-signed cookies is that with pre-signed URLs, you give
                 access to a specific object only, whereas with cookies, you can give access to a "type" e.g. jpg so cookies
                 are somewhat more flexible. Their downside is that they cannot be used with RTMP distributions.
+
+# CloudFront Geo-Restriction
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudfrontgeorestriction.png)
+
+There are type types:
+
+1. CloudFront built-in geo-restrictions:
+----------------------------------------
+   - Easiest to use, but also has minimal set of features
+   - Only allows whitelisting or blacklisting of IPs country level (99.8% accurate)
+   - Exam tip: Only based on IPs, not cookies, content, sessions, browsers etc
+   
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/thirdpartygeorestriction.png)
+
+2. Third party geo restrictions:
+--------------------------------
+   - You have full control
+   - In addition to restriction based on IP, you can have app account, browser, OS etc
+   
+   
+             * Exam Tip: Anything beyond a simple IP based restriction should be done through 3rd party geo-restrictions and 
+             not through CloudFront geo-restrictions as 3rd party geo-restriction is much more powerful.
+             
+# Forcing S3 Encryption
+
+You will get questions in exam on how to secure objects uploaded by people to S3 buckets and the answer is by forcing S3 encryption.
