@@ -161,3 +161,36 @@ The way that you setup CloudWatch in an account to push data to S3 in another ac
       
 * Worth exploring: What is the difference between exporting from CloudTrail to master account vs. CloudWatch to master acct.
 
+
+# S3 Forced Encryption
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/centralizedlogging.png)
+
+      * Exam Tip: There will be questions about how to ensure that any objects uploaded to S3 are encrypted or any specifi
+      type of encryption is done whenever an object is uploaded to S3. It is important to realize that buckets NEVER get
+      encrypted. It is the OBJECTS that are uploaded into the bucket that are encrypted. This can be achieved by having a
+      bucket policy that forces that any object being put in the bucket should be encrypted. This is achieved by denying an 
+      action of putting object in S3 if the put request header doesn't contain the encrypted header.
+      
+      BUT remember, this was the only functionality available. Now we have another option in bucket policy options which is
+      the default encryption option i.e. if an encryption is not specified for an uploaded object and we have selected 
+      default encryption, then the S3 will by default encrypt (usinf AES-256 or AWS-KMS) the objects. 
+      
+      * Exam Tip: Remember that even if you have turned on default encryption e.g. AES-256, but have a policy on denying
+      uploads for objects which do not have the encryption header, then it will be denied since the policy applies first! so
+      if you insist on it then it will be denied.
+      
+      To include encryption header when uploading an object:
+         aws s3 cp ./picture.jpg s3://bucket-name --sse AES256
+      otherwise if you do:
+         aws s3 cp ./picture.jpg s3://bucket-name
+      then this will be denied even if you have default encryption turned on.
+      
+      Historically, the bucket policy to force encryption was used, but now mostly people just use default encryption.
+      
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/denys3.png)      
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/bucketdefault.png)
+
+
+
