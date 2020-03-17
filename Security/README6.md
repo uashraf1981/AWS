@@ -218,7 +218,7 @@ Types of CRR:
 1. Standard (Both buckets in same account): Use IAM role which has permission to access objects in bucket A and put those in bucket B.
 
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrstandard.png)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrotheraccount.png)
 2. Other Account: The only difference from the standard access is that in this case, the destination account needs to add a bucket policy to the destination bucket so that the replication engine can replicate/write files to the dest. bucket. Npte, this is in addition to the IAM role.
 * Exam tip: Putting objects in the destinaton in another account, but remember the source owner will remain the owner even for the objects in that bucket. This however, causes some serious configuration problems, so one option is that you could edit the settings on replication and change the replication configuration to change the owenership to the dest. account i.e. any objects being sent to the dest will become dest account's ownership.
 
