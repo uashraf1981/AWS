@@ -193,4 +193,40 @@ The way that you setup CloudWatch in an account to push data to S3 in another ac
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/bucketdefault.png)
 
 
+# S3: Cross Region Replication (CRR) Security
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrsecurity.png)
+
+Basically, a bucket in region A replicates objects into a bucket in another region. 
+* Remember, it only replicates objects starting from the time that replication was turned on, will not replicate existing i.e. no retroactive replication.
+* Only replicates unencrypted objects or standard encrypted objects i.e. SSE-S3
+    - Unencrypted objects -> supported
+    - SSE-S3  -> standard encrypted objects supported
+    - SSE-C -> customer encrypted objects NOT supported
+    - SSE-KMS supported but needs a lot of configuration
+
+* By default, object ownerships and ACLs are also ditto replicated, but of course you could change it.
+* The same storage class is also used e.g. frequent access type will be again frequent access
+* Exam Tip: Lifecyle events ARE NOT replicated, only human or application based actions are replicated
+* Exam Tip: If I allow you to put objects in my bucket, then I can give you permission on that, but since I would still not
+have permission on those objects, therefore, those objects will not be replicated.
+
+Types of CRR:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrstandard.png)
+
+1. Standard (Both buckets in same account): Use IAM role which has permission to access objects in bucket A and put those in bucket B.
+
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrstandard.png)
+2. Other Account: The only difference from the standard access is that in this case, the destination account needs to add a bucket policy to the destination bucket so that the replication engine can replicate/write files to the dest. bucket. Npte, this is in addition to the IAM role.
+* Exam tip: Putting objects in the destinaton in another account, but remember the source owner will remain the owner even for the objects in that bucket. This however, causes some serious configuration problems, so one option is that you could edit the settings on replication and change the replication configuration to change the owenership to the dest. account i.e. any objects being sent to the dest will become dest account's ownership.
+
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrownerchange.png)
+3. Owner Change: You need to change the replication configuration file. Simply change the setting that allows for the destination account to become owner once the objects have been replicated in this bucket and AWS will automatically update hte replication configuration file automatically. This resolves a lot of configuration issues which would otherwise occur if you were to put the objects in the destination while retainign ownership.
+
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrkms.png)
+4. KMS: Basically, you encrypt the replicated objects so that the destination gets encrypted objects (SSE-KMS). For that, you need to add KMS permission to the IAM role i.e. allow the replication engine to access the KMS encryption keys which will be used to encrypt the objects being copied.
 
