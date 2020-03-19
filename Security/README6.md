@@ -230,3 +230,28 @@ Types of CRR:
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crrkms.png)
 4. KMS: Basically, you encrypt the replicated objects so that the destination gets encrypted objects (SSE-KMS). For that, you need to add KMS permission to the IAM role i.e. allow the replication engine to access the KMS encryption keys which will be used to encrypt the objects being copied.
 
+
+# Web Application Firewall and WAF Shield
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/waf.png)
+
+WAF is a layer 7 firewall.
+
+It sits in front of the CloudFront or Application Load Balancers and is hit before any of these.
+
+The base entity is a Web Access Control List (ACL).
+
+Rules are of two types:
+
+1. Normal rules e.g. traffic from this IP containg SQL injection should be blocked
+2. Rate-based rule - if some condition is violated a certain number of times during a window of time e.g. if we see some strange traffic coming from this IP 3 times in an hour then rate-based rule can be triggered.
+
+Web ACLs --> contains Rules --> contain conditions
+
+* Remember, you can associate the firewall to an ALB or CloudFront distribution.
+
+Interestingly, you can create a ge-restriction 
+
+
+
+
