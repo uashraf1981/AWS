@@ -250,8 +250,54 @@ Web ACLs --> contains Rules --> contain conditions
 
 * Remember, you can associate the firewall to an ALB or CloudFront distribution.
 
-Interestingly, you can create a ge-restriction 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/wafdetails.png)
+
+You can create a blacklist style ACL or whitelist style ACL.
+
+* Interestingly, you can apply geo-restriction directly in the CloudFront distribution or you can apply an ACL. However, it takes nearly an hour whereas with ACL providing geo-restriction, you get results very quickly.
+
+* There is an option of either to allow, deny or count individual rules within an ACL. A smart idea is to first try the count thing as it allows you to observe how many times was your rule triggered instead of actually going ahead with the live website. 
 
 
+* WAF is a great product in the sense that it applies restrictions before the traffic reaches your edge infrastructure.
+
+* AWS Shield is used to protect against DoS and DDoS attacks.
+
+AWS Shield comes in two flavors:
+
+1. AWS Shield Standard - comes free with the WAF
+2. AWS Shield Advanced - $3000/month - expands protection to ELBs, CloudFront distributions, 24/7 DDoS Response Team, insurance included against bill spike due to DDoS attack and also protects against many advanced types of attacks.
+
+WAF                                  vs.                             Shield
+---------------------------------------------------------------------------------------
+1. Fiter traffic for known attacks                   Protection against network attacks (DDoS)
+2. Define flexible rules                             Real-time response time team
+3. Rate Limit rules                                  Protection against bill usage due to spikes due to DDoS
+4. Firewall outside of edge services
 
 
+# VPC Design and Security
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/vpcdesignandsecurity.png)
+
+Note the AWS public space zone and the on-premise network. There is no connection between on-premise network and VPC and you need to create direct connect or VPN connections to this VPC.
+
+Note: By default, the VPC boundary is non-permeable i.e. unless you explicitly allow it, traffic can't get in or out.
+
+VPC limits the blast radius from a networking perspective, but not useful if the account gets hacked.
+
+* To provide Internet connectivity for public users or connectivity to the end points (lambda). You can do that by creating an Internet gateway IGW. Inside every VPC is a VPC router which is a logical construct, which you cannot actually access. However, you can control it by using Route Tables.
+
+Pivate Subnets: They don't have any route to the public internet OR to the AWS public end points such as lambda etc.
+
+* Public subnet: Basically just means that you have am IGW associated with the VPC and a default route 0.0.0.0/0 pointing to the IGW so that any traffic from that subnet is routed by default to the gateway. You do that by:
+
+ 1. Creating a public Route Table
+ 2. Attach this route table to the subnets you want to make public
+ 3. Add local routes e.g. 10.x.x.x. and the DEFAULT ROUTE: 0.0.0.0./0 -> IGW
+ 4. Assigning a public or Elastic IP to your resources such as EC2 instances in the subnet
+ and you are good to go.
+
+** AT this point, the security has changed suddenly as your machines are publicly accessible.
+
+* Exam: It IS possible to NOT utilize this multi-tier architecture i.e. web tier, app tier and database tier by using different subnets. Now, AWS offers the capability to achieve that by using things like Network ACLs etc. and that is actually a good idea because the less things we have to manage, the less prone to errors it is and the less security mistakes we make. Always err on the side of minimal artchitecture footprint.
