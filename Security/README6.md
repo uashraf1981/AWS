@@ -301,3 +301,28 @@ Pivate Subnets: They don't have any route to the public internet OR to the AWS p
 ** AT this point, the security has changed suddenly as your machines are publicly accessible.
 
 * Exam: It IS possible to NOT utilize this multi-tier architecture i.e. web tier, app tier and database tier by using different subnets. Now, AWS offers the capability to achieve that by using things like Network ACLs etc. and that is actually a good idea because the less things we have to manage, the less prone to errors it is and the less security mistakes we make. Always err on the side of minimal artchitecture footprint.
+
+# Security Groups
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/securitygroups.png)
+
+* Security groups are created within a VPC. So a security group that is created inside a VPC cannot be assigned to resources inside another VPC. Be careful, security groups CAN refer to other security groups inside other VPCs, but you can't assign  a security group within one VPC to resources in another security group.
+
+* Another important point is that security groups are never technically associated with EC2 instances, tehcnically speaking, they are associated with a network interface and in turn that network interface is attached with an instance. Since an EC2 instance can have multiple interfaces therefore you can have different security groups on different interfaces of an EC2 instance with different rules.
+
+* Security groups are stateful.
+* Security groups have an implicit deny default rule.
+* You cannot explicitly deny traffic, you can explicitly allow certain types of traffic and use the implicit deny.
+* An interesting point about security groups is that in the rule configuration tab, I can refer to logical resources as being the source e.g. I can refer to other security groups as being the source for inbound rules. This means that we are allowing incoming traffic from that security group. Technically that means that any network interface with the referred security group attached will be allowed to send the approved type of inbound traffic to us.
+
+* Cool: You can also specify the source as yourself i.e. in the security group rule settings, you can specify the source for the approved inbound traffic as yourself. What you can achieve with this is that you can have a group of Network Interfaces on a group of EC2 instances and allow to create a sort of group in which everyone can send traffic to each other.
+
+* Several other resources such as RDS instances also utilize security groups not just EC2 instances.
+
+* Exam Tip: An important point to note is that security groups can reference other security groups or other logical resources directly if they are in the same region. If they are in another region, then you need to use CIDR or IP ranges.
+
+Traffic coming from Internet --> NACLs ---> Security Groups ---> EC2 instances
+Traffic coming from EC2     ---> Security Groups ---> NACLs ---> Internet
+
+# Network ACLs
+
