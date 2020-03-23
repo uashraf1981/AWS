@@ -326,3 +326,15 @@ Traffic coming from EC2     ---> Security Groups ---> NACLs ---> Internet
 
 # Network ACLs
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/nacl.png)
+
+* NACLs are associated with subnets, they CANNOT be directly attached to resources such as EC2. They can be assocaited with multiple subnets but one subnet can only be associated with ONE NACL.
+
+* Unlike security groups, NACLs process rules in order.
+* In security groups, we did not have explicit deny, but in NACLs we do have explicit deny.
+* Remember, rules are always processed in order and as soon as the first rule matches, no further rules down are checked.
+* NACLs only check traffic at the subnet boundaries, NOT the traffic within the subnet. For that, use security groups.
+* A bi-driectional communication between two EC2 instances in two different subnets will hit NACLs 4 times since its stateless
+* Unlike Security Groups, NACLs cannot reference logical resources, only CIDR ranges and IP addresses.
+* Unlike security groups in which you can only explicitly allow, in NACL you can explicitly allow and explicitly deny.
+* Exam tip: At the end of the inbound list of rules, there is an implicity deny rule which you cannot delete. You need to add rules on top of it.
