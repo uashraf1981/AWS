@@ -335,6 +335,37 @@ Traffic coming from EC2     ---> Security Groups ---> NACLs ---> Internet
 * Remember, rules are always processed in order and as soon as the first rule matches, no further rules down are checked.
 * NACLs only check traffic at the subnet boundaries, NOT the traffic within the subnet. For that, use security groups.
 * A bi-driectional communication between two EC2 instances in two different subnets will hit NACLs 4 times since its stateless
-* Unlike Security Groups, NACLs cannot reference logical resources, only CIDR ranges and IP addresses.
+* Unlike Security Groups, NACLs CANNOT reference logical resources, only CIDR ranges and IP addresses.
 * Unlike security groups in which you can only explicitly allow, in NACL you can explicitly allow and explicitly deny.
 * Exam tip: At the end of the inbound list of rules, there is an implicity deny rule which you cannot delete. You need to add rules on top of it.
+* By default, Network ACLs allow all incoming and outgoing traffic.
+
+# VPC Peering
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/vpcpeering.png)
+
+* VPC peers are non-transitive.
+* VPC peering CANNOT be done with VPCs which have overlapping CIDR ranges.
+* Please note that just sending & accepting peering connection is not enough. The VPC router does not have any route to the peered VPC and we need to add a route with the CIDR range of the other VPC in this router before actual routing can occur. Similarly, symmetrically, you need to configure a similar reverse route in the route table of the other VPC.
+* One last thing that you need to do is to update the security group inbound rules in an instance in one VPC and reference the security group in the other peered VPC and allow some inbound traffic from that security group to this EC2 i.e. Security group peering. As SGs basically are attached to NICs so only traffic from those specific machines will be allowed to come.
+
+* This security group peering trick will ONLY work if the two VPCs that are to be peered are in the same region.
+
+* For VPC peering between VPCs in different regions, we repeat the same steps i.e. send/accept invitation, add routes to both the routing tables at the two ends. 
+
+* Exam Tip: When VPC peers are in different regions, regardless of whether both belong to the same account, you CANNOT reference the Security Groups in the other VPC. You MUST define inbound rules etc in Security Groups based on CIDR range.
+
+Case 1: Peering VPCs in same account and same region --> Can reference Security groups
+Case 2: Peering VPCs in same/diff account and different regions --> Cannot reference Security groups
+Case 3: Peering VPCs in diff accounts but in same region --> Can reference Security groups but need accountid+SG_number
+
+So basically SAME REGION == Can Reference SGs regardless of same account or diff account
+             DIFF REGION == Cannot Reference SGs regardless of same account or diff account
+             
+* Exam Tip: When adding Routes to route tables for enabling VPC peering, you can add complete CIDR range of the other VPC or speccific individual IP addresses.
+
+* Exam Tip: When you allow Security Group in one VPC access from another Security Group in a different VPC (peering VPC), then you basically delegate you security to the owner of that SG and if he attaches his SG to hundreds of machines, you will have no control over the security of your instances attached to this SG which allowed the other SG access. So, perhaps it could be interesting to use NACls which allow explicitly denys.
+             
+
+
+
