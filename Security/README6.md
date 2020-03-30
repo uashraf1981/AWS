@@ -366,6 +366,46 @@ So basically SAME REGION == Can Reference SGs regardless of same account or diff
 
 * Exam Tip: When you allow Security Group in one VPC access from another Security Group in a different VPC (peering VPC), then you basically delegate you security to the owner of that SG and if he attaches his SG to hundreds of machines, you will have no control over the security of your instances attached to this SG which allowed the other SG access. So, perhaps it could be interesting to use NACls which allow explicitly denys.
              
+# VPC Endpoints
 
+VPC allow you to access AWS services like S3 and DynamoDB without an IGW attached to your VPC as this improves security. Traditionally, the IGW was required in any case. They come in two flavors:
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/gatewayendpoints.png)
 
+1. Gateway Endpoints:- You need to create a rule in the VPC router which routes traffic towards that destination service. Usually this entry is in the form of a prefix list (pl-1234abde, vpcaw19212) where pl part is the prefix list and represents logically the S3 e.g. and vpcaw19212 represents the vpc end-point.
+
+* DevSecOps: One very interesting application of gateway endpoints is that we can attach policies to it (but can't to interface endpoints). One usecase is we attach a policy for our EC2 instances to access code repositories in S3 buckets without allowing full access to all AWS resources. This makes our VPC kind of private with just enough access to get code updates from the repo. Another way to look at it is that we can have a policy on the bucket such that denies all access except for requests coming from the gateway endpoint i.e. from the vpc.
+
+* Exam Tip: You cannot provide security/protect the gateway end-point using NACLs or Security Groups as they DON'T operate on gateway endpoints, BUT you CAN use gateway end-point policies or policies on the resources itself e.g. S3 policies.
+
+* Exam Tip: End-points don't work across regions i.e. the endpoint and the resource must be in the same region.
+* Exam Tip: Endpoints only use IPv4 addresses.
+* Exam Tip: You cannot use DNS or VPN to access a gateway endpoint.
+* Exam Tip: You can't utilize the source IP condition in policies when using VPC endpoint. Instead use VPC id or number. Otherwise your policies would be broken.
+
+2. Interface Endpoints
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/interfaceendpoints.png)
+
+* The difference from gateway endpoints is that gateway endpoint is virtual but interface endpoint actually injects a real interface in your VPC.
+
+* Another diff is that gateway interfaces live within a region and have high availability, but interface endpoints live within a specific availability zone and if that availability zone fails then they are dead. If you want high availability for interface endpoints, then inject them in each availabilty zone separately so that some failover is available.
+
+** Exam Tip Major: Interface endpoints allow private connetion between your VPC machines and AWS resources such as S3 but more importantly, *** they allow private connections from 3rd parties e.g. your on-premise network to the VPC ***
+
+* They are a powerful feature which allow you to have private VPCs which you can access from on-premise and which can connect to public AWS services like buckets again privately.
+
+* Another major difference is that you can attach Security Groups to the interface endpoint because Security Groups are always attachable to interface endpoints and even more cool is that you can reference other Security Groups logically and allow traffic from other private VPCs for example.
+
+* They are much better and powerful than gateway endpoints, but the only downside compared to gateway endpoints is that they cannot have policies attached directly to them like gateway endpoints.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/interfaceendpoint2.png)
+
+When you add an interface endpoint then you get a vpc reference which is region wide and which you can use to access the VPC. However, if you want to access the specific location where the endpoint was added, then you can use DNS entries.
+
+Usage: Simply modify your code running on EC2 instances and tell it to use the vpcendpoint reference and then you will send your data to that endpoints which will then directly send it to the AWS resources such as the S3 instead of routing it through the VPC router and the internet gateway.
+
+Regional DNS Address: Region wide vpc reference for the endpoint. Needs internet gateway to be accessed
+Zonal DNS Address: Refers specifically to the exact interface endpoint in that exact AZ.
+
+* When creating the interface endpoint, you are allowed to create a private DNS which will then override the public DNS that is created by default.
