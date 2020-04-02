@@ -409,3 +409,53 @@ Regional DNS Address: Region wide vpc reference for the endpoint. Needs internet
 Zonal DNS Address: Refers specifically to the exact interface endpoint in that exact AZ.
 
 * When creating the interface endpoint, you are allowed to create a private DNS which will then override the public DNS that is created by default.
+
+# Serverless Security
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/serverlesssecurity.png)
+
+Lambda is a product that runs functions.
+
+* A lambda function policy is a typical resource policy just like we attach to S3 and it controls who can run that function. Remember that the root user in the account to which this lambda function belongs is given the permission by default to run it.
+
+* Services can also run lambda function, but usually it is done automatically e.g. if S3 is configured to run this function then it will be automatically given the permission, you don't need to manually do that.
+
+* When you want to grant other accounts permission to run the lambda function, then yo need to do that manually by passing it the ID of the other account.  
+
+* IAM execution role is about giving the lambda function the permission to invoke other services such as S3 via temporarty credentials. This needs to be done manually again e.g. lambda function may generate some data when invoked and needs to store logs into cloudwatch etc. then it needs an IAM execution policy to store them.
+
+* Exam Tip: For all PULL, PUSH or POLL based functionality, lambda needs IAM execution policy configured for permission
+* Exam Tip: For EVENT-DRIVEN invocation, lambda does not need IAM execution policy.
+
+
+So Function Policy --> Who can invoke Lambda
+   Execution Policy --> Determines which services can lambda call e.g. store data in cloudwatch
+   
+# NAT Gateways
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/natgateways.png)
+
+NAT instances or better, NAT gateways are public facing devices and are typically used to provide Internet connectivity to instances residing in subnets. Since they are public facing, they need Elastic IP addresses.
+
+NAT gateways reside in SINGLE subnet and use ELASTIC IPs.
+
+NAT gateways cannot use Security groups, the only option to secure them is through NACLs an that too by attaching the NACLs to the subnet that the NAT GW resides in.
+
+NAT gateways are not highly available i.e. they don't failover between different subnets.
+
+NAT Gateways are a managed service so you cannot SSH into the NAT GW instance. 
+
+* Exam Tip: You cannot setup port forwarding on NAT GW (you could do that previously with NAT instance)
+
+Summary:
+- You cannot use Security Group on the NAT GW
+- You cannot do port forwarding on NAT GW
+- You cannot SSH into NAT GW
+- You CAN only control security through NACL on the subnet
+
+New NAT gateways (NAT GW) can only be secured by NACLs and not Security Groups as they don't recognize Security Groups.
+
+
+
+
+
