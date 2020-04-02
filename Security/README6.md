@@ -456,6 +456,42 @@ Summary:
 New NAT gateways (NAT GW) can only be secured by NACLs and not Security Groups as they don't recognize Security Groups.
 
 
+# Egress Only Internet Gateways
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/egressonlyinternetgateways.png)
+
+All EC2 instances in AWS have private IPv4 addresses attached to them. The gateway handles the Internet connectivity. If you want to give an instance a public IP address, then AWS achieves this illusion through the Internet gateway. Basically what it does is that on the way out, it swaps the private ip address with a public ip address and when the traffic is coming into the AWS, it does the reverse swap.
+
+NAT GWs also allow private EC2 instances to have Internet access.
+
+* Exam Tip: With IPv6 if you create a VPC, then every instance will have a PUBLIC IP address in contrast to IPv4 address. That is, IPV4 addresses are by default private while IPv6 addresses are by default publicly routable and that poses a security challenge.
+
+Egress Only GW:
+
+- Works only with IPv6
+- It allows egress only, ofcourse it is stateful so allows response back in, but connection must be initiated from inside.
+
+The main contribution is that egress only GW only allows outbound initiated traffic compared to GW which allows inbound initiated also. Remember, egress only is still stateful and will definitely allow the response back traffic.
+
+* You cannot use SEcurity Groups on the gateway itself. You CAN use NACLs on the subnets in which your EC2 instances reside.
+
+# Bastion Hosts / Jumo Boxes
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/bastionhosts.png)
+
+Imagine you have some instances in a private subnet which have sensitive data. You can use bastion host/jump box which is basically just an instance with a public IP address and you open ONE port on that e.g. 22 for SSH so that administrations and technical staff can connect through that to this instance and then "jump" to the sensitive private instances.
+
+* Main point is that it is super locked down. You will have a single public subnet with a single bastion host. The bastion host connects to the Internet GW to access the Internet.
+
+* Exam Tip: This powerful security is provided by a single security group attach to this bastion host which only has a SINGLE allow rule for that allowed port and only from a known set of IP addresses. Additionally, since SG don't allow explicit blocks (we already leveraged SG to only allow access to a specific port from specific ip addresses) we use NACLs to block all other kinds of accesses.
+
+We can attach roles to this bastion host so that it can monitor logs and send to cloudwatch.
+
+* Exam Tip: You can get a question that VPN or Direct Connect is not an option so how to connect to private instances. Then you can say bastion host which also allows federated identities. Since we don't have VPN or Direct Connect with On-premise network, so we can't use federated identities since it would require synchronization. Over the public Internet its not that safe. So bastion hosts does not need a direct connection with on-premise network and allows for the on-premise users to use the public Internet to access the bastion host and then access the private instances. YOU typically also use IDS/IPS on bastion hosts and then use the role to ingest logs into cloudwatch so you have a nice hardended public end point.
+
+
+Since it offers a single entry point so easier to manage.
+
 
 
 
