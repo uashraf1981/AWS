@@ -492,6 +492,46 @@ We can attach roles to this bastion host so that it can monitor logs and send to
 
 Since it offers a single entry point so easier to manage.
 
+# Troubleshooting a VPC
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootingvpc.png)
+
+Routing
+-------
+You can use routing as a security feature as no route means traffic restricted. Remember that when peering VPCs, you can either give the complete CIDRS block ranges (e.g. /24) or better yet, give specific IP addresses (/32).
+
+Overlapping CIDR ranges in peered VPCs are bad so you will not be able to create peers.
+
+NACLS
+-----
+- Only tool that can allow explicit blocks so if you are attacked e.g. SSH brute force, use NACL blocks
+- Are attached to subnets
+- Stateless, so you need rules in both directions
+- Processing order is important
+- NACLs only apply to traffic that cross the subnet boundaries, so it will not work b/w two instances within same subnet
+- You can only use IP addresses or CIDR blocks for rules, cannot use reference names of SGs etc
+- One subnet = one NACL
+- One NACL can be applied to multiple subnets but reverse is not true
+
+SGs
+---
+- They apply to network interfaces, they don't apply to subnets or even directly to vpcs or instances
+- Can only allow traffic, they CANNOT deny traffic explicitly (only implicit deny is there i.e. you don't allow)
+- Reference other logical resources such as themselves or other security groups
+- Allowing traffic from itself means you can create a group of network interfaces
+- They can reference logical resources only within the same region, for different regions, they lose this ability so use IPs
+- One SG can be connected to multiple interfaces, one interface can have multiple SGs
+- You cannot connect SG to end point
+
+Logging and Monitoring
+----------------------
+
+Always check VPC Flow logs for allow or deny messages. You may have NACL and Security Groups having different configs e.g. SG is allowing, while NACL is blocking or vice versa
+
+Use Cloudwatch logs/metrics
+
+
+- 
 
 
 
