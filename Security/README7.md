@@ -56,3 +56,56 @@ Typically what you do is you use Systems Manager to install IDS on multiple inst
 IDS observes things such as system or OS files, memory usage or leaks or other behavior of applications, privilege escalation etc. to identify malware infections.
 
 While many AWS products complement an IDS, but you definitely need a dedicaated IDS for complete implementation.
+
+# AWS Systems Manager
+
+It is a systems management tool mostly used in the operational side of things. System Manager's functionality can be divided into three areas:
+
+1. Insights:- Gather information
+2. Actions:- Perform actions
+3. Shared tooling
+
+Insights
+--------
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/systemsmanagerinsights.png)
+
+Insights offers: 
+
+a) Inventory and 
+b) Compliance
+
+and both are supported by the SSM "State Manager" component.
+
+Systems manager agent is installed by default on a lot of instances by default. Every instance which has it installed is called a "managed instance" so technically even on-premise servers with the agent installed are managed instances.
+
+You need to give those instance a role which allows them to interact with the SSM manager so that they can perform the SSM< actions using the locally installed agent. By gigving the role. the agent regularly remotely send information such as network configurations, AWS products, CPU cores, speeds, roles, etc from the instancce to the SSM.
+
+Patch Baseline:- A powerful concept in which we attach a patch basline to SSM which tells it that basically we want these patches to be installed on all our instances at all times and THIS helps in ensuring compliance of the data i.e. it can provide a compliance or non-compliance report about each resource (instance).
+
+* Exam tip: SSM is a regional service i.e. it is enabled on a per-region basis. But what you CAN do is to enable all these regional SSMs to write to an S3 bucket and that bucket data can then by used in Athena or Quicksight to provide a global information status of your ecosystem.
+
+Actions
+-------
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/systemsmanageractions.png)
+
+Workflow or automation: is defined as a series of actions which can be as simple as rebooting instancs or installing a bespoke application or run scripts. The persmission is achieved through roles and the interesting thing is that it gives way more firepower to the executing entity. For example, junior admins can be given broad permissions.
+
+Run Commands -> Allow us to run commands at scale on managed instances. The commands are called "documents" and the result is typically a configuration change on that instance.
+
+Patch Manahger -> Allows you to install patches on instances to perform remedial work.
+
+Shared Tooling
+--------------
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/systemsmanagersharedtooling.png)
+
+Parameter Store: Parameter store stores is an AWS service that stores configuration data and secrets and its hierarchical so you can add permissions at levels of trees. You can also use KMS to encrypt secrets.
+
+Personal Health Dashboard
+-------------------------
+
+Provides a personalized health board which provides global information about the instances.
+
+
