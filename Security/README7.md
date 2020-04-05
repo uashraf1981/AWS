@@ -16,3 +16,43 @@ If you have compliance requirements, you need to manually zero out or wipe data 
 You can use automated tools which search for volumes that are not attached and scrub them.
 
 Always encrypt your volumes using kms.
+
+# Host Proxy Servers
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/hostproxyservers.png)
+
+Basically you install proxy software on an instance and that is called a host proxy server.
+
+Typical deployment: intances --> Proxy --> NAT --> Public Internet
+
+We use host proxy server. Filetering in AWS occurs in security group level or NACL. SGs work on interface and NACLs work on traffic which traverses subnets. But SG or NACLs only work on IP, CIDR or protocol. IF you want to put checks on authentication mechanisms etc. then you need to use proxy. Basically you can ask instances in the lower subnet to authenticate to our proxy server using any custom software and then traffic will proceed further so we are inserting custom authentication in our AWS ecosystem.
+
+Another good use case can be that the proxy uses identity federation with an external authentication source. So the proxy server can allow/deny access to the Internet based on:
+
+- username
+- password
+- session state e.g. allow only if certain applicatio is logged on or not
+- only allow/deny to certain DNS names
+
+# Host Based IDS/IPS
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/hostbasedIDS.png)
+
+Host based IDS works at instance level and checks file and memory contents to detect malicious activity. Host based IDS usually run on-box.
+
+AWS Security Products:
+
+1. WAF: Prevents threats even before it arrives at our edge.
+
+2. IDS Appliance: Off box solution, monitors data as it moves into the platform i.e. on internal network and services. It can take actions such as block traffic or notify admins.
+
+3. AWS Cconfig: Ensures stable configuration across all acccounts.
+
+4. AWS Inspector: Monitors resources and looks for known exploits or quationable OS/software. Software patches monitoring.
+
+5. Host based IDS: Handles everything else. 
+
+Typically what you do is you use Systems Manager to install IDS on multiple instances and then the IDS injects any logs that it creates into CloudWatch logs which then trigger lambda based actions or alerts.
+
+IDS observes things such as system or OS files, memory usage or leaks or other behavior of applications, privilege escalation etc. to identify malware infections.
+
+While many AWS products complement an IDS, but you definitely need a dedicaated IDS for complete implementation.
