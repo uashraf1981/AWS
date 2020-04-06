@@ -108,4 +108,22 @@ Personal Health Dashboard
 
 Provides a personalized health board which provides global information about the instances.
 
+# Packet Capture on EC2
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/packetcapture.png)
+
+We cannot sniff remote traffic, we can only install sniffers onto an EC2 instance which will then capture traffic coming into and going out of the instance. Even if you set the sniffer in promiscuous mode, you will still only see the traffic for and from the instance.
+
+Scenarios:
+
+- Want to see deeper into VPC traffic between components
+- Support IDS/IPS
+- Help in debug
+- Assist in checking performance of other components
+
+Remember,it works in complement with VPC. VPC flow logs only provide meta data of traffic, but they do not provide actual packets so in that case you need a sniffer application. You can install sniffer on lots of instances and then tell them to send their logs to cloudwatch logs.
+
+TCPDump is one of the most popular packet sniffer used in AWS.
+
+* Exam Tip: Only the sniffer allows to capture real world traffic.
 
