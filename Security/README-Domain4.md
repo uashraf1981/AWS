@@ -111,3 +111,23 @@ Revoke Sessions:
         allowed.
         
 * Exam tip: Remember, you can never LOGIN to roles.
+
+# Permission Boundaries and Policy Evaluation
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/permissionsboundaries.png)
+
+Permissions boundary is a set of access that an entity (user, role etc) should NEVER access. It acts as a safety net for adherence to organizational policies.
+
+* A permissions boundary does not grant permissions, it only restricts permissions. A permissions boundary can further restrict the permissions granted by the permission policy, so it can be a subset of the permissions policy.
+
+It is basically a safety net and is defined just like a policy. It says that this identity can at max have access to these things in AWS. Then in the day to day operations, you assign permissions etc but the permissions boundary will always be enforced and prevent any access assigned beyond its permissions.
+
+* Exam Tip: Having a permission in the permissions boundary does not mean that we are actually assigning permission. It just means that if allowed through the permission policy, then the permission boundary allows it. Remember, it's just a boundary, it doesn't actually grant those permissions.
+
+* Permission boundaries can be applied to any identity in AWS that has permission policies and that includes IAM users, IAM roles. Permission boundaries limit as to what a child account can do, and that includes the root account as well.
+
+* One good use case is if you want an IAM user who can assign permissions to other users or create/delete other users. What permissions boundaries allow is that you can create an organizational bundary policy e.g. what organizations users can do, so we can apply that policy to everyone, but then we can give our account administrator power over these but then apply the boundary policy to keep check and balance in place and that includes that admin himself as well e.g. they should not be able to remove those boundaries. Thus, you can delegate permissions to other admins to create/manage users without worrying about excessive access.
+
+Policy Evaluation
+-----------------
+Organizations boundaries -> User or role boundaries -> Role policies -> Permission 
