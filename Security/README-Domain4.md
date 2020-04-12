@@ -131,3 +131,45 @@ It is basically a safety net and is defined just like a policy. It says that thi
 Policy Evaluation
 -----------------
 Organizations boundaries -> User or role boundaries -> Role policies -> Permission 
+
+# Organizarions and Service Control Policies
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/organdservicecontrol.png)
+
+AWS Organizations
+-----------------
+AWS organizations is a multi-account management system. Companies were running hundreds of accounts and managing them for billing and security separately. AWS organizations is the solution for this problem and allows for managing the security and billing in a hierarchical manner.
+
+The account from which you create the AWS organization becomes the Master account.
+* The Master account is a special acccount and is the only account that can't be restricted.
+
+* When you create an organization, you can either select just consolidated billing or "All features" which includes:
+  - Service control policy 
+  - Cross acccount roles
+  - Role switching between accounts
+
+* Basically we are creating inverted trees.
+
+Organizational Unit (OU)
+-----------------------
+Is basically a container for other accounts or other OUs as well. Applying policies to an OU will affect all accounts within that OU as well as all child OUs or accounts.
+
+* Exam Tip: Whenever an account is created or joins an organization, it is immediately impacted by the service control policy either by the parent OU or all the way up to the root. If you invite an account to your organization, you need to do a handshake protocol and the owner of this account needs to accept joining your organization.
+
+Service Control Policy
+----------------------
+Are basically permission control boundaries. They can be attach to:
+ - Accounts
+ - OUs (Organizational Units)
+ - root objects
+ 
+              The Master Acccount is the ONLY account in AWS which CANNOT be restricted by Service Control Policy. Usually
+              Service Control Policy is very powerful and applies to everything inlcluding root users, but does not apply 
+              to the master account. But you cannot restrict the root user in the master account with ser. control policy.
+              
+              Generally a master account is used to role shift into other accounts e.g. when we do account switching.
+              
+              If you want to insist on applying security control policy restrictions then do all your policies in child
+              accounts, but not the master account.
+              
+              Even root is blocked by service control policy but the master policy is not impacted in any case.
