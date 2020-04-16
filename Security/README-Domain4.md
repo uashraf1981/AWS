@@ -173,3 +173,30 @@ Are basically permission control boundaries. They can be attach to:
               accounts, but not the master account.
               
               Even root is blocked by service control policy but the master policy is not impacted in any case.
+
+# Resource Policies: S3 Bucket Policies
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/s3resourcepolicy.png)
+
+* Just like any other policy, it is a JSON document which contains one or more resources. The main difference is that identity policies are associated with identities (think IAM) whereas these are assigned to resources.
+
+Identity Policies: Can be assigned to users, groups or roles.
+Resource Policies: Are assigned to resources and identify what identities can access them and which permissions they have.
+
+* Exam Tip: Remember that identity policies are applied to identities within the account whereas the resource policies are applied even to resource outside the account e.g. untuehtnicated users accessing S3 buckets.
+
+* Exam Tip: For resource policies, you MUST specify the "Principal" to which this policy applies. and this is the real power i.e. they influence any identities accessing them.
+
+* Exam Question: If you want to define permissions for anonymous users e.g. Internet users on a resource such as an S3 bucket, then you should use a resource poicy not an identity policy.
+
+          Examples of restrictions you can enforce on S3:
+          
+           - Access only from specific IP addresses
+           - Access from a specific VPC
+           - Allow only HTTP referral i.e. people visiting my website can access images stored on S3 for that website e.g.
+           - Allow only MFA authenticated users to access this bucket
+           - Allow other resources to access the bucket e.g. inventory
+           
+Since S3 have identity policies and resource policies therefore, the end result is a merge of these policies when someone or some resource is accessing that bucket. Remember, deny takes precedence.
+           
+           
