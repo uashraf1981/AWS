@@ -199,4 +199,24 @@ Resource Policies: Are assigned to resources and identify what identities can ac
            
 Since S3 have identity policies and resource policies therefore, the end result is a merge of these policies when someone or some resource is accessing that bucket. Remember, deny takes precedence.
            
-           
+# KMS Key Policies
+
+One good use case if you want to SEPARATE the day to day management of encryption keys from the actualy encryption/decryption of data.
+
+* When you create a key, by default, the key policy allows the root user to administrer keys, but if you remove that access
+you can actually LOCK YOURSELF OUT of the key policy and need to contact AWS support.
+
+Key administrators
+------------------
+Are allowed via key policy to administer CMK (Customer Master Key) and do operations like create, delete, update, enable etc
+but remember, they CANNOT perform ACTUAL cryptographic operations.
+
+
+Generally, KMS basically generates CMK (Customer Master Keys). The CMK is not actually used to encrypt data itself as they can only encrypt small amounts of data. Instead, they are used to generate DATA KEYS which are then used to encrypt massive amounts of data.
+
+CMK -> generates two keys: i) paintext data key which is used to actually encrupt and then discarded and 
+                           ii) data key encrypted by CMK and then stored with the encrypted data itself
+                           
+The next time you need to decrypt the data, you first decrypt the data key using CMK and then use the decrypted key to decrypt the actual data so CMK basically encrypts/decrypts data keys.
+
+* Exam tip: If you want to allow cross-account access to keys then you need to edit the key policy and you need to do that carefully. Basically we give access to CMK so that the cross-account can interact with the CMK.
