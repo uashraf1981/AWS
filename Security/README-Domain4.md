@@ -220,3 +220,24 @@ CMK -> generates two keys: i) paintext data key which is used to actually encrup
 The next time you need to decrypt the data, you first decrypt the data key using CMK and then use the decrypted key to decrypt the actual data so CMK basically encrypts/decrypts data keys.
 
 * Exam tip: If you want to allow cross-account access to keys then you need to edit the key policy and you need to do that carefully. Basically we give access to CMK so that the cross-account can interact with the CMK.
+
+
+# Cross-Account Access to S3 Buckets and Objects
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/s3crossaccountaccess.png)
+
+ACLs and S3 Permissions
+-----------------------
+ACLs are a legacy access control mechanism. 
+
+* Exam Tip: If Account B user PUTs an object in our S3 bucket, then even though the object is in OUR bucket, Account B user is still the owner of that object. So if you have activated cross-region replication on your S3, then this object will NOT be replicated since you don't have permiossons on it.
+
+Bucket Policies and S3 Permissions
+----------------------------------
+* Exam Tip: The solution to the above problem is Bucket policies. Bucket policies allow for advanced conditions and do not even need to involve IAM. This is handled within the policy document which forces that no one is allowed to put objects into our bucket unless they also allow us to become owners of those objects.
+
+But still, the user in Account B needs to decide if he is willing to allow permissions or not.
+
+IAM Role and S3 Bucket
+----------------------
+User in Account B assume a role of a user in Account A so when they put an object in the bucket, they are basically putting objects as a user of Account A so Account A in this case will have complete access to the objects and this is the crucial difference from ACLs and Bucket Permissions.
