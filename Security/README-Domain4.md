@@ -241,3 +241,38 @@ But still, the user in Account B needs to decide if he is willing to allow permi
 IAM Role and S3 Bucket
 ----------------------
 User in Account B assume a role of a user in Account A so when they put an object in the bucket, they are basically putting objects as a user of Account A so Account A in this case will have complete access to the objects and this is the crucial difference from ACLs and Bucket Permissions.
+
+# Identity Federation
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/identityfederation1.png)
+
+* Exam Tip: Since there is a limit on the number of IAM users that you can create and there is an overhead on maintaining the IAM yourself, therefore, it is a good idea especially if you have a large number of users to use identity federation.
+
+Steps:
+1. Login to AWS application
+2. App redirects you to 3rd party authentication such as gmail which generates an ID token (very large encoded piece of information) if login successful. Remember, this token expires after a certain period.
+3. App can now swap that ID token with a Cognito token. Cognito is interesting because it allows for several things such as identity merging in which the same user can use different identities such as gmail or facebook
+4. You can then use the Cognito token and swap it for an AWS role (STS) i.e temporary credentials. There is a trust policy which allows us to assume this role. If successful in assuming this role, we will get the temporary access credentials.
+5. Acess AWS using STS credentials
+
+
+SAML Based Federation
+---------------------
+More of an enterprise level solution. The first main difference is that you USE YOUR OWN IDENTITY PROVIDERand not famous third parties like gmail or fb. 
+
+* Exam Tip: You also need to use your own identity portal. You basically go to the identity portal which then authenticates through the internal database.
+
+1. Contact your IDP portal
+2. After authenication, the portal returns a SAML assertion which redirects you to a single (URL) of AWS Single Sign On
+3. Now you go to the AWS SSO and give it the SAML assertion (a kind of token as explained before)
+4. The AWS SSO validates this SAML assertiomn with the STS
+5. STS generates a new token and a new URL which is sent to AWS SSO and AWS SSO sends back to us
+6. From now on,you can use the assumed role and go to the URL
+
+For CLI access, we skip the step of AWS SSO and once we get the credentials from IDP portal, we go diretly to STS and get the credentials i.e. assume the role.
+
+
+
+Web Identity Federation -> Mostly used for mobile apps with large number of users who already have 3rd party accounts
+SAML 2.0 -> Mostly used in enterprise environments when you already got an internal identity provider e.g. Active Directory
+
