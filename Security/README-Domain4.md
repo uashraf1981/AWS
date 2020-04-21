@@ -260,6 +260,8 @@ SAML Based Federation
 ---------------------
 More of an enterprise level solution. The first main difference is that you USE YOUR OWN IDENTITY PROVIDERand not famous third parties like gmail or fb. 
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/saml.png)
+
 * Exam Tip: You also need to use your own identity portal. You basically go to the identity portal which then authenticates through the internal database.
 
 1. Contact your IDP portal
@@ -276,3 +278,15 @@ For CLI access, we skip the step of AWS SSO and once we get the credentials from
 Web Identity Federation -> Mostly used for mobile apps with large number of users who already have 3rd party accounts
 SAML 2.0 -> Mostly used in enterprise environments when you already got an internal identity provider e.g. Active Directory
 
+# AWS Systems Manager Parameter Store
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/sysmanagerparameterstore.png)
+
+The basic idea is that if you are managing hundreds or thousands of EC2 instances from which some instances need to be restarted, shut down, replaced etc. all the time, then you need a place to store the configurations including passwords, connection strings.
+
+Parameter store is a stateless, serverless storage entity that can store both data + secrets. So it avoids the security problem of secret leakage by virtue of them getting committed to git repositories.
+
+                1. You can pull all or any specific piece of information
+                2. Data is stored hierarchically
+                3. Data is versioned and access is logged and can be audited
+                4. 
