@@ -289,4 +289,13 @@ Parameter store is a stateless, serverless storage entity that can store both da
                 1. You can pull all or any specific piece of information
                 2. Data is stored hierarchically
                 3. Data is versioned and access is logged and can be audited
-                4. 
+                
+                Serverless, resilient and scalable.
+                
+
+You can choose to use KMS keys to encrypt your parameters.
+
+
+Once you have stored your parameters in the lambda store, you can then go ahead and create a lambda function which access these different parameters.
+
+
