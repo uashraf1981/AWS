@@ -298,4 +298,32 @@ You can choose to use KMS keys to encrypt your parameters.
 
 Once you have stored your parameters in the lambda store, you can then go ahead and create a lambda function which access these different parameters.
 
+# Troubleshoot Permissions Union
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootpermissions.png)
+
+* Persmission union is a situation when an identity accesses a resource and multiple permissions apply such as IAM, User and Access Control List.
+
+Generally, the priority is as follows: explicity deny -> explicity allow -> implicit deny
+
+# Troubleshooting Cross-Account Roles
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootcrossaccount.png)
+
+1. The first step in troubleshooting cross-account roles, is to determine if you can actually assume the role or not.
+2. The second step is if you CAN assume the role, but you don't have the permissions.
+3. You chould have cloudtrail enabled and if you have done so, then you can lookup all events related to "AssumeRole" which will tell you what went wrong when someone tried to assume role.
+4. Next step is the trust policy of the role, including trust relationships and check which principals are allowed to assume this role.
+5. Check trust relationships---- they are basically concerned with delegating trust to other accounts so they can assume roles.
+6. Check the identity on both sides whether it is the exact identity that has been given the permissions. This is especially complicate because an IAM user can assume another role and then that role can assume another role and so on.
+
+* Exam Tip: One possible problem is the scenario shown below:
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/crossaccountproblem.png)
+
+The account on the left has a trust relationship with the middle one and the middle one can assume roles in that account. However, the rightmost account may also have a trust relationship with the middle account and by virtue of that, can assume role in the left most account even though that account didn't explicitly give permission for this. This is called the "Confused Deputy Problem"
+
+Solution: Require External ID, which is like an extra piece of information and which requires that sts:ExternalID to be specified which is basically the original AWS account ID from which this access started.... so even if we have done assume role then assume role then assume role, then the external ID would allow us to check where did this identity originate from and block based on that. This is done within the trust's role policy so it is used while assuming role. It is like an MFA.
+
+A trust policy basically defines, who can assume a role.
 
