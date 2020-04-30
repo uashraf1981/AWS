@@ -327,3 +327,23 @@ Solution: Require External ID, which is like an extra piece of information and w
 
 A trust policy basically defines, who can assume a role.
 
+# Troubleshooting Identity Federation
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootidentity.png)
+
+# Troubleshoot KMS Key Policies
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/troubleshootkms.png)
+
+* KMS is designed to separate key management people from key users. For instance, admins who manage keys cannot use them for encryption/decryption whereas those who use the keys cannot manage them for instance. If we remove the part from the policy then we will be left with an unusable key.
+
+* Customer Master Keys (CMKs) are generally not used to encrypt data, they are used to encrypt date encryption keys.
+
+* KMS limits: 5500 decrypts per second and 10,000 encrypts per second.
+
+There are two roles in terms of KMS:
+
+1. Key Admins: They enable, disable, schedule key deletion, rotate keys
+2. Key Users: They use the keys.
+
+These two roles are KEPT COMPLETELY SEPARATE through permissions.
