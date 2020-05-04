@@ -52,7 +52,7 @@ Grant: Is like pre-signed URL, if you want to give a service or application shor
 
 # KMS in a Multi-Account Setting
 
-![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmsmultiaccount.png)
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmsinmultiaccount.png)
 
 Whenever a key is created, it has a default key policy attached to it which gives the root user of the account the ability to run any KMW operation.
 
@@ -64,6 +64,30 @@ To allow other accounts access to this key, we add the policy here. Generally, w
 
 Why we need multi-accounts for CMK? perhaps we want to isolate the security/key account which supports the cryptographic operations.
 
+
+# Cloud HSM
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/cloudhsm.png)
+
+Cloud HSM is a dedicated HSM which reuns in your VPC. It is still a dedicated HSM, but then you don't have to worry about buying the device, managing the device or handling failures.
+
+1. CloudHSM is a decicated hardware in your VPC ---- in KMS, you are sharing the infrastructure with other customers.
+
+2. You create CloudHSM clusters with multiple.  ---- KMS has high availability and high resilience 
+instances for HA e.g. put one instance in  
+every availability zone inside that VPC. The
+cluster runs outside your VPC, but you have
+ENI interfaces attached to these clusters and 
+these ENIs are inside your VPC.
+
+3. Unlike KMS, AWS do not have access to        ---- AWS has access to KMS, so you can ask them for help.
+cloudHSMs so you cannot ask them to help
+ 
+4. Supports FIPS 140-3                          ---- Only supports FIPS 140-2
+
+5. Does not natively integrates with AWS.       ---- Natively integrates with AWS. You can access KMS APIs, endpoints etc.
+
+* When setting up Cloud HSM, you have to set up certificates. Basically, you generate private key and then use it to self-signed certificates.
 
 # Data at Rest: Server Side Encryption with SSE-C
 
