@@ -50,4 +50,38 @@ Grant: Is like pre-signed URL, if you want to give a service or application shor
 
 ** Deleting Keys: You cannot delete key instantly. You have to schedule key deletion, default is 30 days, but you can specify 7 - 30 days. This is a safety measure since once CMK is gone, it is gone and there is no way of recovering your data.
 
+# KMS in a Multi-Account Setting
 
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmsmultiaccount.png)
+
+Whenever a key is created, it has a default key policy attached to it which gives the root user of the account the ability to run any KMW operation.
+
+To allow other accounts access to this key, we add the policy here. Generally, we prefer not to give open access for all KMS operations, but can specify specific actions such as encrypt, decrypt, generate data key etc.
+
+* Remember: Key usage and key access are separate areas in the key policy document.
+
+** Remember, the external accounts will not see the key in any of their drop down menus. You need to give them your account id and the key ID or the key alias so that they can interact with our CMKs. 
+
+Why we need multi-accounts for CMK? perhaps we want to isolate the security/key account which supports the cryptographic operations.
+
+
+# Data at Rest: Server Side Encryption with SSE-C
+
+SSE-C = S3 feature in which S3 manages encryption but does NOT use KMS nor does it manage the keys, just uses customer provided keys. So basically everytime that a customer puts an object in the bucket, he needs to provide keys.
+This refers to Server Side Encryption with Customer Provided Keys.
+
+* The customer key used to encrypt the object is immediately destroyed after encryption but a HMAC value of the encryption key is still stored in the bucket for record purposes and when a key is supplied, S3 will compares the HMAC of that key with the one that it has stored to verify that the key being supplied to decrypt object is the same as was used originally,
+* Customer can select the option in which S3 compares that they customer supplied key was not damaged in transit.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/SSE-C.png)
+
+
+* Exam Tip: Using customer provided keys prevents cross-region replication.
+
+* For end users, you can generate a pre-signed URL which contains the key so that the customer can easily access objects.
+
+The customer supplied keys approach is used only for governance or security policy related needs otherwise typically not used.
+
+** If object versioning is enabled, then you need to manage individual keys for the different object versions.
+
+** Another instance when we may need to use customer provided keys is if we use our on-premise HSM or we want to use cloud HSM.
