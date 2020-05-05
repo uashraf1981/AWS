@@ -89,6 +89,68 @@ cloudHSMs so you cannot ask them to help
 
 * When setting up Cloud HSM, you have to set up certificates. Basically, you generate private key and then use it to self-signed certificates.
 
+# Troubleshooting KMS Permissions
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmspermissions.png)
+
+* CMKs are logical entities which represent backing keys.
+* Every CMK when you create it, had a default key policy attached to it.
+* The only trust that exists between the CMK key and the account is the default key policy, if removed then we cannot access.
+
+* Exam Tip: IAM can delegate the rights of the key to other roles or accounts for management purposes.
+
+So the CMK trusts account due to key policy ---> Account through its IAM gives permissions to other roles or accounts 
+*** But you CAN also add these users or roles directly in the key policy instead of the IAM doing it.
+
+** Exam: It is possible to lock yourself out of your CMK if you remove the default key policy.
+
+** Remember there are two sets of permissions when deadling with customer master keys:
+a. Admin: create, delete, schedule key deletion, rotate, enable, disable.
+b. Users: Usage operations including encrypt, decrypt, re-encrypt, generatedatakeys, creategrant, listgrant, revokegrant.
+
+# KMS Limits
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmslimits.png)
+
+* 1000 CMKs per region
+* 1100 aliases per account
+* 2500 grants per CMK
+
+Rate Limits:
+* 5500 API operations for KMS (encrypt, decrypt) except for us-east, us-west, eu-west which have 10,000 limit.
+
+* In case you exceed these limits, you will get a *ThrottlingException* error.
+
+* Exam Tip: Basically this throttlingerror occurs due to KMS even if you using other services since those services must be interacting with kms.
+
+**** Exam Tip: In cross-account architecture, throttling error occurs in the account that hosts the APPLICATIOAN NOT the CMK i.e. the account where the APIs are being used, but not where the CMK is located so an easy solution is to have one account store the keys and other separate accounts access them, in that way, every accessing account will have its own quota of limits.
+
+# Data at Rest: KMS
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmsdataatrest.png)
+
+KMS provides encryption services to so many other services including DynamoDB, RDS, EBS, S3.
+
+** Exam Tip: The responsibility of KMS ends at giving data key to the service. So for example, KMS keeps the CMK and gives data key to the service and forgets about that data key. When hypervisor wants to decrypt that EBS volume, it retrieves the encrypted data key stored along with the volume and sends to KMS which decrypts it and sends back the decrypted key. THe hypervisor holds that plaintext in memory and kept there as long as the instance is running.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/dynamodb.png)
+
+If you have setup DynamoDb to be encrypted so the CMK is used to generate data key which is used to encrypt a table every time that a table is created in this region. This key is called the Tablekey. Every itemn inside the table is encrypted with a data key and encrypted with the table key end stored with the item.
+
+So   CMK -> Table Key -> Data Key
+
+Table keys are kept for up to 12 hours in memory so even if KMS is offline, the dynamodb will keep on working.
+dybamodb pings KMS every 5 minutes to check if permissions for keys have changed.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmsrds.png)
+
+RDS:
+Uses EC2 instances and EBS volumes for storage so exactly works as the EBS with KMS i.e. encryption keys for volume encryption are generated using CMK. The hypervisor maintains a copy of the encryption key in the memory.
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/kmss3.png)
+
+S3 is same i.e. CMK -> datakeys which are used to encrypt the object and then stored with the object as metas-data.
+
 # Data at Rest: Server Side Encryption with SSE-C
 
 SSE-C = S3 feature in which S3 manages encryption but does NOT use KMS nor does it manage the keys, just uses customer provided keys. So basically everytime that a customer puts an object in the bucket, he needs to provide keys.
