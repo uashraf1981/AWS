@@ -334,7 +334,11 @@ The only problem here is that if you go ahead and create a user, you will not ge
             i) Not real-time, slow e.g. in minutes                            Real-time
             
             ii) Information in email very basic                             More detailed information
-            
+      
+      
+         *** Basically CloudWatch Metric Filter work on logs received from other services e.g. CloudTrail and the delivery
+         of these events is not real-time. However, CloudWatch Event Rules are instantaneous and when you are designing 
+         them, you link them with a specific event e.g IAM user creation and they then send notification in real-time.
 
 Method - II
 -----------
