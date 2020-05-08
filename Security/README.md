@@ -64,6 +64,10 @@ AWS Abuse Notice:
                   launching an instance, you specify the key pair or generate a new key pair. The public key part of this 
                   key gets stored in the .ssh/authorized_keys file on the instance.
                   
+                  The .ssh/authorized_keys file basically contains the public keys for the instance. If your private keys 
+                  have become compromised, then you can replace the public ken in your instance in this file. Otherwise, the 
+                  only other option would be to boot up a new EC2 instance.
+                  
                   Important: AWS DO NOT store the private key pairs so if you lose the private key for an instance-store-
                   backed instance, then you need to terminate the instance and launch a new one, and you will loose 
                   data. Interestingly, if however, you loose the keys to an EBS-backed instance, then you still recover it.
@@ -179,7 +183,7 @@ The following are the products that assist in logging in AWS:
         EC2 instances -> By installing a cloudwatch agent and centrally collect app and OS logs
         S3            -> Can host data and has its own logging system
         CloudWatch    -> Allows to manage everything centrally
-        AWS CSonfig   -> Perform configuration and compliance checks to see if any config or compliance changed
+        AWS Config    -> Perform configuration and compliance checks to see if any config or compliance changed
         
         * Lamda helps in automating response.
         
@@ -224,7 +228,7 @@ In this investigation phase, you will be doing two main things:
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/timeline.png)
 
-You can do two types of firensics:
+You can do two types of forensics:
 
 1) Live box forensics -> investigate the EC2 which was actually exploited
 2) Dead box forensics -> investigate offline using snapshots in a safe sandbox environment
