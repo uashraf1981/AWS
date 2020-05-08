@@ -260,6 +260,8 @@ Remember that WAS sits in front of a CloudFront distribution or Application Load
 
 ![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/waf.png)
 
+* The basic version of AWS Shield protect the WEB APPLICATIONS, but the advanced version extends protection to LOAD BALANCERS and other products.
+
 It is a relatively simple product and its base entity is Web ACLs which are Web Access Control Lists i.e. made up of rules and each rules can have multiple conditions. There are two things that you need to understand i.e. conditions and rules.
 
 Web ACL:
