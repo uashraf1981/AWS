@@ -171,3 +171,31 @@ The customer supplied keys approach is used only for governance or security poli
 ** If object versioning is enabled, then you need to manage individual keys for the different object versions.
 
 ** Another instance when we may need to use customer provided keys is if we use our on-premise HSM or we want to use cloud HSM.
+
+# AWS Certificate Manager (ACM)
+
+![stack Overflow](https://github.com/uashraf1981/AWS/blob/master/Security/acm.png)
+
+* Provides X.509 vs 3 TLS/SSL certificates. Uses pulick key cryptography where one half is secret and other is public.
+* No cost of using ACM, just the cost of usage of resources, if any
+
+* ACM easily integrates with lots of different services.
+
+* Certificates renew automatically.
+
+* Certificates can only be allowed to service within the same region.
+
+* Certificates are never stored ununecrypted, they are encrypted using KMS.
+
+
+# AWS Encryption SDKs
+
+* AWS encryption SDK is an encryption library that makes it easy to use KMS.
+* It takes away a lot of heavy lifting and provides code to operations like encrypt, decrypt etc
+* One interesting trick is that it has "DATA KEY CACHING" i.e. you can cache keys and then re-use them instead of requesting again from AWS which has a limit on these requests.
+
+# Compliance Examples
+
+AWS Artifact: AWS make available an ACL of documents relevant to compliancce. Any control documents that AWS has for these compliance standards, which you can download, read and click acceptance.
+* 
+
