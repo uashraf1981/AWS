@@ -3,7 +3,7 @@
 AWS Migration Hub
 -----------------
 Provides a dashboard and a central point for managing a migration project. 
-There are two mai components:
+There are two main components:
 
 1. Discovery: Uses tools from AWS to audit existing servers and applications i.e. get an idea of existing infrastructure. This is done by agents installed (but can also be agentless) on these servers which send this info to the service discovery repository which is then displayed on to the migration hub.
 2. Migration: Uses tools from AWS to migrate a project to the AWS cloud platform
